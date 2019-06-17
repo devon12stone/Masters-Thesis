@@ -1,0 +1,23 @@
+\chapter{Python Program for Storing SAWS Observations in a List} % Main appendix title
+
+\label{AppendixA} % Change X to a consecutive letter; for referencing this appendix elsewhere, use \ref{AppendixX}
+
+\begin{lstlisting}
+
+#Modules Used
+import csv
+
+def observations_reader(filename):
+
+    observations_list = [] #will be a list of hourly weather observations in the order 'Date', 'Time', 'Rain', 'Temprature', 'Wind speed', 'Wind Direction', 'Humidty' 
+
+    with open(filename) as csvfile:
+        observations = csv.reader(csvfile,delimiter=",")
+        next(observations, None)  # skip the headers in CSV file
+        for line in observations:
+            observations_list.append([line[0], line[1], float(line[2]), float(line[3]), float(line[4]), float(line[5]), float(line[6])])
+
+    return observations_list
+    
+
+\end{lstlisting}

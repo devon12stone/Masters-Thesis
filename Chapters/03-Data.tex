@@ -1,0 +1,55 @@
+\chapter{Data Extraction and Preprocessing} 
+\label{Chapter3}
+
+This chapter details the data sources and categories used to train the various first time credit scoring models developed throughout this project, the various data extraction techniques used to extract alternative data features, and the pre-processing and feature engineering techniques deployed before the modelling phase.   
+
+%---------------------------------------------------------------------------------------
+%	SECTION 1
+%---------------------------------------------------------------------------------------
+
+\section{Data Used}
+
+\subsection{Sources}
+
+There were two main data sources used throughout the project. The first data source is a Nigerian micro-finance institution that has disbursed loans to more than 250,000 consumers. The institution is solely an application-based lender and currently only disburses to android users. The institution, with its customers' consent, gains access to the data on customers' devices. This data included sms data, contact data and location data. On top of the alternative data collected, sociodemographic data is collected on customers through the institution's application. \\
+
+The second data source used was the Nigerian credit bureaus CRC, CRS and XDS. It is mandatory for credit providing institutions in Nigeria to submit their customers' credit performance data to these credit bureaus. \\
+
+A final dataset was created of first time loan customers of the micro-finance institution that had existing credit bureau data prior to their first application. The customers required existing credit data as it was needed in order to compare the performance of first time credit credit scoring models that use only alternative data or alternative in conjunction with sociodemographic data, against first time credit scoring models that make us of existing credit data. The final dataset consisted of 49,550 customers/loans. 
+
+\subsection{Data Categories}
+
+Three major data categories were drawn from the data sources. These categories were sociodemographic data, credit bureau data and alternative data. The main aim of this thesis is to assess how alternative data can augment traditional credit scoring data. To complete this aim various combinations of these data categories were used to develop various credit scoring models. The statistical performance of the models were assessed in order to test whether using the various data categories resulted in a significant difference in model performance. 
+
+%---------------------------------------------------------------------------------------
+%	SECTION 2
+%---------------------------------------------------------------------------------------
+
+\section{Data Extraction}
+
+\subsection{Web Scraping}
+
+\subsection{Regex Functions}
+
+%---------------------------------------------------------------------------------------
+%	SECTION 3
+%---------------------------------------------------------------------------------------
+
+\section{Preprocessing and Feature Engineering}
+
+\subsection{Missing Values}
+
+Mice \\
+
+Random \\
+
+Meaning \\
+
+\subsection{Categorical Variables}
+
+Min Max Scaler
+
+\subsection{Class Balancing}
+
+
+Smote 

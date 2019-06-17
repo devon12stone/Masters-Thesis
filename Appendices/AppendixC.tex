@@ -1,0 +1,200 @@
+% Appendix Template
+
+\chapter{Python Program for Spread Simulation} % Main appendix title
+
+\label{AppendixC} % Change X to a consecutive letter; for referencing this appendix elsewhere, use \ref{AppendixX}
+
+\begin{lstlisting}
+
+
+#modules used
+import arcpy
+from arcpy import env
+from arcpy.sa import *
+import numpy as np
+import Obs_Reader as obs
+arcpy.CheckOutExtension("Spatial")#checks for the spaltial license tool
+
+
+
+###############################
+
+
+#inputs: A Fuel Load and Moisutre Content Rasters + Wind Direction from observed weather values 
+
+env.workspace = r"C:\Users\User\Documents\Devon Stone\Model Data" #input environment
+fuel_load = Raster("Fuel_Load.tif")
+#dem = Raster("DEM.tif")
+
+obs_list = obs.observations_reader("Weather_Data2.csv") #using observation reader in Obs_Reader module to get observed weather values
+
+#converts input rasters to numpy arrays
+fuel_load_array = arcpy.RasterToNumPyArray(fuel_load)
+
+
+#dem_array = arcpy.RasterToNumPyArray(dem, nodata_to_value=0)
+
+#normalizing inputs
+max_fuel = np.amax(fuel_load_array)
+min_fuel = np.amin(fuel_load_array)
+fuel_range = max_fuel - min_fuel
+
+
+#he grid containing fuel load, moisture content, and the toal time a pixel has been burning for
+#(the status of a pixel (if 0 the pixel is not burning, 0 < status < 1 then the pixel is burning, if status = 1 the pixel can't burn/burnt out)
+
+grid = []
+
+#raster containing the status of each cell
+
+status = []
+
+for x in range(len(fuel_load_array)):
+    row_grid = []
+    row_status = []
+    for y in range(len(fuel_load_array[0])): 
+        row_grid.append([(fuel_load_array[x][y] - min_fuel)/fuel_range, 0.0])
+        row_status.append(0.0)
+    grid.append(row_grid)
+    status.append(row_status)
+
+status = np.array(status)
+
+
+###########################
+
+#Loop below assess the 8 surrounding cells of every grid pixel in order to simulate the fire spread for every hour of a fire
+    
+
+overall_time = 0 #time since fire started
+
+#setting one grid cell to be burning
+status[((len(grid)/2))][((len(grid[0])/2))] = 0.95*np.float32(grid[(len(grid)/2)][(len(grid[0])/2)][0])
+#chnaging the burn time of that cell 
+grid[(len(grid)/2)][(len(grid[0])/2)][1] = 2  
+
+for t in range(len(obs_list)):
+
+    output_grid = [] #hourly output raster 
+
+    for i in range(len(grid)): #row by row
+
+        for j in range(len(grid[0])): #coloumn in each row
+                                                                                                                                             
+            #inputs
+
+            fuel, cell_burn_time = grid[i][j][0], grid[i][j][1]
+            state = status[i][j]
+            wind_direction = obs_list[overall_time][5]
+            
+            # wind direction in vector form
+            wind_direction_vector  = [np.sin(np.radians(wind_direction)), np.cos(np.radians(wind_direction))]
+            
+            if fuel == 0.0:
+               status[i][j] = 1.2
+               
+            elif 0.0 < state < 1.0:
+                
+                if state < 0.1:
+                    status[i][j] = 1.0
+                else:
+                    grid[i][j][1] += 1
+                    status[i][j] = np.exp(-1*cell_burn_time*fuel)
+                    
+                    
+            elif state == 0.0:
+
+                num_burning_neighbours = 0 #number of surrounding burning cells
+                
+                for y in range(i - 1, i + 2):
+                        
+                    for x in range(j - 1,  j + 2):
+
+                        if not(i == y and j == x): #if not the middle cell itself
+
+                            try:
+
+                                state_surrounding_cell = status[y][x]
+                                burning_time_surroudning_cell = grid[y][x][1]
+                                surrounding_cell_direction = ""
+                                surrounding_cell_vector = "" #the position related to the middle cell
+                                                         
+                                if (0 < state_surrounding_cell < 1) and (burning_time_surroudning_cell > 1.0): #checks if the surrounding cell is burning
+
+                                    #to get the direction from surrounding cells relative to the middle cell
+
+                                    if y < i:
+                                        if x < j:
+                                            surrounding_cell_direction = np.radians(135)
+                                            
+                                             
+                                        elif x == j:
+                                            surrounding_cell_direction = np.radians(180)
+                                            
+                                        else:
+                                            surrounding_cell_direction = np.radians(225)
+                                            
+                                            
+                                    elif y == i:
+                                        if x < j:
+                                            surrounding_cell_direction = np.radians(90)
+                                            
+                                        else:
+                                            surrounding_cell_direction = np.radians(270)
+                                            
+                                    else:
+                                        if x < j:
+                                            surrounding_cell_direction = np.radians(45)
+                                            
+                                        elif x == j:
+                                            surrounding_cell_direction = np.radians(0)
+                                            
+                                        else:
+                                            surrounding_cell_direction = np.radians(315)
+                                            
+
+                                    #surroudning cell in vector form
+                                    surrounding_cell_vector = [np.sin(surrounding_cell_direction), np.cos(surrounding_cell_direction)]
+                                    
+                                    #calculates the component of the wind_direction in the direction of each surrounding cell
+                                    component_of_wind_vector = np.dot(surrounding_cell_vector, wind_direction_vector)
+                                    /
+                                    np.sqrt(surrounding_cell_vector[0]**2 + surrounding_cell_vector[1]**2)
+
+                                    if component_of_wind_vector > 0.0:
+                                        num_burning_neighbours += 1
+
+                                
+                            except IndexError: #skip over any index errors 
+                                pass
+
+                if num_burning_neighbours > 0.0:
+                    status[i][j] = grid[i][j][0]*0.95
+                    grid[i][j][1] += 1
+
+    env.workspace = r"C:\Users\User\Documents\Devon Stone\Model Data"
+
+    fuel_load_extent = fuel_load.extent
+    fuel_load_cell = fuel_load.meanCellHeight
+    left_bottom = arcpy.Point(295185, -3770835)
+
+    status_raster = arcpy.NumPyArrayToRaster(status, left_bottom,fuel_load_cell, fuel_load_cell)
+
+    desc = arcpy.Describe(fuel_load)
+    SR = desc.spatialReference
+    arcpy.DefineProjection_management(status_raster, SR)
+    
+    env.workspace = r"C:\Users\User\Documents\Devon Stone\Test0"
+
+    env.overwriteOutput = True
+    status_raster.save(str(overall_time) + "SpreadTest0.tif")
+
+    overall_time += 1
+    print(overall_time)
+   
+                            
+
+
+
+
+\end{lstlisting}

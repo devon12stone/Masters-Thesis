@@ -1,23 +1,122 @@
-\chapter{Python Program for Storing SAWS Observations in a List} % Main appendix title
+\chapter{Variable Definitions} % Main appendix title
 
 \label{AppendixA} % Change X to a consecutive letter; for referencing this appendix elsewhere, use \ref{AppendixX}
 
-\begin{lstlisting}
+Table \ref{table:variables} displays all variables used throughout this minor dissertation. The Table further displays a brief description of each variable, each variable's data type, and data category to which the feature belonged. 
 
-#Modules Used
-import csv
+\vspace{10pt}
 
-def observations_reader(filename):
 
-    observations_list = [] #will be a list of hourly weather observations in the order 'Date', 'Time', 'Rain', 'Temprature', 'Wind speed', 'Wind Direction', 'Humidty' 
+\begin{longtable}{|p{2.5cm}|p{5.5cm}|p{2cm}|p{3.1cm}|}
+\hline
+\multicolumn{1}{|p{2.5cm}|}{Variable}&
+\multicolumn{1}{|p{5.5cm}|}{Description}&
+\multicolumn{1}{|p{2cm}|}{Data Type}&
+\multicolumn{1}{|p{3.1cm}|}{Category}\\
+\hline
+Age & Age of applicant  & Numeric (Discrete) & Sociodemographic \\
+\hline
+App Count & Number of applications on th applicant's cellular device & Numeric (Discrete) & Alternative \\
+\hline
+Application Time & The time of day the loan application was made & Categorical & Alternative \\
+\hline
+Application Week & The week within the month the loan application was made  & Categorical & Alternative \\
+\hline
+Bank & The stated bank with which the applicant holds an account & Categorical & Sociodemographic \\
+\hline
+Banking Count & The number of financial applications on the clients cellular device & Numeric (Discrete)  & Alternative \\
+\hline
+Banks Contacted & The number of banks that sent an SMS messages to the applicant & Numeric (Discrete) & Alternative \\
+\hline
+Closed Accounts & The number of closed loan accounts the applicant has registered with the credit bureaus & Numeric (Discrete) & Credit Bureau \\
+\hline
+Competitor Count & The number of competing micro-finance companies that contacted the applicant & Numeric (Discrete) & Alternative \\
+\hline 
+Credit Transactions & The number of credit transactions extracted from SMS sent to the applicant from banks & Numeric (Discrete) & Alternative \\
+\hline 
+Debit Transactions & The number of debit transactions extracted from SMS sent to the applicant from banks & Numeric (Discrete) & Alternative \\
+\hline 
+Defaulted & A flag indicating whether or not a loan was repaid within 30 days of the repayment date & Numeric (Discrete) & Target \\
+\hline 
+Device Brand & The brand of the cellular device the applicant used to when applying foor their loan & Numeric (Discrete) & Alternative \\
+\hline 
+Device Price & The web-scraped price of the cellular device the applicant used when applying for their loan & Numeric (Discrete) & Alternative \\
+\hline 
+Employment Status & The employment status of the applicant & Categorical & Sociodemographic \\
+\hline 
+Gambling Count & The number of gambling applications on the applicant's cellular device & Numeric (Discrete) & Alternative \\
+\hline 
+Gender & The sex of the applicant & Categorical & Sociodemographic \\
+\hline 
+Highest Education & The highest level of education achieved by the applicant & Categorical & Sociodemographic \\
+\hline 
+Income & The stated monthly income of the applicant in Naira  & Numeric (Discrete) & Sociodemographic \\
+\hline
+Loan Purpose & The stated reason the applicant gave for applying for the loan & Categorical & Sociodemographic \\
+\hline 
+Lost Loans & The number of loan accounts deemed lost/unpaid the applicant has registered with the credit bureaus & Numeric (Discrete) & Credit Bureau \\
+\hline 
+Marital Status & The marital status of the applicant & Categorical & Sociodemographic \\
+\hline 
+Max Balance & The maximum balance extracted from the applicant's bank SMS & Numeric (Discrete) & Alternative \\
+\hline 
+Max Credit & The maximum credit transaction extracted from the applicant's bank SMS & Numeric (Discrete) & Alternative \\
+\hline 
+Max Debit & The maximum debit transaction extracted from the applicant's bank SMS & Numeric (Discrete) & Alternative \\
+\hline 
+Max Loan Amount & The maximum loan amount extracted from the SMS messages received by the applicant from other micro-finance companies & Numeric (Discrete) & Alternative \\
+\hline 
+Max Successful Loan Payment & The maximum successful loan repayment amount extracted from the SMS messages received by the applicant from other micro-finance companies & Numeric (Discrete) & Alternative \\
+\hline 
+Max Unsuccessful Loan Payment & The maximum unsuccessful loan repayment amount extracted from the SMS messages received by the applicant from other micro-finance companies & Numeric (Discrete) & Alternative \\
+\hline 
+Min Balance & The minimum balance extracted from the applicant's bank SMS messages & Numeric (Discrete) & Alternative \\
+\hline 
+Min Credit & The minimum credit transaction extracted from the applicant's bank SMS messages & Numeric (Discrete) & Alternative \\
+\hline 
+Min Debit & The minimum debit transaction extracted from the applicant's bank SMS messages & Numeric (Discrete) & Alternative \\
+\hline 
+Min Loan Amount & The minimum loan amount extracted from the SMS messages received by the applicant from other micro-finance companies & Numeric (Discrete) & Alternative \\
+\hline 
+Min Successful Loan Payment & The minimum successful loan repayment amount extracted from the SMS messages received by the applicant from other micro-finance companies & Numeric (Discrete) & Alternative \\
+\hline 
+Min Unsuccessful Loan Payment & The minimum unsuccessful loan repayment amount extracted from the SMS messages received by the applicant from other micro-finance companies & Numeric (Discrete) & Alternative \\
+\hline 
+Missed Payments & The number of instalments missed by the applicant on their loans registered with the credit bureaus & Numeric (Discrete) & Credit Bureau \\
+\hline 
+News Count & The number of news related applications cellular device & Numeric (Discrete) & Alternative \\
+\hline 
+Non-performing Loans & The number of active loans where the applicant has missed an instalment and the loan was registered with the credit bureaus & Numeric (Discrete) & Credit Bureau \\
+\hline 
+Num Applications& The number of rejected applications the applicant had with the micro-finance company prior to their applicant under consideration & Numeric (Discrete) & Sociodemographic \\
+\hline 
+Num Applications& The number of rejected applications the applicant had with the micro-finance company prior to their applicant under consideration & Numeric (Discrete) & Sociodemographic \\
+\hline 
+Paid Loans & The number of fully repaid loans the applicant has registered with the credit bureaus & Numeric (Discrete) & Credit Bureau \\
+\hline 
+Performing Loans & The number of active loans where the applicant has not missed an instalment and loan was registered with the credit bureaus & Numeric (Discrete) & Credit Bureau \\
+\hline 
+Property Status & The current ownership status of the property where the applicant resides & Categorical  & Sociodemographic \\
+\hline
+Rejected Loans & The number of rejected loan applications extracted from the SMS messages received by the applicant from other micro-finance companies & Numeric (Discrete) & Alternative\\
+\hline 
+Sector & The sector the applicant's occupation falls under & Categorical & Sociodemographic \\
+\hline 
+State & The Nigerian state in which the applicant resides & Categorical & Sociodemographic \\
+\hline 
+Successful Payments & The number of successful loan repayments extracted from the SMS messages received by the applicant from other micro-finance companies & Numeric (Discrete) & Alternative \\
+\hline 
+Time at Current Address & The time in months the client has spent at their current residence & Numeric (Discrete) & Sociodemographic \\
+\hline 
+Time at Employer & The time in months the client has spent at their current employer & Numeric (Discrete) & Sociodemographic \\
+\hline 
+Unsuccessful Payments &  The number of unsuccessful loan repayments extracted from the SMS messages received by the applicant from other micro-finance companies & Numeric (Discrete) & Alternative \\
+\hline 
+VPN Count &  The number of virtual private network applications on the applicant's cellular device & Numeric (Discrete) & Alternative \\
+\hline 
+\caption{Variables Used in Models}
+\label{table:variables}
+\end{longtable}
 
-    with open(filename) as csvfile:
-        observations = csv.reader(csvfile,delimiter=",")
-        next(observations, None)  # skip the headers in CSV file
-        for line in observations:
-            observations_list.append([line[0], line[1], float(line[2]), float(line[3]), float(line[4]), float(line[5]), float(line[6])])
 
-    return observations_list
-    
-
-\end{lstlisting}
+\vspace{10pt}

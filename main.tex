@@ -196,6 +196,8 @@ headsepline, % Uncomment to get a line under the header
 \textbf{AUC} & \textbf{A}rea  \textbf{U}nder \textbf{C}urve \\
 \textbf{SMOTE} & \textbf{S}ynthetic \textbf{M}inority \textbf{O}ver-\textbf{S}ampling \textbf{T}echnique\\
 \textbf{MFIs} & \textbf{M}icro \textbf{F}inance \textbf{I}nstitutions\\
+\textbf{SVD} & \textbf{S}ingle \textbf{V}alue \textbf{D}ecomposition\\
+\textbf{KNN} & \textbf{K}- \textbf{N}earest \textbf{N}eighbours\\
 \end{abbreviations}
 
 %----------------------------------------------------------------------------------------
@@ -238,9 +240,10 @@ headsepline, % Uncomment to get a line under the header
 % Include the chapters of the thesis as separate files from the Chapters folder
 % Uncomment the lines as you write the chapters
 
-\include{Chapters/01-Intro}
-\include{Chapters/02-Literature}
+%\include{Chapters/01-Intro}
+%\include{Chapters/02-Literature}
 \include{Chapters/03-Data}
+%\include{Chapters/04-Modeling}
 
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
@@ -256,6 +259,8 @@ headsepline, % Uncomment to get a line under the header
 %----------------------------------------------------------------------------------------
 \renewcommand{\baselinestretch}{1}
 
-%\appendix % Cue to tell LaTeX that the following "chapters" are Appendices
+\appendix % Cue to tell LaTeX that the following "chapters" are Appendices
+
+\include{Appendices/AppendixA}
 
 \end{document}  

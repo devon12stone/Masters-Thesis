@@ -1,7 +1,7 @@
 \chapter{Data Extraction and Preprocessing} 
 \label{Chapter3}
 
-This chapter details the data sources used to train the various credit scoring models developed throughout this project, the various data extraction techniques used to extract the alternative data features within the training sets, and the pre-processing and feature engineering techniques deployed before the modelling phase.   
+This chapter details the data sources used to train the various loan default prediction models developed throughout this project, the various data extraction techniques used to extract the alternative features within the training sets, and the pre-processing and feature engineering techniques deployed before the modelling phase.   
 %---------------------------------------------------------------------------------------
 %	SECTION 1
 %---------------------------------------------------------------------------------------
@@ -27,6 +27,13 @@ A final dataset was created for first time loan customers of the micro-finance i
 \subsection{Data Categories}
 
 Three major data categories were drawn from the data sources. These categories were sociodemographic data, credit bureau data and alternative data. The main aim of this thesis is to assess how alternative data can augment traditional credit scoring data. To complete this aim various combinations of these data categories were used to develop various credit scoring models. The statistical performance of the models were assessed in order to test whether using the various data categories resulted in a significant difference in model performance. 
+
+\subsection{Variables Used}
+
+Table \ref{table:variables} in the appendix attached to this report, displays all variables used to develop the loan default prediction models built. All sociodemographic variables used were stated by the loan applicants. The application, device ,and SMS related variables were scraped from applicant's device. While, the credit bureau related variables were provided by the Nigerian credit bureaus.  \\
+
+Put in some plots
+
 
 %---------------------------------------------------------------------------------------
 %	SECTION 2
@@ -97,7 +104,7 @@ The process of passing an SMS through the bank related regular expressions and h
 
 \begin{figure}[!htb]
 \centering
-\includegraphics[width=0.9\textwidth]{images/bank_feats.png}
+\includegraphics[width=0.95\textwidth]{images/bank_feats.png}
 \caption{Bank Based Feature Generation}
 \label{fig:bank_features}
 \end{figure}
@@ -146,7 +153,7 @@ The logic used to derive a price for each customer's cellular device is shown in
 
 \begin{figure}[!htb]
 \centering
-\includegraphics[width=0.9\textwidth]{images/device_price.png}
+\includegraphics[width=0.95\textwidth]{images/device_price.png}
 \caption{Device Price Logic}
 \label{fig:device}
 \end{figure}
@@ -156,13 +163,78 @@ The logic used to derive a price for each customer's cellular device is shown in
 
 Figure \ref{fig:device} displays the possible ways in which a device price could be determined. The possibilities are as follows: a price could not be scraped from either site, therefore, the price was set to null; a price could be scraped from one site but not the other, the scraped price was within the price bounds, then the one price was used; a price could be scraped from both sites, both prices were within the price bounds, then the price was set to be the mean of both prices. \\
 
-Lower and upper price bounds were introduced to reduce the number of scraping miss-classifications and as a result improve data integrity. Unreasonably low prices were often device accessories such as phone cases or screen protectors. While unreasonably high prices were often laptops or other more expensive electronic devices.
+Lower and upper price bounds were introduced to reduce the number of scraping miss-classifications and as a result improve data integrity. Unreasonably low prices were often device accessories such as phone cases or screen protectors. While unreasonably high prices were often laptops or other more expensive electronic devices. \newpage
 
 %---------------------------------------------------------------------------------------
 %	SECTION 3
 %---------------------------------------------------------------------------------------
 
 \section{Preprocessing}
+
+\subsection{Scaling and Encoding}
+
+Often in machine learning projects numeric scaling and categorical encoding is completed after missing value imputation. In the case of this project a K-Nearest Neighbours (KNN) model was developed to impute the missing values. The KNN algorithm involves calculating the distance between each data point in the dataset in consideration and every other point in that set. If features are not scaled prior to calculating the distances between points certain features may skew the calculated distances \parencite{KNNScaling}. Therefore, numeric variables were normalised and categorical variables scaled prior to missing value imputation. 
+
+\subsubsection{Numeric Variables}
+
+The numeric variables used throughout this project were normalised before the modelling process. Normalising numeric features involves transforming the values of each variable so that the values of variable follow a normal distribution where the mean is 0 and the standard deviation is 1. This is done for a single variable by first calculating the mean and standard deviation of the variable and then replacing the each value by its respective z-score \parencite{ZScore}. \\
+
+The Z-score of each value is show in Equation \ref{eqn:z}, where x each value. 
+
+\vspace{10pt}
+
+\begin{equation}\label{eqn:z}
+    z_{i} = \dfrac{x_{i}-\mu}{\sigma}
+\end{equation}
+
+\vspace{10pt}
+
+The above transformation was done for every populated value of each variable in the dataset. It is key to note that missing values remained missing.  
+
+\subsubsection{Categorical Variables}
+
+The categorical variables contained in the dataset of this project were encoded using weight of evidence (WoE) encoding. This is a common approach for handling categorical variables within the credit risk and financial industries. WoE encoding scales the levels of a categorical predictor variables based on their relationship with the target variable, where the levels of a categorical variable are the possible outcomes of the variable. In terms of loan default prediction on models, WoE scales the levels of each categorical variable with respect to loan default \parencite{WOE}. \\
+
+Another attribute of WoE encoding is that it handles missing values for categorical variables. In the case of the loan default prediction models missing values are consider to be missing not at random, this is because applicants may purposefully wit-hold information on their loan applications in order to increase their chance of having their application being accepted. This is further explain in sub-section 3.3.2. WoE encoding places missing values into a category and assigns a scaled value to them. \\
+
+The method for calculating the WoE of each level is shown in Equation \ref{eqn:woe}, where probability of repaid (POR) and probability of defaulted (POD) are the number of customer that repaid in that level the total number of customers within that variable  and the number of customers that defaulted in that level the total number of customers within the variable respectively. 
+
+\vspace{10pt}
+
+\begin{equation}\label{eqn:woe}
+    WoE = \ln{(\dfrac{POR}{POD})}
+\end{equation}
+
+\vspace{10pt}
+
+An example of the WoE scores for one of the features used in this project can be seen in Table \ref{table:woe}. It is key to note that all WoE scores where then scaled using the normalisation method explained in Equation \ref{eqn:z} before being used in the KNN imputation model.  
+
+\vspace{10pt}
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|c|c|} 
+\hline
+\multicolumn{1}{|c}{Level} &\multicolumn{1}{|c|}{WoE}\\
+\hline
+Single & -13.16  \\
+\hline
+Married & 16.15  \\
+\hline
+Widowed & 6.54  \\
+\hline
+Separated & 13.82\\
+\hline
+Missing & 93.80\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Weight of Evidence Values for Marital Status Variable}
+\label{table:woe}
+\end{table}
+
+
+\vspace{10pt}
 
 \subsection{Missing Values}
 
@@ -176,20 +248,49 @@ The loan repayment data used in this minor dissertation was complete. Only loane
 
 \subsubsection{Predictor Variables}
 
-Beyond repayment data, the features used to predict repayment often contain missing values and the fact that a particular feature is missing from a loan application can be indicative of default. \\
+The features used to predict repayment did contain missing values. The missing values needed to either be removed or imputed. Firstly, the percent of missing values per predictor variable was assessed to ensure that no more than 50 percent of the values within each variable were missing. This was also done for each row. No more than 50 percent of the values contained in a variable or in a particular row were missing. \newpage
 
-The observed data used to train the models developed throughout this project did contain missing values. In other data science projects, rows containing missing values are often removed from the dataset \parencite{MissingValues}.  In the case of this project excluding all cases containing a missing value was not feasible as too few sample would have remained to train and test a valid model. \\
+Figure \ref{fig:nullity} displays a nullity correlation heat-map of the variables within the dataset used throughout this project. A nullity correlation between two variables ranges from -1 to 1. A value of -1 indicates that if the one variable appears then the other will definitely not appear. A value of 0 indicates that the  appearance of the one variable does not influence the appearance of the other variable. A value of 1 indicates that the appearance of the one variable will lead to the definite appearance of the other \parencite{nullity}.  \\
 
-Another common missing value imputation technique is to replace missing values with the mean (continuous variables) or mode (categorical variables) of their respective variable. This is a successful technique if the variables are considered to be missing at random. In the case of this project missing values were consider to be missing not at random.  \\
+\vspace{10pt}
 
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.95\textwidth]{images/nutility_correlation.png}
+\caption{Nullity Correlation}
+\label{fig:nullity}
+\end{figure}
 
-This is due to the fact that the loanees considered manually filled variables during their loan applications. loanees could have withheld or altered variables based on how they thought it would affect the outcome of their credit application \parencite{MissingValuesBos}.  
+\vspace{10pt}
 
+It can be seen if Figure \ref{fig:nullity} that no particular feature disparages the presence of another. However, the presence of certain features strongly correlates with the presence of other features. This is expected as no feature is sparsely populated. \\
 
-\subsection{Categorical Variables}
+ In other data science projects, rows containing missing values are often removed from the dataset \parencite{MissingValues}.  In the case of this project excluding all cases containing a missing value was not feasible as too few samples would have remained to train and test a valid model. This is because more than 50 percent of rows within the dataset contained at least one missing value. \\
 
-Min Max Scaler
+Another common missing value imputation technique involves replacing missing values with the mean (continuous variables) or mode (categorical variables) of their respective variable. This is a successful technique if the variables are considered to be missing at random. In the case of this project missing values were consider to be missing not at random. This is due to the fact that the loanees manually filled certain variables during their loan applications. Loanees may have withheld or altered variables based on how they thought it would affect the outcome of their credit application \parencite{MissingValuesBos}. \\
 
-\subsection{Class Balancing}
+There are many methods for imputing missing values where the values are missing not at random. The two methods explored were SVD (single value decomposition) and k-nearest neighbours. \\
 
-Smote 
+SVD involves calculating a matrix's mutually orthogonal eigenvectors. The most important eigenvectors are then linearly combined in order to best predict the missing values of the matrix. In the case of the dataset used in this project, each loan application would be considered as a matrix row and the predictor variables would be the respective columns. An issue with SVD imputation is that the predictions for missing values are calculated using the most important eigenvectors and not all eigenvectors. Therefore, in terms of this project, unusual loan cases would not be would not be not well represented by the leading eigenvectors and as a result their missing values may not be accurately filled. This lead to the KNN approach being used \parencite{MissingValuesStandford}. \\
+
+The KNN approach involves filling the missing values of a particular row with the aggregated value of the equivalent variable from the rows 'K' most similar neighbours. Similarity can be calculated using a various distance metric, for example Euclidean, Minkowski, and Manhattan distances. Equation \ref{eq:eucidean} shows the Euclidean distance between points x and y. The distances is calculated by take the square root of the sum of the squared differences between the respective variables of each point \parencite{EuclideanDist}. 
+
+\vspace{10pt}
+
+\begin{equation} \label{eq:eucidean}
+d(x,y)=\sqrt{(x_{1}-y_{1})^{2} + (x_{2}-y_{2})^{2} + ... + (x_{n}-y_{n})^{2}}
+\end{equation}
+
+\vspace{10pt}
+
+Before the KNN model was developed to replace the missing in the dataset, each variable was normalised and scaled. This was done for both categorical and numeric variables. The methods used to do this are explained in sub-section 3.3.1.\\
+
+After normalisation and scaling, the follow steps were completed in order to fill missing values for each loan in the dataset using the KNN approach: 
+
+\begin{enumerate}
+    \item Set the number of nearest neighbours to be considered for each loan to 3. 
+    \item Check if the loan had any missing values. If the loan did not have missing values move to the next loan, if it did then continue to the steps below. 
+    \item Calculate the Euclidean distance between the loan under consideration and every other loan. 
+    \item Identify the 3 closest loan applications based upon Euclidean distance. 
+    \item Fill each missing value with the mean value of the respective variable taken from the loan's 3 nearest neighbours. 
+\end{enumerate}

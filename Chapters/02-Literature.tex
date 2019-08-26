@@ -1,24 +1,25 @@
 \chapter{Literature Review} 
-\label{Chapter2} 
+\label{Chapter2}
+
+The chapter provides an insight into the previous academic work completed in the field related to credit scoring and loan default prediction models. The chapter further describes machine statistical and machine learning used techniques to developed loan default prediction models. Finally the chapter describes the work related to using alternative features in credit scoring. 
 
 %---------------------------------------------------------------------------------------
 %	SECTION 1
 %---------------------------------------------------------------------------------------
 
-\section{Credit Scoring}
+\section{Loan Default Prediction}
 
-The first recorded case of monetary lending dates back to the Babylonian period over 4000 years ago. Even in this instance, the borrower's creditworthiness was assessed. in more recent times, dramatic technological developments, consumer lending, and financial knowledge have lead to a dramatic change in how the creditworthiness of consumers has been assessed  \parencite{CreditScoringIntroLewis}. \\
+Throughout history consumer lending has grown more and more popular. The first recorded case of consumer lending dates back to the Babylonian period over 4000 years ago. Since then the creditworthiness of each credit applicant has been assessed. The birth of computers allowed for this process to be automated and allowed for credit models to be developed \parencite{CreditScoringIntroLewis}. \\
 
-Credit scoring was defined as the scientific and automated approach to assessing the creditworthiness of a potential borrower. The approach was first developed by D Durand in 1941. Durand developed a discriminant analysis model that classified potential borrowers into two distinct categories. Those unlikely to repay, and those likely to repay. This model removed the need for subjective rules in the creditworthiness assessment process \parencite{CreditScoringIntroThomas}. \\
+Credit scoring is defined as the scientific approach for assessing the creditworthiness of a potential borrower. This approach was first automated by D Durand in 1941. Durand developed a discriminant analysis model that classified potential borrowers into two distinct categories. Those unlikely to repay, and those likely to repay. This form of classification model is now refereed to as a loan default prediction model. These models form the heart of credit scoring systems. Durand's model not only speed up the process of loan default prediction but it also removed the need for subjective rules in the creditworthiness assessment process \parencite{CreditScoringIntroThomas}. \\
 
 Durand's automated approach for assessing creditworthiness and was initially met with scepticism by the majority of the banking sector. It took until the late 1960s for credit scoring to be deemed the accepted method for assessing consumer creditworthiness. This was driven by two major developments. The introduction of credit cards and advances in the processing power of the era's computers. The introduction of credit cards led to a rapid rise in the number of consumers seeking credit, which meant that manually creditworthiness checks were no longer a valid option. The finical industry turned to automated models \parencite{CreditScoringIntroMarquez}. \\
 
 Credit scoring models were rapidly developed throughout the 1970s and 1980s. Due to the precious nature of the credit scoring systems within lending companies, very little was released about the specific content used in the models and how the models were developed.   However, a number of models developed by academics were designed to represent the models and systems used within the industry during this era. Each type of model had its own statistical strengths and weaknesses \parencite{CreditScoringReadings}. \\
 
-By the 1990s credit scoring models were regularly used to assess potential personal loans, business loans, and small loans. This decade also saw the introduction of credit score cards. In more recent times machine learning and artificial intelligence have been used in credit scoring. These models are far more complex than their predecessors and have not yet been fully accepted by regulatory bodies \parencite{CreditScoringTechniquesOverview}. 
-\newpage
+By the 1990s credit scoring models were regularly used to assess potential personal loans, business loans, and small loans. This decade also saw the introduction of credit score cards. In more recent times machine learning and artificial intelligence have been used in credit scoring. These models are far more complex than their predecessors and have not yet been fully accepted by regulatory bodies \parencite{CreditScoringTechniquesOverview}. \\
 
-There are two main categories that credit scoring model can fit into. One category contains models driven by statistical learning techniques. The other contains models driven by machine learning techniques. Certain works completed in those categories will be discussed in the following sections. 
+There are two main categories that credit scoring models can fit into. One category contains models driven by statistical learning techniques. The other contains models driven by machine learning techniques. Certain works completed in those categories will be discussed in the following sections. 
 
 %---------------------------------------------------------------------------------------
 %	SECTION 2
@@ -26,12 +27,11 @@ There are two main categories that credit scoring model can fit into. One catego
 
 \section{Statistical Credit Models}
 
-A wide variety of statistical techniques have been used to develop effective and predictive credit scoring models. These techniques include weight of evidence measure, regression analysis, discriminant analysis,
-probit analysis, logistic regression, linear programming and decision trees. These techniques produce results than can be easily understood by regulators and communicated to other members of a business \parencite{CreditScoringTechniquesLitReview}. 
+A wide variety of statistical techniques have been used to develop effective and predictive credit scoring models. These techniques include weight of evidence measure, regression analysis, discriminant analysis, probit analysis, logistic regression, linear programming and decision trees. These techniques produce results than can be easily understood by regulators and communicated to other members of a business \parencite{CreditScoringTechniquesLitReview}. 
 
 \subsection{Linear Discriminant Analysis}
 
-Linear Discriminant Analysis (LDA) is a simple parametric statistical technique that is used to distinguish between two classes. In terms of credit scoring, LDA is used to classify potential borrowers into one of two classes, a class containing borrowers that are likely to repay or a class containing borrowers that are unlikely to repay. LDA is still one of the most broadly established techniques in credit scoring and was first used as a credit scoring approach by \textcite{DurandLDA}. \\
+Linear Discriminant Analysis (LDA) is a simple parametric statistical technique that is used to distinguish between two classes. In terms of credit scoring, LDA is used to classify potential borrowers into one of two classes, a class containing borrowers that are likely to repay or a class containing borrowers that are unlikely to repay. LDA is still one of the most broadly established techniques in credit scoring and loan default prediction. It was first used as a credit scoring approach by \textcite{DurandLDA}. \\
 
 Durand developed an LDA model with the following linear discriminate function.
 
@@ -47,12 +47,12 @@ Where $x_{1}$ ... $x_{n}$ represent the variables use to classify potential borr
 
 The variables used in Durand's model were an applicants age, their sex, their residential status, their occupation, the field of industry the applicant worked in, the number of years the applicant had worked at their current employer, and Boolean variables indicating whether or not the applicant had a bank account, real estate and life insurance. Each variable was bucketed into different categories and each category was a assigned a value. The minimum and maximum values of Durand's formula where 0 and 3.46 respectively. Applicants that had a score less than 1.25 were denied credit \parencite{DurandLDA}.  \\
 
-LDA models have been criticised as they require linear relationships
+LDA models have been scrutinised as they assume linear relationships
 between dependent variables and independent variables. Furthermore, LDA models require the assumption to be made that all input variables must follow a Normal distribution \parencite{CreditScoringTechniquesOverview}. \newpage
 
 \subsection{Logistic Regression}
 
-Logistic regression was developed by David \textcite{LogReg}. Like LDA, logistic regression is an adaptation of linear regression. However, logistic regression does not require the same assumptions to be made about input variables. \\
+Logistic regression was developed by David \textcite{LogReg}. Like LDA, logistic regression is an adaptation of linear regression. However, logistic regression does not require the same assumptions to be made about the variables used. \\
 
 The technique is used to describe the relationship between one dependent binary variable and one or more nominal, ordinal, interval or ratio-level independent variables. Logistic regression models always produce dichotomous results (values are either 0 or 1) and have been widely used to solve binary classification problems. \\
 

@@ -10,30 +10,125 @@ This chapter details the data sources used to train the various loan default pre
 
 \subsection{Providers}
 
-There were two main sources that provider the data used to train the models developed throughout this project. \\
+The models in this project are trained using data from two main sources \\
 
-The first data provider is a Nigerian micro-finance institution that has disbursed loans to more than 250,000 consumers. The institution is an application-based lender and currently only provides credit to android users. The institution, with its customers' consent, gains access to the data on customers' devices. This data includes SMS data, contact data and location data. On top of the alternative data collected, sociodemographic data is collected via customer input on the institution's application. \\
+The first data provider is a Nigerian micro-finance institution that has disbursed loans to more than 250,000 consumers. The institution is an application-based lender and currently only provides credit to android users. The institution, with its customers' consent, gains access to the data on customers' devices. This data includes SMS data, contact data and location data. On top of the alternative data collected, sociodemographic data is collected via customer input on the institution's mobile application or app, as it is colloquially referred to. \\
 
 The second source of data for this project was the Nigerian credit bureaus CRC, CRS and XDS. It is mandatory for credit providing institutions in Nigeria to submit their customers' credit performance data to these credit bureaus.
 
 \subsection{Personal Data}
 
-It is key to note that no personal data, data that relates to an identified or could be used to identify a living individual, was not made publicly available, used within the creation of features, or used to train the models developed throughout this project. 
+It is key to note that no personal data - data that relates to an individual or could be used to identify a living individual - was made publicly available, used within the creation of features, or used to train the models developed throughout this project. 
 
 \subsection{Dataset}
 
-A final dataset was created for first time loan customers of the micro-finance institution that had existing credit bureau data prior to their first application. The customers required existing credit data as it was needed in order to compare the performance of first time credit credit scoring models that use only alternative data or alternative data in conjunction with sociodemographic data, against first time credit scoring models that make use of existing credit data. The final dataset consisted of 49,550 customers/loans. 
+A final dataset was created for first time loan customers of the micro-finance institution that had existing credit bureau data prior to their first application. The customers required existing credit data as it was needed in order to compare the performance of first time credit credit scoring models that use only alternative data or alternative data in conjunction with sociodemographic data, against first time credit scoring models that make use of existing credit data. The final dataset consisted of 62,935 customers/loans. 
 
 \subsection{Data Categories}
 
-Three major data categories were drawn from the data sources. These categories were sociodemographic data, credit bureau data and alternative data. The main aim of this thesis is to assess how alternative data can augment traditional credit scoring data. To complete this aim various combinations of these data categories were used to develop various credit scoring models. The statistical performance of the models were assessed in order to test whether using the various data categories resulted in a significant difference in model performance. 
+Three major data categories can be drawn from the data sources. These categories are sociodemographic data, credit bureau data and alternative data. The main aim of this thesis is to assess how alternative data can augment traditional credit scoring data. To complete this aim various combinations of these data categories are used to develop various credit scoring models. These models are a logistic regression model, a random forest model, an extreme gradient boosted model, and a neural network. The statistical performance of the models is assessed in order to test whether using the various data categories resulted in a significant difference in model performance. 
 
 \subsection{Variables Used}
 
-Table \ref{table:variables} in the appendix attached to this report, displays all variables used to develop the loan default prediction models built. All sociodemographic variables used were stated by the loan applicants. The application, device ,and SMS related variables were scraped from applicant's device. While, the credit bureau related variables were provided by the Nigerian credit bureaus.  \\
+Table \ref{table:variables} in the appendix attached to this report, displays all variables used in the loan default prediction models. All sociodemographic variables used are stated by the loan applicants. The application, device ,and SMS related variables are scraped from applicants' devices. While, the credit bureau related variables are provided by the Nigerian credit bureaus. \\
+
+The following figures display the traits of specific independent variables used in the models of this project. The figures show the relationship between the independent variables and the dependent variable (whether a loanee repaid their loan).  
+
+\subsubsection{Repayment Breakdown}
+
+Figure \ref{fig:defaulted} displays the breakdown of the first time loans used to train this project's models. It can be seen from the figure that 49,596 of the total 62,935 loans considered for this project were repaid. That means that the default rate of loans considered was 21.19\%. This is a high default rate when compared to default rates in Western countries, but in underdeveloped countries - like Nigeria - this aligns with industry standard \parencite{Default}.
+
+\vspace{10 pt}
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.55\textwidth]{images/payments.png}
+\caption{Repaid vs Defaulted}
+\label{fig:defaulted}
+\end{figure}
+
+\subsubsection{Age of Loanees}
+
+Figures \ref{fig:age_paid} and \ref{fig:age_defaulted} display a comparison between the age of the clients that repaid their loan and the age of clients that defaulted on their loan. It can be seen from the figures that the percentage of clients 30 or younger is considerably higher for clients that defaulted compared to clients that repaid. Figure \ref{fig:age_defaulted} is skewed to the right when compared to Figure \ref{fig:age_paid}, which means that on the whole the sample of clients that defaulted is younger than the sample of clients that repaid.   
+
+\vspace{10 pt}
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.65\textwidth]{images/repaid_age.png}
+\caption{Age of Clients that Repaid}
+\label{fig:age_paid}
+\end{figure}
+
+\vspace{10 pt}
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.65\textwidth]{images/defaulted_age.png}
+\caption{Age of Clients that Defaulted}
+\label{fig:age_defaulted}
+\end{figure}
+
+\vspace{10 pt}
+
+\subsubsection{Income of Loanees}
+
+Figures \ref{fig:income_paid} and \ref{fig:income_defaulted} display a comparison between the incomes of the clients that repaid their loan and the incomes of clients that defaulted on their loan. The a larger percentage of clients that defaulted on their loan have an income of 700,000 Naira or less than clients that repaid their loan.   
+
+\vspace{10 pt}
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.75\textwidth]{images/repaid_income.png}
+\caption{Income of Clients that Repaid}
+\label{fig:income_paid}
+\end{figure}
+
+\vspace{10 pt}
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.75\textwidth]{images/defaulted_income.png}
+\caption{Income of Clients that Defaulted}
+\label{fig:income_defaulted}
+\end{figure}
+
+\vspace{10 pt}
+
+\subsubsection{Employment Status and Gender}
+
+Figure \ref{fig:employment} displays the various employment statuses of the considered clients. The figure further displays the number of male and female clients contained in employment status and their default rates for their loans. 
+
+\vspace{10 pt}
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.9\textwidth]{images/employment.png}
+\caption{Employment Status and Gender of Clients}
+\label{fig:employment}
+\end{figure}
+
+\vspace{10 pt}
+
+Figure \ref{fig:employment} shows that the majority of loanees claimed that they are permanently employed and that there were more male loanees contained in the sample than female loanees. The figure further shows that generally students and unemployed loanees are more likely to default. Finally the figure displays that female loanees generally perform better than male loanees.  
+
+\subsubsection{Credit Bureau Accounts and Gender}
 
 
+Figure \ref{fig:cred} displays the number of female and male clients that have a specific number of registered accounts with the Nigerian credit bureaus. The figure also displays the default rate by the number of registered accounts. Figure \ref{fig:cred} - like Figure \ref{fig:employment} - displays that there are more male loanees in the sample than female and that female loanees tend to repay better than male loanees. Figure \ref{fig:cred} further displays that the most clients only had 1 account registered with the credit bureaus and that in general the more accounts a client has registered with the credit bureaus, the more likely they are to repay their loan.  
 
+\vspace{10 pt}
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.9\textwidth]{images/credit_bur.png}
+\caption{Number of Credit Bureau Accounts and Gender of Clients}
+\label{fig:cred}
+\end{figure}
+
+\vspace{10 pt}
+
+The sources of data and the data itself used throughout the project has now been described. Section 3.2 details how the data is gathered and the processes used to generate the variables used in the models of this project.   
 
 %---------------------------------------------------------------------------------------
 %	SECTION 2
@@ -41,49 +136,53 @@ Table \ref{table:variables} in the appendix attached to this report, displays al
 
 \section{Data Extraction and Feature Engineering}
 
+This section details the data extractions and feature engineering techniques used throughout this project. The processes to gather the sociodemographic and credit bureau data require are simpler than those used to gather the alternative data.
+
 \subsection{Sociodemographic and Credit Bureau Data}
 
 The more traditional credit scoring features, developed from sociodemographic and credit bureau data attached to each first-time borrower, were created and extracted using SQL (Structured Query Language). The data was extracted from the company's relational database. \\
 
-The query was written in a manner that ensured that no data leakage would occur when the credit scoring models were being trained. This means that only data that would be known at the point in time when a particular client applied for their loan could be sued to develop features. The only case were data was used that would not be known at the point in time of application was repayment data, as this was used to develop the default (whether the client repaid their loan or not) target variable. \\
+The query was written in a manner that ensured that no data leakage would occur when the credit scoring models were being trained. This means that only data that would be known at the point in time when a particular client applied for their loan could be used to develop features. The only case where data was used that would not be known at the point in time of application was repayment data, as this was used to develop the default (whether the client repaid their loan or not) target variable. \\
 
-The overall query used to extract the sociodemographic and credit bureau for each loan was a collection of sub-queries joined on a unique key attached to each loan. The query used to extract the credit bureau required an aggregation in order to generate features that represented the total number of loans each client had prior to their application with the micro-finance institution used in this study. The credit bureau features used in the modelling process and their definitions can be found in the appendix of this paper. The sociodemographic data was extracted using a simpler sub-query,  like the credit bureau features their definitions can be found in the appendix of this paper.  \\
-
+The overall query used to extract the sociodemographic and credit bureau data for each loan was a collection of sub-queries joined on a unique key attached to each loan. The query used to extract the credit bureau required an aggregation in order to generate features that represented the total number of loans each client had prior to their application with the micro-finance institution used in this study. The credit bureau features used in the modelling process and their definitions can be found in the appendix of this paper.
 
 \subsection{Alternative Data}
 
-The three main sources of alternative data used to develop features were the application, SMS, and device data stored on each customers' cellphone. The data was extracted from the micro-finance institution's using PyMongo, a Python package that allows a user to query data from a Mongo database from within a Python script. The application and SMS data was extracted from different Mongo databases, however expressions (regex) were used to filter both data types and to develop features. Regex functions are sets of sequences of characters that define a particularly search pattern. The functions are then used to identify cases of the defined pattern in strings \parencite{Regex}. \\
+The three main sources of alternative data used to develop features are the application, SMS, and device data stored on each customers' cellphone. The data is extracted from one of the micro-finance institution's  databases using PyMongo, a Python package that allows a user to query data from a Mongo database from within a Python script. \newpage
 
-The device data was extracted from a separate database as the application and SMS data and an entirely different technique was used to generate features from the data. The technique used in this case was web scraping, which is a method of extracting data from websites \parencite{WebScraping}. 
+The application and SMS data is extracted from a different Mongo databases, however regular expressions (regex) are used to filter both data types and to develop features. Regex functions are sets of sequences of characters that define a particular search pattern. The functions are then used to identify cases of the defined pattern in strings \parencite{Regex}. \\
 
-\subsubsection{Application Based Features}
+The device data is extracted from a separate database than the application and SMS data and an entirely different technique is used to collect the data. The technique used in this case is web scraping, which is a method of extracting data from websites \parencite{WebScraping}. 
 
-The application based features engineered for this project were counts of particular applications present on a clients device at the point in time of their application. The features included a count of the finical, competing micro-finance, news, gambling and virtual private network (VPN) applications. The counts were generated by first compiling a list of all unique applications on a client's. Then the name of each application was passed through a series of regular expression key word searches. Each expression was designed to detect a specific application type. If  a particular application type search resulted in a match, the count associated with that search was updated. \\
+\subsubsection{Application-Based Features}
 
-The process developed to pass an application through the application extracting regular expressions and how the count features were generated throughout this process is represented in Figure \ref{fig:app_features}. The process was coming up completed for every unique application recorded on the client's device. 
+The application-based features engineered for this project are counts of particular applications present on a client's device at the point in time of their application. The features included a count of the financial, competing micro-finance, news, gambling and virtual private network (VPN) applications. The counts are generated by first compiling a list of all unique applications on a client's device. Then the name of each application is passed through a series of regular expression key word searches. Each expression is designed to detect a specific application type. If a particular application type search results in a match, the count associated with that search is updated. \\
+
+The process developed to pass an application through the application extracting regular expressions and how the count features are generated throughout this process is represented in Figure \ref{fig:app_features}. The process is completed for every unique application recorded on the client's device. 
 
 
 \vspace{10 pt}
 
 \begin{figure}[!htb]
 \centering
-\includegraphics[width=0.55\textwidth]{images/app_feats.png}
-\caption{Application Based Feature Generation}
+\includegraphics[width=0.9\textwidth]{images/app_feats.png}
+\caption{Application-Based Feature Generation}
 \label{fig:app_features}
 \end{figure}
 
+\newpage
 
-\subsubsection{SMS Based Features}
+\subsubsection{SMS-Based Features}
 
-The SMS data consisted of messages received by the clients in the 90 days prior to their application, by nature this data is more sensitive than the other data used throughout this research. Similarly to the process developed to generate the application based features, each message received by a client was complied into a list. The list was the looped over in order to generate features for each client. \\
+The SMS data consists of messages received by the clients in the 90 days prior to their application: by nature this data is more sensitive than the other data used throughout this research. Similar to the process developed to generate the application-based features, each message received by a client is compiled into a list. Each individual message in their list is then passed through a series of regular expressions in order to generate features.  \\
 
-In order to avoid exposing personal messages the each message was passed through two filtering regular expressions. The first expression returned only messages received from Nigerian banks, while the second ensured that only messages returned by competitor micro-finance institutions were returned. The regular expressions had a dual purpose. They prevented exposure to sensitive content and they acted as the first step in the SMS based feature generation process. \\
+In order to avoid exposing personal messages, each message was passed through two filtering regular expressions. The first expression returned only messages received from Nigerian banks, while the second ensured that only messages returned by competitor micro-finance institutions were returned. The regular expressions had a dual purpose: they prevented exposure to sensitive content and they acted as the first step in the SMS-based feature generation process. \\
 
-If a message passed through the regular expression for banking messages it was exposed to the banking feature creation process. Typically, messages from Nigerian banks have a similar structure. They display a transaction amount, the date of the transaction, the type of transaction (credit or debit to the account), and finally the balance in the account after the transaction. Regular expressions were used these features and store them as either numeric variables or lists.  \\
+If a message passes through the regular expression for banking messages it is exposed to the banking feature creation process. Typically, messages from Nigerian banks have a similar structure. They display a transaction amount, the date of the transaction, the type of transaction (credit or debit to the account), and finally the balance in the account after the transaction. Regular expressions are used to extract these features and store them as either numeric variables or lists.  \\
 
-If a message did not pass through the banking regular expression it was then passed to the competitor expression. If the message passed through this expression it was then further screened by another set of regex functions. These functions searched for key words in order to identify if a client had another loan with a competitor and if that loan had been repaid successfully or not. The actual loan amount was extracted using regex as was the loan repayment (instalment amount). These amounts were appended to lists. \\
+If a message did not pass through the first filter regular expression - searching for bank messages - it is then passed through the competitor expression. If the message passes through this expression it is then further screened by another set of regex functions. These functions search for key words in order to determine if a client had another loan with a competitor and if that loan had been repaid successfully or not. The actual loan amount is extracted using regex, as is the loan repayment (instalment amount). These amounts were appended to lists. \\
 
-After the passing every message associated to a particular client through the regex functions the lists created throughout the process were used to generate the SMS based features for that particular client. \\
+After passing every message associated to a particular client through the regex functions the lists created throughout the process are used to generate the SMS-based features for that particular client. \\
 
 \vspace{10pt}
 
@@ -91,14 +190,14 @@ The banking related features generated were:
 
 \begin{itemize}
     \item The number of unique banks that sent the client a message
-    \item The minimum and maximum debit transaction, credit transaction and account balance values extracted
-    \item The total number of debit and credit transactions recorded
-    \item The number of times the term 'insufficient funds' was recorded in the client's messages
+    \item The minimum and maximum debit transaction, credit transactions and account balance values 
+    \item The total number of debit and credit transactions 
+    \item The number of times the term 'insufficient funds' is found in the client's messages
 \end{itemize}
 
 \vspace{10pt}
 
-The process of passing an SMS through the bank related regular expressions and how the banking features were generated throughout that process is represented in Figure \ref{fig:bank_features}. The process was completed for every message received by a client within the 90 day period prior to their application. 
+The process of passing an SMS through the bank related regular expressions and how the banking features are generated throughout that process is represented in Figure \ref{fig:bank_features}. The process is completed for every message received by a client within the 90-day period prior to their application. 
 
 \vspace{10pt}
 
@@ -117,7 +216,7 @@ The competitor related features generated were:
 
 \begin{itemize}
     \item The number of competitors that sent the client a message
-    \item The number of competitors that sent a loan to the client
+    \item The number of competitors that approved a loan for the client
     \item The minimum and maximum loan amount received by, successful loan repayment made by, and unsuccessful loan repayment made by the client
     \item The number of loans received by, successful loan repayments made by, and unsuccessful loan repayments made by the client
     \item The number of rejected loan applications made by the client. 
@@ -125,7 +224,7 @@ The competitor related features generated were:
 
 \vspace{10pt}
 
-The process of passing an SMS through the competitor related regular expressions and how features were generated throughout that process is represented in Figure \ref{fig:comp_features}. The process was completed for every SMS message received by a client within the 90 day period prior to their application. 
+The process of passing an SMS through the competitor related regular expressions and how features are generated throughout that process is represented in Figure \ref{fig:comp_features}. The process was completed for every SMS message received by a client within the 90-day period prior to their application. 
 
 \vspace{10pt}
 
@@ -141,11 +240,9 @@ The process of passing an SMS through the competitor related regular expressions
 
 \subsubsection{Web Scraping}
 
-The unique Android ID attached to each customer's cellular device, used to apply for their loan, was used to ascertain the brand and model of the device as well as the operating version currently used on the device. The brand of device and operating system system were used directly as features while the device brand name and model were used in conjunction to scrape the price of the device. \\
+The unique Android ID attached to each customer's cellular device - used when applying for their loan - is used to ascertain the brand and model of the device as well as the device's operating system version. The brand of device and operating system are used directly as features while the brand name and device model were used in conjunction to scrape the price of the device. \\
 
-The script written to scrape and calculate the device price was written in Python and made use of the Beautiful Soup web scraping package. The price of each device was scraped from Jumia and Kara, two of the biggest Nigerian e-commerce platforms. \\
-
-The price was scraped from both websites by passing the name and model of the device into the respective search URL of each website. The Jumia search URL appears as follows \url{https://www.jumia.com.ng/phones-tablets/?q={NameAndBrand}&sort=Price}. The price was then scraped from the first page returned by the search. The prices were contained within specific HTML (hypertext markup language) tags on each website. This made the scraping simple. \\
+The script written to scrape and derive the device price was written in Python and made use of the Beautiful Soup web scraping package. The price of each device was scraped from Jumia and Kara, two of the biggest Nigerian e-commerce platforms. \\
 
 The logic used to derive a price for each customer's cellular device is shown in Figure \ref{fig:device}.
 
@@ -160,10 +257,9 @@ The logic used to derive a price for each customer's cellular device is shown in
 
 \vspace{10pt}
 
+Figure \ref{fig:device} displays the possible ways in which a device price could be determined. The possibilities are as follows: a price could not be scraped from either site, therefore, the price was set to null; a price could be scraped from one site but not the other, the scraped price was within the price bounds, then the one price was used; a price could be scraped from both sites, both prices were within the price bounds, then the price was set to be the mean of both prices. Lower and upper price bounds were introduced to reduce the number of scraping miss-classifications and as a result improve data integrity. Unreasonably low prices were often device accessories such as phone cases or screen protectors, while unreasonably high prices were often laptops or other more expensive electronic devices.
 
-Figure \ref{fig:device} displays the possible ways in which a device price could be determined. The possibilities are as follows: a price could not be scraped from either site, therefore, the price was set to null; a price could be scraped from one site but not the other, the scraped price was within the price bounds, then the one price was used; a price could be scraped from both sites, both prices were within the price bounds, then the price was set to be the mean of both prices. \\
-
-Lower and upper price bounds were introduced to reduce the number of scraping miss-classifications and as a result improve data integrity. Unreasonably low prices were often device accessories such as phone cases or screen protectors. While unreasonably high prices were often laptops or other more expensive electronic devices. \newpage
+This section detailed the gathering of data and the processes used to develop features. Section 3.3 details how the features are processed before being used in the loan default prediction models. 
 
 %---------------------------------------------------------------------------------------
 %	SECTION 3
@@ -171,13 +267,15 @@ Lower and upper price bounds were introduced to reduce the number of scraping mi
 
 \section{Preprocessing}
 
+This section details how the various types of dependent variables are scaled, how missing values are handled, and how outlier data points are identified. 
+
 \subsection{Scaling and Encoding}
 
-Often in machine learning projects numeric scaling and categorical encoding is completed after missing value imputation. In the case of this project a K-Nearest Neighbours (KNN) model was developed to impute the missing values. The KNN algorithm involves calculating the distance between each data point in the dataset in consideration and every other point in that set. If features are not scaled prior to calculating the distances between points certain features may skew the calculated distances \parencite{KNNScaling}. Therefore, numeric variables were normalised and categorical variables scaled prior to missing value imputation. 
+In machine learning projects, numeric scaling and categorical encoding is often conducted after imputing missing values. In the case of this project a K-Nearest Neighbours (KNN) model was developed to impute the missing values. The KNN algorithm involves calculating the Euclidean distance between each data point in the dataset in consideration and every other point in that set. If features are not scaled prior to calculating the distances between points, certain features may skew the calculated distances \parencite{KNNScaling}. Therefore, numeric variables were normalised and categorical variables scaled prior to imputation. 
 
 \subsubsection{Numeric Variables}
 
-The numeric variables used throughout this project were normalised before the modelling process. Normalising numeric features involves transforming the values of each variable so that the values of variable follow a normal distribution where the mean is 0 and the standard deviation is 1. This is done for a single variable by first calculating the mean and standard deviation of the variable and then replacing the each value by its respective z-score \parencite{ZScore}. \\
+The numeric variables used throughout this project were standardised before the modelling process. Standardising numeric features involves transforming the values of each variable so that the values of variable so that the mean is 0 and the standard deviation is 1. This is done for a single variable by first calculating the mean and standard deviation of the variable and then replacing each value by its respective z-score \parencite{ZScore}. \\
 
 The Z-score of each value is show in Equation \ref{eqn:z}, where x each value. 
 
@@ -193,11 +291,11 @@ The above transformation was done for every populated value of each variable in 
 
 \subsubsection{Categorical Variables}
 
-The categorical variables contained in the dataset of this project were encoded using weight of evidence (WoE) encoding. This is a common approach for handling categorical variables within the credit risk and financial industries. WoE encoding scales the levels of a categorical predictor variables based on their relationship with the target variable, where the levels of a categorical variable are the possible outcomes of the variable. In terms of loan default prediction on models, WoE scales the levels of each categorical variable with respect to loan default \parencite{WOE}. \\
+The categorical variables contained in the dataset of this project were encoded using weight of evidence (WoE) encoding. This is a common approach for handling categorical variables within the credit risk and financial industries \parencite{WOE}. WoE encoding scales the levels of a categorical predictor variables based on their relationship with the target variable. In terms of loan default prediction models, WoE scales the levels of each categorical variable with respect to loan default \parencite{WOE}. \\
 
-Another attribute of WoE encoding is that it handles missing values for categorical variables. In the case of the loan default prediction models missing values are consider to be missing not at random, this is because applicants may purposefully wit-hold information on their loan applications in order to increase their chance of having their application being accepted. This is further explain in sub-section 3.3.2. WoE encoding places missing values into a category and assigns a scaled value to them. \\
+Another attribute of WoE encoding is that it handles missing values for categorical variables. In the case of the loan default prediction models, missing values are consider to be missing not at random, this is because applicants may purposefully withhold information on their loan applications in order to increase their chance of having a successful loan. This is further explained in sub-section 3.3.2. WoE encoding places missing values into a category and assigns a scaled value to them. \\
 
-The method for calculating the WoE of each level is shown in Equation \ref{eqn:woe}, where probability of repaid (POR) and probability of defaulted (POD) are the number of customer that repaid in that level the total number of customers within that variable  and the number of customers that defaulted in that level the total number of customers within the variable respectively. 
+The method for calculating the WoE of each level is shown in Equation \ref{eqn:woe}, where probability of repaid (POR) and probability of defaulted (POD) are the proportion of customers per level that repaid and defaulted respectively. 
 
 \vspace{10pt}
 
@@ -207,7 +305,7 @@ The method for calculating the WoE of each level is shown in Equation \ref{eqn:w
 
 \vspace{10pt}
 
-An example of the WoE scores for one of the features used in this project can be seen in Table \ref{table:woe}. It is key to note that all WoE scores where then scaled using the normalisation method explained in Equation \ref{eqn:z} before being used in the KNN imputation model.  
+An example of the WoE scores for one of the features can be seen in Table \ref{table:woe}. It is key to note that all WoE scores are scaled using the standardisation method explained in Equation \ref{eqn:z} before being used in the KNN imputation model.  
 
 \vspace{10pt}
 
@@ -233,9 +331,6 @@ Missing & 93.80\\
 \label{table:woe}
 \end{table}
 
-
-\vspace{10pt}
-
 \subsection{Missing Values}
 
 Missing values are an issue that need to be addressed during any data science project, however missing data is especially significant in credit risk related modelling. Gathering complete credit repayment data is the most important factor when developing credit risk models \parencite{MissingValuesBos}.
@@ -244,13 +339,13 @@ Missing values are an issue that need to be addressed during any data science pr
 
 Repayment data is often sparse and complex. Many consumers have missing values based on incompleteness but others have missing values based on the fact that credit term has not been reached. These challenges make it difficult to develop statistically significant datasets required for credit repayment prediction models \parencite{MissingValuesCR}. \\ 
 
-The loan repayment data used in this minor dissertation was complete. Only loanees that had completed their entire loan tenor and that all all their instalments for that particular loan were used in the dataset. This ensured that the target variable, loan default, did not contain any missing values. 49,550 first time applicants with a complete loan cycle were collected, which was enough to develop statistically significant training and testing samples. 
+The loan repayment data used in this minor dissertation is complete. Only loanees that had completed their entire loan tenor are used in the dataset. This ensures that the target variable - loan default - does not contain any missing values.
 
 \subsubsection{Predictor Variables}
 
-The features used to predict repayment did contain missing values. The missing values needed to either be removed or imputed. Firstly, the percent of missing values per predictor variable was assessed to ensure that no more than 50 percent of the values within each variable were missing. This was also done for each row. No more than 50 percent of the values contained in a variable or in a particular row were missing. \newpage
+The features used to predict repayment do contain missing values. The missing values need to either be removed or imputed. Firstly, the percent of missing values per predictor variable is assessed to ensure that no more than 50 percent of the values within each variable are missing. This is also done for each row (customer/loan). No more than 50 percent of the values contained in a variable or in a particular row were missing. \\
 
-Figure \ref{fig:nullity} displays a nullity correlation heat-map of the variables within the dataset used throughout this project. A nullity correlation between two variables ranges from -1 to 1. A value of -1 indicates that if the one variable appears then the other will definitely not appear. A value of 0 indicates that the  appearance of the one variable does not influence the appearance of the other variable. A value of 1 indicates that the appearance of the one variable will lead to the definite appearance of the other \parencite{nullity}.  \\
+Figure \ref{fig:nullity} displays a nullity correlation heat-map of the variables within the dataset used throughout this project. A nullity correlation between two variables ranges from -1 to 1. A value of -1 indicates that if the one variable appears then the other will definitely not appear. A value of 0 indicates that the  appearance of the one variable does not influence the appearance of the other variable. A value of 1 indicates that the one variable is always present when the other one is \parencite{nullity}.  \\
 
 \vspace{10pt}
 
@@ -263,17 +358,66 @@ Figure \ref{fig:nullity} displays a nullity correlation heat-map of the variable
 
 \vspace{10pt}
 
-It can be seen if Figure \ref{fig:nullity} that no particular feature disparages the presence of another. However, the presence of certain features strongly correlates with the presence of other features. This is expected as no feature is sparsely populated. \\
+It can be seen from Figure \ref{fig:nullity} that no particular feature disparages the presence of another. However, the presence of certain features strongly correlates with the presence of other features. This is expected as no feature is sparsely populated. \\
 
- In other data science projects, rows containing missing values are often removed from the dataset \parencite{MissingValues}.  In the case of this project excluding all cases containing a missing value was not feasible as too few samples would have remained to train and test a valid model. This is because more than 50 percent of rows within the dataset contained at least one missing value. \\
+ In data science projects, rows containing missing values are often removed from the dataset \parencite{MissingValues}. In the case of this project excluding all cases containing a missing value was not feasible as too few samples would have remained to train and test a valid model. This is because more than 50 percent of rows within the dataset contained at least one missing value. \\
+ 
+ Table \ref{table:missing_row} displays the count of applicants, the cumulative count of applicants, and the percentage of total applicants that have the number of missing values shown in the first column of the table. Table \ref{table:missing_row} displays that 2.81\% of applicants have more than 10 missing values, while no loan applicant had more than 14 missing values. The total number of dependent variables used is 53.   
+ 
+\vspace{10pt}
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|c|c|c|c|} 
+\hline
+\multicolumn{1}{|c|}{Missing Values}
+&\multicolumn{1}{|c|}{Count}
+&\multicolumn{1}{|c|}{Cumulative Count}
+&\multicolumn{1}{|c|}{Percentage of Total}\\
+\hline
+0 & 28,808 & 28,808  & 45.77  \\
+\hline
+1 & 6,276 & 35,084 & 55.75  \\
+\hline
+2 & 6,275 & 41,359 & 65.72 \\
+\hline
+3 & 1,495 & 42,854 & 68.09 \\
+\hline
+4 & 577 & 43,431 & 69.01 \\
+\hline
+5 & 97 & 43,528 & 69.16 \\
+\hline
+6 & 12,500 & 56,028 & 89.03 \\
+\hline
+7 & 3,516 & 59,544 & 94.61 \\
+\hline
+8 & 1,168 & 60,712 & 96.47 \\
+\hline
+9 & 376 & 61,088 & 97.07\\
+\hline
+10 & 75 & 61,163 & 97.19\\
+\hline
+11 & 21 & 61,184 & 97.22\\
+\hline
+12 & 1,046 & 62,230 & 98.88\\
+\hline
+13 & 623 & 62,853 & 99.87\\
+\hline
+14 & 81 & 62,935 & 100.00\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Number of Missing Values by Observation/Applicant}
+\label{table:missing_row}
+\end{table}
 
 Another common missing value imputation technique involves replacing missing values with the mean (continuous variables) or mode (categorical variables) of their respective variable. This is a successful technique if the variables are considered to be missing at random. In the case of this project missing values were consider to be missing not at random. This is due to the fact that the loanees manually filled certain variables during their loan applications. Loanees may have withheld or altered variables based on how they thought it would affect the outcome of their credit application \parencite{MissingValuesBos}. \\
 
-There are many methods for imputing missing values where the values are missing not at random. The two methods explored were SVD (single value decomposition) and k-nearest neighbours. \\
+There are many methods for imputing missing values where the values are missing not at random. The two methods explored were SVD (singular value decomposition) and k-nearest neighbours. \\
 
-SVD involves calculating a matrix's mutually orthogonal eigenvectors. The most important eigenvectors are then linearly combined in order to best predict the missing values of the matrix. In the case of the dataset used in this project, each loan application would be considered as a matrix row and the predictor variables would be the respective columns. An issue with SVD imputation is that the predictions for missing values are calculated using the most important eigenvectors and not all eigenvectors. Therefore, in terms of this project, unusual loan cases would not be would not be not well represented by the leading eigenvectors and as a result their missing values may not be accurately filled. This lead to the KNN approach being used \parencite{MissingValuesStandford}. \\
+SVD involves calculating a matrix's mutually orthogonal eigenvectors. The most important eigenvectors are then linearly combined in order to best predict the missing values of the matrix. In the case of the dataset used in this project, each loan application would be considered as a matrix row and the predictor variables would be the respective columns. An issue with SVD imputation is that the predictions for missing values are calculated using the most important eigenvectors and not all eigenvectors. Therefore, in terms of this project, unusual loan cases would not be well represented by the leading eigenvectors and as a result their missing values may not be accurately filled. This lead to the KNN approach being used \parencite{MissingValuesStandford}. \\
 
-The KNN approach involves filling the missing values of a particular row with the aggregated value of the equivalent variable from the rows 'K' most similar neighbours. Similarity can be calculated using a various distance metric, for example Euclidean, Minkowski, and Manhattan distances. Equation \ref{eq:eucidean} shows the Euclidean distance between points x and y. The distances is calculated by take the square root of the sum of the squared differences between the respective variables of each point \parencite{EuclideanDist}. 
+The KNN approach involves filling the missing values of a particular row with the average value of the equivalent variable from the row's K "most similar" neighbours. Similarity can be calculated using various distance metrics, for example Euclidean, Minkowski, and Manhattan distances. Equation \ref{eq:eucidean} shows the Euclidean distance between points x and y. The distance is calculated by taking the square root of the sum of the squared differences between the respective variables of each point \parencite{EuclideanDist}. 
 
 \vspace{10pt}
 
@@ -283,14 +427,39 @@ d(x,y)=\sqrt{(x_{1}-y_{1})^{2} + (x_{2}-y_{2})^{2} + ... + (x_{n}-y_{n})^{2}}
 
 \vspace{10pt}
 
-Before the KNN model was developed to replace the missing in the dataset, each variable was normalised and scaled. This was done for both categorical and numeric variables. The methods used to do this are explained in sub-section 3.3.1.\\
+Before the KNN model was developed to replace the missing values in the dataset, each variable was normalised and scaled. This was done for both categorical and numeric variables. The methods used to do this are explained in sub-section 3.3.1.\\
 
-After normalisation and scaling, the follow steps were completed in order to fill missing values for each loan in the dataset using the KNN approach: 
+After normalisation and scaling, the following steps were completed in order to fill missing values for each loan in the dataset using the KNN approach: 
 
 \begin{enumerate}
-    \item Set the number of nearest neighbours to be considered for each loan to 3. 
+    \item Set the number of nearest neighbours to be considered for each loan to 3 (arbitrary selection).
     \item Check if the loan had any missing values. If the loan did not have missing values move to the next loan, if it did then continue to the steps below. 
     \item Calculate the Euclidean distance between the loan under consideration and every other loan. 
     \item Identify the 3 closest loan applications based upon Euclidean distance. 
     \item Fill each missing value with the mean value of the respective variable taken from the loan's 3 nearest neighbours. 
 \end{enumerate}
+
+\subsection{Outlier Detection}
+
+Outlier detection involves identifying observations that have features that do not conform to the typical patterns of the features of other observations \parencite{Outlier1}. In this project, outliers are detected using the isolation forest algorithm, which is an unsupervised extension of the decision tree algorithm. The Isolation forest algorithm does not require distances or densities to be calculated between data points to identify outliers, which leads the algorithm to have a low computational cost \parencite{Outlier2}.  \\
+
+The isolation forest algorithm involves training a decision tree - in a unsupervised manner - by recursively splitting a dataset until each observation becomes terminal node on the tree. The depth of each observation - the number of iterations before it is isolated - within the tree is recorded. This process is repeated multiple times and the average depth for each observation is calculated. Observations with a very small tree depth - relative to the depth of the other observations in the dataset - are considered to be anomalies \parencite{Outlier2}. This principle can be viewed in Figure \ref{fig:isolation}. \\
+
+\vspace{10pt}
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.9\textwidth]{images/isolation_tree.jpg}
+\caption{Isolation Forest Principle}
+\label{fig:isolation}
+\parencite{Outlier1}
+\end{figure}
+
+\vspace{10pt}
+
+In the case of this project, loan applicants with features that greatly vary from the features of the other applicants are identified by training an isolation model. Applicants that are deemed as outliers - 2,627 of the total 62,935 - by the isolation forest model are then removed from the final dataset used to train the loan default prediction models. \\
+
+
+\section{Summary}
+
+Firstly, this chapter has detailed the data sources that are used in this project and how the data used is gathered. Secondly, the processed behind the feature generation techniques such as web scarping and regular expressions used in the project were displayed. Finally the chapter detailed the pre-processing techniques used prior to modelling and explained the reasons behind using each technique. The next chapter will detail the various modelling techniques used. 

@@ -30,7 +30,7 @@ Imbalanced classes are a common in many classification projects. They occur when
 
 In the case of this project, the cost of misclassifying an applicant that is likely to default on their loan outweighs the cost of misclassifying an applicant that is likely to repay their loan. If an applicant defaults on a loan the micro-finance company granting the loan loses the loan amount lent and the potential interest that would have been gained on the loan (minus any repayments made). While, if an applicant is simply not granted a loan then the company will only lose the potential interest that would have been gained in the applicant repaid their loan.  \\
 
-There are a variety of class balancing techniques that can be used in machine learning projects. The techniques can be broken down into two categories, algorithmic solutions and data level solutions. Algorithm solutions directly modify the the weight that each observation has on the loss function of the model being trained. While, data level solutions alter the dataset used to train models. Data level methods either involve over-sampling (copies of the minority class observations are generated) or under-sampling (only a certain percentage of the majority class observations are selected used to train the model) \parencite{Balancing1}. \\
+There are a variety of class balancing techniques that can be used in machine learning projects. The techniques can be broken down into two categories, algorithmic solutions and data level solutions. Algorithm solutions directly modify the the weight that each observation has on the loss function of the model being trained. While, data level solutions alter the dataset used to train models. Loss functions are used to evaluate the deviation between a model's predictions and the actual values in the data. Loss functions are minimised throughout training so that prediction error is decreased. Data level methods either involve over-sampling (copies of the minority class observations are generated) or under-sampling (only a certain percentage of the majority class observations are selected used to train the model) \parencite{Balancing1}. \\
 
 Class balancing is completed for each of the variable combinations (datasets) detailed in Section 4.1. However, balancing is only conducted after each dataset is separated into a training and a test set, with each training set containing 80\% of the total observations and each test set containing 20\% of the total observations. Balancing is only completed after performing a train/test split so that it is possible to test for the occurrence of over-fitting due to the balancing \parencite{Balancing2}. \\
 
@@ -302,19 +302,21 @@ Similarly to hyper-parameter tuning in random forest model, parameter tuning in 
 After hyper-parameter tuning the models are retained using the most optimal parameters and are then tested using a holdout set. After the XGBoost models are trained and tested, the same process is completed for the 7 neural network models developed.  
 
 
-\subsection{Neural Network}
+\subsection{Neural Networks}
 
-Artificial neural networks (NN's) consist of a network of interconnected processors termed neurons. Each neuron receives an input and processes it by passing it through its activation function. Input neurons receive raw input, while other neurons in the network receive a weighted input from previously activated neurons. The learning aspect of a neural network involves adjusting the weights of connections so that the network outputs the more desirable results. This process often involves minimising a loss function so that the predicted values produced by a network are as close to the true values of data points used to train the network \parencite{NNOverview}. \\ 
+Artificial neural networks (NN's) consist of a network of interconnected processors termed neurons. Each neuron receives an input and processes it by passing it through its activation function. Input neurons receive raw input, while other neurons in the network receive a weighted input from previously activated neurons. The learning aspect of a neural network involves adjusting the weights of connections so that the network outputs more desirable results. This process is carried out by back propagation and often involves minimising a loss function so that the predicted values produced by a network are as close as possible to the true values of data points used to train the network \parencite{NNOverview}. \\ 
 
 Neural networks have a variety of architectural structures. Recently recurrent neural network (RNN) architectures (networks that contain contain cyclic connections between neurons) such as long short-term memory networks have become prominent. These networks are well suited to modelling temporal or sequence behaviour \parencite{LSTM}. \\
 
-In the case of this project, no temporal or sequential behaviour is modelled and therefore an RNN architecture is not required. Multi-layer perceptrons (MLPs) have been proven to be effective architectures have used for binary classifications problems. MLPs are an example of feed-forward neural networks, which means that their neurons are connected in a one-directional fashion \parencite{MLP}. An example of a three layer MLP can be seen in Figure \ref{fig:MLP}.
+\textcite{DecTreesZekic} have shown that neural networks can be successfully applied to loan default prediction. While, \textcite{NNWest} explored the various architectures, activation functions, and loss functions that can be used when training a NN used for loan default prediction. \\
+
+In the case of the loan default prediction NNs developed throughout this project, no temporal or sequential behaviour is modelled and therefore an RNN architecture is not required. \textcite{NNWest} displayed that multi-layer perceptrons (MLPs) are effective models when used for loan default prediction. MLPs are an example of feed-forward neural networks, which means that their neurons are connected in a one-directional fashion \parencite{NNOverview}. An example of a three layer MLP can be seen in Figure \ref{fig:MLP}.
 
 \vspace{10 pt}
 
 \begin{figure}[!htb]
 \centering
-\includegraphics[width=0.75\textwidth]{images/MLP.png}
+\includegraphics[width=0.85\textwidth]{images/mlp.jpg}
 \caption{Architecture of a Multi-Layer Perceptron}
 \label{fig:MLP}
 \parencite{MLP}
@@ -322,5 +324,59 @@ In the case of this project, no temporal or sequential behaviour is modelled and
 
 \vspace{10 pt}
 
+The neurons on the left of the Figure represent the input layer, the central neurons form the hidden layer, while the neurons on the right represent the output layer. MLPs can have numerous hidden layers but always have only one input and output layer. The number of neurons in the input layer always matches the number of variables used in the model.  \parencite{MLP}. \\
 
-For the NN, no recurrent NN was used as they attempt to model time or sequence dependent behaviour. Which this case is not.  
+Each neuron in a neural network has an activation function. Activation functions map the weighted input a neuron receives to the output signal the same neuron produces. Activation functions can be linear or non-linear. They are often used to limit or smooth the output of a particular neuron. Activation functions commonly used in MLPs are sigmoid, hyperbolic tangent, radial bias, rectified linear unit (ReLU), and softmax \parencite{activation_functions}. \\
+
+
+Predictions in an MLP model are calculated using Equation \ref{eq:MLP}
+
+\vspace{10pt}
+
+\begin{equation} \label{eq:MLP}
+y_m = \sum_(i=1)^{n}(W_{ij} X{i}) - \theta_j     j = 1,2,...,h
+\end{equation}
+
+\vspace{10pt}
+
+Where $W_{ij}$ represents the weight connecting the i-th neuron to j-th-neuron, $\theta_j$ represents the bias of the j-th-neuron, and $X_i$ represents the input data to the i-th neuron \parencite{MLP}. \\
+
+In the case of the NNs developed throughout this project, the input layer of each NN developed contains the same number of neurons as the number optimal features identified during feature selection. While the output layer contains a single neuron with a sigmoid activation function. If the weight inputted into the final neuron is below a certain value then the applicant is deemed to be likely to default. The optimal cut-off value is learnt through back propagation. \\ 
+
+NNs, like the aforementioned models, have many hyper-parameters that need to be optimised. Again, this process is completed using a combination of grid-search and cross-validation. In the case of the NNs, the optimisation serves a two fold purpose. The first is to identify the parameters which result in the most accurate and generalizable model, while the second is to find the architecture which leads to the most accurate model and generalizable model. In the case of this project, the optimal number of hidden layers and  the optimal number of neurons in each hidden layer is determined using grid-search and cross-validation. 
+
+\subsubsection{Parameter Tuning}
+
+The hyper-parameters tuned for each NN model are as follows:
+
+\begin{itemize}
+    \item Learning rate, which determines how quickly a network updates its parameters. The smaller the learning the slower a model trains. A larger learning rate results in a model training faster but can result in weights not converging \parencite{NN_HP}. This principle is displayed in Figure \ref{fig:learning_rates}. 
+    
+    \vspace{10 pt}
+
+    \begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.32\textwidth]{images/learning_rate.jpg}
+    \caption{Varying Learning Rates}
+    \label{fig:learning_rates}
+    \parencite{learning_rate}
+    \end{figure}
+    
+    \vspace{10 pt}
+    
+    \item Dropout rate, which is the percentage of neurons that are randomly removed from the network during training. Dropout aims to prevent over-fitting and increase a model's generalizing power \parencite{learning_rate}. 
+    
+    \item The number of training iterations. The number of forward and back passes used to train the network \parencite{NN_HP}.
+    
+    \item The batch size, which is the number of training observations used in a forward/back training pass \parencite{NN_HP}. 
+    
+    \item The architecture of the network: the number of hidden layers in the network and the number of neurons in each hidden layer. 
+
+\end{itemize}
+
+ 
+\vspace{10 pt}
+
+Hyper-parameters that were set but not optimised were the loss function and the activation functions of the output neuron. A sigmoid cross-entropy loss function is used in the MLP models. This is not an arbitrary selection, the Python package used to developed the MLP models only supports this loss function for binary classification problems. As previously stated the activation function of the output neuron is set to a sigmoid function. \\
+
+After the hyper-parameters of each NN model are identified, each model is tested using a holdout set.

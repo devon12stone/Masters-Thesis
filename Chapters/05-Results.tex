@@ -249,19 +249,19 @@ SD, CB and ALD & 0.80 & 0.87 & 0.54 & 0.79 & 0.81    \\
 &\multicolumn{1}{|c|}{F1 Score}
 &\multicolumn{1}{|c|}{AUC}\\
 \hline
-SD & 0.81 & 0.82 & 0.81 & 0.82 & 0.83    \\
+SD & 0.83 & 0.82 & 0.84 & 0.83 & 0.91    \\
 \hline
-CB & 0.63 & 0.53 & 0.74 & 0.63 & 0.68    \\
+CB & 0.65 & 0.56 & 0.75 & 0.63 & 0.72    \\
 \hline
-ALD & 0.71 & 0.74 & 0.69 & 0.71 & 0.80    \\
+ALD & 0.80 & 0.79 & 0.81 & 0.80 & 0.88    \\
 \hline
-SD and CB & 0.83 & 0.83 & 0.83 & 0.83 & 0.88    \\
+SD and CB & 0.82 & 0.78 & 0.85 & 0.82 & 0.91    \\
 \hline
-SD and ALD & 0.85 & 0.86 & 0.85 & 0.85 & 0.92    \\
+SD and ALD & 0.91 & 0.89 & 0.93 & 0.91 & 0.96    \\
 \hline
-CB and ALD & 0.69 & 0.68 & 0.71 & 0.70 & 0.78    \\
+CB and ALD & 0.74 & 0.76 & 0.72 & 0.74 & 0.82    \\
 \hline
-SD, CB and ALD & 0.87 & 0.87 & 0.87 & 0.87 & 0.93    \\
+SD, CB and ALD & 0.90 & 0.93 & 0.92 & 0.91 & 0.98    \\
 \hline
 \end{tabular}
 \end{center}
@@ -282,24 +282,98 @@ SD, CB and ALD & 0.87 & 0.87 & 0.87 & 0.87 & 0.93    \\
 &\multicolumn{1}{|c|}{F1 Score}
 &\multicolumn{1}{|c|}{AUC}\\
 \hline
-SD & 0.71 & 0.81 & 0.37 & 0.70 & 0.60    \\
+SD & 0.71 & 0.81 & 0.38 & 0.72 & 0.62    \\
 \hline
-CB & 0.56 & 0.52 & 0.68 & 0.56 & 0.63    \\
+CB & 0.59 & 0.55 & 0.64 & 0.57 & 0.63    \\
 \hline
-ALD & 0.66 & 0.72 & 0.44 & 0.66 & 0.62    \\
+ALD & 0.69 & 0.78 & 0.40 & 0.69 & 0.63    \\
 \hline
-SD and CB & 0.73 & 0.83 & 0.39 & 0.73 & 0.66    \\
+SD and CB & 0.71 & 0.78 & 0.46 & 0.70 & 0.68    \\
 \hline
-SD and ALD & 0.79 & 0.86 & 0.53 & 0.78 & 0.80    \\
+SD and ALD & 0.82 & 0.86 & 0.66 & 0.81 & 0.85    \\
 \hline
-CB and ALD & 0.64 & 0.68 & 0.47 & 0.64 & 0.60    \\
+CB and ALD & 0.68 & 0.77 & 0.41 & 0.69 & 0.62    \\
 \hline
-SD, CB and ALD & 0.80 & 0.87 & 0.54 & 0.79 & 0.81    \\
+SD, CB and ALD & 0.84 & 0.88 & 0.68 & 0.82 & 0.86    \\
 \hline
 \end{tabular}
 \end{center}
 \caption{XGBoost Validation Performance}
 \label{table:xgb test}
+\end{table}
+
+\vspace{10pt}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Neural Networks}
+
+\vspace{10pt}
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|} 
+\hline
+\multicolumn{1}{|c|}{Dataset}
+&\multicolumn{1}{|c|}{Accuracy}
+&\multicolumn{1}{|c|}{Precision}
+&\multicolumn{1}{|c|}{Recall}
+&\multicolumn{1}{|c|}{F1 Score}
+&\multicolumn{1}{|c|}{AUC}\\
+\hline
+SD & 0.83 & 0.82 & 0.84 & 0.83 & 0.91    \\
+\hline
+CB & 0.65 & 0.56 & 0.75 & 0.63 & 0.72    \\
+\hline
+ALD & 0.80 & 0.79 & 0.81 & 0.80 & 0.88    \\
+\hline
+SD and CB & 0.82 & 0.78 & 0.85 & 0.82 & 0.91    \\
+\hline
+SD and ALD & 0.91 & 0.89 & 0.93 & 0.91 & 0.96    \\
+\hline
+CB and ALD & 0.74 & 0.76 & 0.72 & 0.74 & 0.82    \\
+\hline
+SD, CB and ALD & 0.90 & 0.93 & 0.92 & 0.91 & 0.98    \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Neural Network Training Performance}
+\label{table:NN training}
+\end{table}
+
+\vspace{10pt}
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|} 
+\hline
+\multicolumn{1}{|c|}{Dataset}
+&\multicolumn{1}{|c|}{Accuracy}
+&\multicolumn{1}{|c|}{Precision}
+&\multicolumn{1}{|c|}{Recall}
+&\multicolumn{1}{|c|}{F1 Score}
+&\multicolumn{1}{|c|}{AUC}\\
+\hline
+SD & 0.71 & 0.81 & 0.38 & 0.72 & 0.62    \\
+\hline
+CB & 0.59 & 0.55 & 0.64 & 0.57 & 0.63    \\
+\hline
+ALD & 0.69 & 0.78 & 0.40 & 0.69 & 0.63    \\
+\hline
+SD and CB & 0.71 & 0.78 & 0.46 & 0.70 & 0.68    \\
+\hline
+SD and ALD & 0.82 & 0.86 & 0.66 & 0.81 & 0.85    \\
+\hline
+CB and ALD & 0.68 & 0.77 & 0.41 & 0.69 & 0.62    \\
+\hline
+SD, CB and ALD & 0.84 & 0.88 & 0.68 & 0.82 & 0.86    \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Neural Network Validation Performance}
+\label{table:NN test}
 \end{table}
 
 \vspace{10pt}

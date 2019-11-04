@@ -399,7 +399,6 @@ Both data sources were used to generate a connected network between customers of
  
  The call data features extracted from the network were as follows: the number and duration of incoming, outgoing and undirected phone calls taking place during the day and night and on different days of the week were computed. Furthermore, exposure scores to defaulted clients were calculated for each customer of each network using Personalised PageRank (PR) and Spreading Activation (SPA). \\
  
- 
  The features listed above were combined with demographic and account data provided by the bank to build a credit scoring model for a sample of the bank's customers by \textcite{BigDataMicroFiance}. This sample included only 22,000 of the bank's 2 million customers. A logistic regression model, a decision tree model and a random forest model were developed for different feature samples. A sample was used that only contained sociodemographic (SD) features, another that only used credit based (CB) features, one that used both SD and CB features, one that used CB features and alternative features generated from the call data and network analysis, and finally one that used SD, CB, and alternative features generated from the call data and network analysis. The AUC of the different feature samples and models can be seen in Table \ref{table:alt}. 
 
 \vspace{10pt}
@@ -438,6 +437,8 @@ The AUC test devised by \textcite{AUC} was used by \textcite{BigDataMicroFiance}
 
 However, there was no statistical difference between the model that used  SD and CB features, the model produced using CB features and alternative features generated from the call data and network analysis, and the model produce using SD, CB, and alternative features. \newpage
 
-\section{Summary}
+\section{Summary of Literature}
 
-This chapter has detailed the origins of credit scoring, the various techniques used within developing loan default prediction models, and how loan default prediction models can be improved using alternative data sources. The next chapter will detail the data sources used to create the datasets used throughout this project, the feature creation techniques used in this project, and the pre-processing completed on the datasets developed for the project before they were used to train various models. 
+This chapter details the origins of credit scoring and how the field has progressed throughout time. The chapter then details the literature behind the popular techniques used to develop loan default prediction models, namely linear discriminant analysis, logistic regression, support vector machines, random forests, XGBoosting, and Neural networks. Then the chapter details the work done in terms of improving loan default prediction models using alternative data sources. \\
+
+The next chapter will summarise the data sources used to create the datasets used throughout this project, the feature creation techniques used in this project, and the pre-processing completed on the datasets developed for the project before they were used to train various models. 

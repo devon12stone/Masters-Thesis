@@ -460,6 +460,8 @@ The isolation forest algorithm involves training a decision tree - in a unsuperv
 In the case of this project, loan applicants with features that greatly vary from the features of the other applicants are identified by training an isolation model. Applicants that are deemed as outliers - 2,627 of the total 62,935 - by the isolation forest model are then removed from the final dataset used to train the loan default prediction models. \\
 
 
-\section{Summary}
+\section{Summary of Data Extraction and Preprocessing}
 
-Firstly, this chapter has detailed the data sources that are used in this project and how the data used is gathered. Secondly, the processed behind the feature generation techniques such as web scarping and regular expressions used in the project were displayed. Finally the chapter detailed the pre-processing techniques used prior to modelling and explained the reasons behind using each technique. The next chapter will detail the various modelling techniques used. 
+Firstly, this chapter details the three data sources that are used in this project, namely sociodemographic data provided by the Nigerian micro-fiance company that provide the loan data, Nigerian credit bureau data, and the alternative features developed through web-scraping and regular expressions. Finally, the chapter details the pre-processing techniques used prior to modelling, which includes handling missing values, scaling variables, and handling outlier observations. \\
+
+The next chapter details the 4 modelling techniques used throughout this project, namely logistic regression, random forest, XGBoost, and neural networks. Then the chapter discusses the the feature selection methods used and how the various models are tested.  

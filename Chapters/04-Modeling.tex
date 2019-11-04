@@ -1,11 +1,11 @@
 \chapter{Modelling Methods} 
 \label{Chapter4}
 
-After all features are created, missing values handled, and outliers removed, the next step in this project is to train the various loan default models. There are four modelling techniques used in this project, namely logistic regression, random forests, extreme gradient boosting and artificial neural networks. This chapter details the datasets used to train the various models, how the features used in each model are selected, and how the parameters of each model are tuned using grid search, and how each model is validated. \\
+After all features are created, missing values handled, and outliers removed, the next step in this project is to train the various loan default models. There are 4 modelling techniques used in this project, namely logistic regression, random forests, extreme gradient boosting and artificial neural networks. This chapter details the datasets used to train the various models, how the features used in each model are selected, and how the parameters of each model are tuned using grid search, and how each model is validated. \\
 
 \section{Datasets Used}
 
-The main focus of this project is to assess if alternative data improves loan default prediction models when it is used to augment traditional credit scoring data. A secondary aim of the project is to test if accurate loan default prediction models can be developed using the alternative data features developed throughout this project. These aims are tested by training models - belonging to each of the four mentioned techniques - on all possible combinations of the 3 data categories listed in Section 3.1. The possible combinations can be seen below: 
+The main focus of this project is to assess if alternative data improves loan default prediction models when it is used to augment traditional credit scoring data. A secondary aim of the project is to test if accurate loan default prediction models can be developed using the alternative data features developed throughout this project. These aims are tested by training models - belonging to each of the 4 mentioned techniques - on all possible combinations of the 3 data categories listed in Section 3.1. The possible combinations can be seen below: 
 
 \vspace{10pt}
 
@@ -21,8 +21,7 @@ The main focus of this project is to assess if alternative data improves loan de
 
 \vspace{10pt}
 
-For each data category combination, the same dataset is used to train a model belonging to each of the 4 techniques mentioned. This means a total of 
-28 models are trained. Every dataset created contains the same 60,308 loans/applicants. The number of applicants that repaid and defaulted on their loans are 47,960 and 12,714 respectively. To avoid introducing a bias towards the majority class (repaid clients) in the loan default prediction models, the classes need to be balanced before training the various models. 
+For each data category combination, the same dataset is used to train a model belonging to each of the 4 techniques mentioned. This means a total of twenty eight models are trained. Every dataset created contains the same 60,308 loans/applicants. The number of applicants that repaid and defaulted on their loans are 47,960 and 12,714 respectively. To avoid introducing a bias towards the majority class (repaid clients) in the loan default prediction models, the classes need to be balanced before training the various models. 
 
 \section{Class Balancing}
 
@@ -310,7 +309,7 @@ Neural networks have a variety of architectural structures. Recently recurrent n
 
 \textcite{DecTreesZekic} have shown that neural networks can be successfully applied to loan default prediction. While, \textcite{NNWest} explored the various architectures, activation functions, and loss functions that can be used when training a NN used for loan default prediction. \\
 
-In the case of the loan default prediction NNs developed throughout this project, no temporal or sequential behaviour is modelled and therefore an RNN architecture is not required. \textcite{NNWest} displayed that multi-layer perceptrons (MLPs) are effective models when used for loan default prediction. MLPs are an example of feed-forward neural networks, which means that their neurons are connected in a one-directional fashion \parencite{NNOverview}. An example of a three layer MLP can be seen in Figure \ref{fig:MLP}.
+In the case of the loan default prediction NNs developed throughout this project, no temporal or sequential behaviour is modelled and therefore an RNN architecture is not required. \textcite{NNWest} displayed that multi-layer perceptrons (MLPs) are effective models when used for loan default prediction. MLPs are an example of feed-forward neural networks, which means that their neurons are connected in a one-directional fashion \parencite{NNOverview}. An example of a 3 layer MLP can be seen in Figure \ref{fig:MLP}.
 
 \vspace{10 pt}
 
@@ -379,4 +378,79 @@ The hyper-parameters tuned for each NN model are as follows:
 
 Hyper-parameters that were set but not optimised were the loss function and the activation functions of the output neuron. A sigmoid cross-entropy loss function is used in the MLP models. This is not an arbitrary selection, the Python package used to developed the MLP models only supports this loss function for binary classification problems. As previously stated the activation function of the output neuron is set to a sigmoid function. \\
 
-After the hyper-parameters of each NN model are identified, each model is tested using a holdout set.
+After the hyper-parameters of each NN model are identified, each model is tested using a holdout set. The next step in the methodology is to assess the performance of the models developed and test for statistical difference between the performance of the various techniques and datasets used. \\
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Comparing Feature Combinations and Modelling Techniques}
+
+After all twenty eight models are developed the aims of the project need to be addressed.The first is to test if alternative data improves loan default prediction models. The second is to assess if accurate loan default prediction models can be developed using only the alternative features used throughout this project. The third and final question to be answered is which machine learning technique is most suited for loan default prediction. \\
+
+\subsection{Comparing Feature Combinations}
+
+The first aim involves comparing models that were trained on different datasets. It does not involve comparing different modelling techniques, but rather comparing if adding features of a particular type improved a model. This - like the second aim - can be answered by assessing performance indicators of the models. The training indicators of the models are validated using 5-fold cross validation, while the test indicators for each model are produced from an independent holdout set. \\
+
+The second aim only considers the models that are trained and tested using only alternative features. Model performance is assessed by considering each model's overall prediction accuracy, their ability to predict loans that were repaid (repaid accuracy), their ability to predict loans that were defaulted (default accuracy), their F1 score, and their AUC. \\
+
+F1 score is an accuracy measure for binary classifiers that considers both recall and precision. The closer the F1 score of a model is to 1, the better it is at identifying positive cases as positive cases and negative cases as negative cases \parencite{f1}. In the case of this project, the positive class consists of loans that were not repaid while the negative class consists of loans that were repaid. Recall is the ratio between the number of predicted positive cases and the total number of actual positive cases. Precision is the ratio between the number predicted true positive cases that are actual true cases and the total number of predicted true cases \parencite{f1}. Recall and precision can be visually understood using the binary classification matrix shown in Figure \ref{fig:matrix}. 
+
+\vspace{10 pt}
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.75\textwidth]{images/f1_matrix.jpeg}
+\caption{Binary Classification Matrix}
+\label{fig:matrix}
+\parencite{f1_image}
+\end{figure}
+
+\vspace{10 pt}
+
+Recall and precision are calculated as shown in Equations \ref{eqn:recall} and \ref{eqn:precision} respectively. The two measures are then combined as shown in Equation \ref{eqn:f1} to calculated f1 score. 
+
+\vspace{10pt}
+
+\begin{equation} \label{eqn:recall}
+recall = \dfrac{True Positive}{True Positive + False Negative}
+\end{equation}
+
+\vspace{10pt}
+
+\begin{equation} \label{eqn:precision}
+precision = \dfrac{True Positive}{True Positive + False Positive}
+\end{equation}
+
+\vspace{10pt}
+
+\begin{equation} \label{eqn:f1}
+f1 = 2 * \dfrac{precision * recall}{precision + recall}
+\end{equation}
+
+\vspace{10pt}
+
+AUC is the area under the receiver operating characteristic curve, which is a plot of the true positive and true negative rates of a model at various thresholds. The higher the AUC, the better a model is at disguising the two classes of a binary classification problem. An AUC measure lies between 0 and 1 \parencite{f1}. \\
+
+
+\subsection{Comparing Modelling Techniques}
+
+The various techniques used throughout this project are compared using McNemar's Chi Square test, which has been shown to be the most powerful test of statistically significant differences between supervised learning models \parencite{Test}. This technique was used by \textcite{NNWest} when comparing various neural network architectures.  \\
+
+The test involves training two algorithms on the same training dataset (each technique was trained on the same dataset for each of the data category combinations). The algorithms are then tested on the same holdout set (again, this was done for each technique for each of the data category combinations). If we call one algorithm A and the other B then the test has a null hypothesis that assumes that the number of observations misclassified by A but not by B will equal the the number of observations misclassified by B but not by A. The test's statistic is calculated as shown in Equation \ref{eq:McNemar} \parencite{Test}.
+
+
+\vspace{10pt}
+
+\begin{equation} \label{eq:McNemar}
+\dfrac{(|n_{01}-n_{10}|-1)^2}{n_{01}+n_{10}}
+\end{equation}
+
+\vspace{10pt}
+
+It is assumed that the statistic follows a Chi Squared distribution with 1 degree of freedom. If the statistic in Equation \ref{eq:McNemar} is greater than 3.841459 then the null hypothesis is rejected, and the algorithms are deemed to perform significantly different \parencite{Test}. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Summary of Modelling Techniques}
+
+This chapter summarises the 7 data category combinations and the 4 modelling techniques that are used in this project. The feature selection process completed is then detailed, followed by a breakdown of each modelling technique and the hyper-parameters tuned during the training of each model. Finally the chapters details the testing techniques used in this project. The next chapter displays the modelling and testing results, and contains the discussion of the results. 

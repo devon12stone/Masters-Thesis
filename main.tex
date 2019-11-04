@@ -147,6 +147,12 @@ fleqn
 \begin{abstract}
 \addchaptertocentry{\abstractname} % Add the abstract to the table of %contents
 
+Despite recent developments financial inclusion remains a large issue for the World's unbanked population. Financial institutions - both larger corporations and micro-finance companies - have begun to provide solutions for financial inclusion. The solutions are delivered using a combination of machine learning and alternative data. \\
+
+This minor dissertation focuses on investigating whether alternative features generated from Short Messaging Service (SMS) data and Android application data contained on borrowers' devices can be used to improve the performance of loan default prediction models. The improvement gained by using alternative features is measured by comparing loan default prediction models trained using only traditional credit scoring data to models developed using a combination of traditional and alternative features. Furthermore, the paper investigates which of 4 machine learning techniques is best suited for loan default prediction. The 4 techniques investigated are logistic regression, random forests, extreme gradient boosting, and neural networks. Finally the paper identifies whether or not accurate loan default prediction models can be trained using only the alternative features developed throughout this minor dissertation. \\
+
+The results of the research show that alternative features improve the performance of loan default prediction across 5 performance indicators, namely overall prediction accuracy, repaid prediction accuracy, default prediction accuracy, F1 score, and AUC. Furthermore, extreme gradient boosting is identified as the optimal technique for loan default prediction. Finally, the research identifies that models trained using the alternative features developed throughout this project can accurately predict loan that have been repaid, the models do not accurately predict loans that have not been repaid.   
+
 
 \end{abstract}
 
@@ -156,7 +162,7 @@ fleqn
 
 \begin{acknowledgements}
 \addchaptertocentry{\acknowledgementname} % Add the acknowledgements to the table of contents
-
+My deepest thanks are extended to my supervisor, Mr Stefan Britz, for his guidance and insights throughout this project. I would like to thank my family for their constant support. Finally, to my friend James Leslie, thank you for your input and support throughout the project.  
 \end{acknowledgements}
 
 %----------------------------------------------------------------------------------------
@@ -191,7 +197,7 @@ fleqn
 \textbf{KNN} & \textbf{K}- \textbf{N}earest \textbf{N}eighbours\\
 \textbf{REF} & \textbf{R}ecursive \textbf{F}eature \textbf{E}limination\\
 \textbf{XGBoost} & \textbf{X}treme \textbf{G}radient \textbf{B}oosting\\
-\textbf{MLP} \textbf{M}ulti \textbf{L}ayer \textbf{P}erceptron\\
+\textbf{MLP} & \textbf{M}ulti \textbf{L}ayer \textbf{P}erceptron\\
 \textbf{ReLU} & \textbf{R}ectified \textbf{L}inear \textbf{U}nit\\
 
 
@@ -238,10 +244,11 @@ fleqn
 % Uncomment the lines as you write the chapters
 
 \include{Chapters/01-Intro}
-\include{Chapters/02-Literature}
-\include{Chapters/03-Data}
-\include{Chapters/04-Modeling}
-\include{Chapters/05-Results}
+%\include{Chapters/02-Literature}
+%\include{Chapters/03-Data}
+%\include{Chapters/04-Modeling}
+%\include{Chapters/05-Results}
+\include{Chapters/06-Conclusion}
 
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
@@ -259,6 +266,6 @@ fleqn
 
 \appendix % Cue to tell LaTeX that the following "chapters" are Appendices
 
-\include{Appendices/AppendixA}
+% \include{Appendices/AppendixA}
 
 \end{document}  

@@ -10,7 +10,7 @@ More than 1.7 billion adults around the world do not have access to basic financ
 
 The recently banked population does not have a financial history and are required to develop their financial history with an institution before they can be deemed creditworthy. This can often be a time-consuming process and can cause financial strain. This problem most occurs within the recently banked population in developing countries. However, the issue does relate to young adults entering the financial market within developed countries. \\
 
-Micro-Finance companies and larger corporate institutions are starting to provide solutions to this issue. The solution is being derived through the use of alternative data in conjunction with machine learning algorithms. Alternative data - which includes data sourced from an individuals personal cellular device and their social media - is being used to develop the models that drive credit scoring systems which grant or deny credit to consumers \parencite{BigDataMicroFiance}. 
+Micro-Finance companies and larger corporate institutions are starting to provide solutions to this issue. The solution is being derived through the use of alternative data in conjunction with machine learning algorithms. Alternative data - which includes data sourced from an individuals personal cellular device such as call and sms data, contact information, social media and other application data etc - is being used to develop the models that drive credit scoring systems, which grant or deny credit to consumers \parencite{BigDataMicroFiance}. 
 
 %---------------------------------------------------------------------------------------
 %	SECTION 2
@@ -30,7 +30,7 @@ Credit scoring is one of the oldest applications of data analytics \parencite{In
 
 Since the rise of big data and machine learning, financial institutions have been able to train and use non-parametric models such as decision trees, support vector machines and neural networks to drive their credit decision systems \parencite{IntroToCreditModelling}. \\
 
-The use of modern machine learning algorithms within credit scoring systems has not been fully supported within the financial industry. Machine learning algorithms are often complex and the predictions they produce can be difficult to explain. \\
+The use of modern machine learning algorithms within credit scoring systems has not been fully supported within the financial industry. Machine learning algorithms are often complex and the predictions they produce can be difficult to explain.  \\
 
 Beyond their complexity, modern machine learning models dynamically evolve and are required to be regularly retrained on different data flows. Tracing the evolution of machine learning models and the data flows they are retrained on poses major issues for financial regulators \parencite{Regulation}. \\
 
@@ -40,25 +40,43 @@ Beyond their complexity, modern machine learning models dynamically evolve and a
 
 \section{Aims of Research}
 
-Despite recent advancements in the use of alternative data in credit granting models \parencite{BigDataMicroFiance}, the research has been limited to using contact data on potential borrowers' cellular device and network analysis techniques. This minor dissertation (m.d.) assesses the impact of using features generated from Short Messaging Service (SMS) data (only messages received from banking intuitions) and Android application data on borrowers' devices in loan default prediction modelling. The loans considered throughout this project were granted by a Nigerian micro-finance to Nigerian loan applicants. \\
+Despite recent advancements in the use of alternative data in credit granting models, the issue is still widely felt \parencite{BigDataMicroFiance}. Research into a solution is limited and has been mainly focused on using contact data on potential borrowers' cellular device and network analysis techniques. \\
 
-Furthermore, the research investigates the benefits of using alternative data sources in terms of financial inclusion within third world countries. The research investigates whether there is a significant increase in model performance when traditional credit data sources, such as sociodemographic and credit bureau data, are augmented with alternative data sources.  \\
+This minor dissertation (m.d.) - using data provided by a Nigerian micro-finance company and the Nigerian credit bureaus - seeks to address the following aims:  
 
-Finally, the research investigates the performance of four machine learning techniques when used in credit scoring. Namely; logistic regression, random forest, extreme gradient boosting, and a multi-perceptron neural network. 
+\begin{itemize}
+    \item Assess if augmenting sociodemographic and credit bureau data with the alternative features used in this project improves the overall performance of loan default prediction models.
+    \item Determine if the alternative features used through this dissertation can be used to train accurate loan default prediction models. 
+    \item Identify the optimal technique for developing loan default prediction models out of logistic regression, random forests, extreme gradient boosting, and a multi-perceptron neural networks. 
+\end{itemize}
+    
 
 %---------------------------------------------------------------------------------------
 %	SECTION 4
 %---------------------------------------------------------------------------------------
+
+\section{Scope of Project}
+
+Only first time loan applicants that had existing Nigerian credit bureau data were considered for this project. The applicants were required to have a credit history in order to measure the impact of augmenting sociodemographic and credit bureau data with alternative data. The models developed only using alternative feature aim to provide an indication as to how well the models would perform on the unbanked population. However, the impacts on financial inclusion are not measured. \\
+
+The regulatory and financial implications of each data category and modelling technique used throughout this project are not investigated. The project only investigates the modelling performance of each technique across the various datasets containing all combinations of the various data categories. \\
+
+The alternative features used throughout this project are generated generated from Short Messaging Service (SMS) data (only messages received from banking intuitions) and Android application data on borrowers' devices. Contact data or other data types on borrowers' devices are not considered. \\
+
+%---------------------------------------------------------------------------------------
+%	SECTION 5
+%---------------------------------------------------------------------------------------
+
 \section{Layout of the Paper}
 
 Chapter \ref{Chapter2} presents a review of literature related to assigning first-time loan customers with a credit score and how a credit score relates to loan default prediction. Particular attention is given to the modelling techniques that have been used to drive credit scoring, and how those techniques have developed over time. Finally the chapter explores the various alternative data sources used in credit scoring and the techniques applied to make use of the sources. \\
 
-Chapter \ref{Chapter3} presents the data wrangling, data processing and feature engineering completed in order to generate the training and testing sets used to develop the models produced for this m.d. The chapter thoroughly outlines the various processes taken to generate the alternative features. \\
+First, Chapter \ref{Chapter3} details the data sources used throughout this project. Secondly, it summarises the data wrangling and feature engineering processes completed to generate the alternative features created during this m.d. Chapter \ref{Chapter3} then details the preprocessing techniques used to created handle missing values, scale the variables, and handle outliers contained within the data used to train and test the models developed throughout this project. \\
 
-Chapter \ref{Chapter4} displays and describes the various models developed. The chapter further describes the techniques behind each model and the feature sets used to train and test each model. \\
+Chapter \ref{Chapter4} summarises the various datasets - and the data categories contained in each dataset - that are used to train the loan default prediction models of this project. The chapter further details the feature selection process for each dataset. Then, the various techniques used to train the loan default prediction models are detailed, which includes the hyper-parameters that are tuned for each technique. Finally, the measures used to test whether the alternative features improved model performance and the test used to compare modelling techniques are detailed.  \\
 
-Chapter \ref{Chapter5} displays the results of each model developed and highlights the significant differences between each technique and  feature set used. \\
+The results chapter of this project - Chapter \ref{Chapter5} - displays the results of the feature selection process completed for each dataset. The chapter then displays the performance of each modelling technique across each dataset. Finally, the chapter summarises the findings of the research. \\
 
-Chapter \ref{Chapter6} presents the findings and conclusions of the project. 
+The concluding chapter of this project - Chapter \ref{Chapter6} - presents the findings and conclusions of the project and indicates how the research conducted could be furthered.  
 
 

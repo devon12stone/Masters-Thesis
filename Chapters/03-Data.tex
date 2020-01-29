@@ -12,7 +12,7 @@ This chapter details the data sources used to train the various loan default pre
 
 The models in this project are trained using data from two main sources \\
 
-The first data provider is a Nigerian micro-finance institution that has disbursed loans to more than 250,000 consumers. The institution is an application-based lender and currently only provides credit to android users. The institution, with its customers' consent, gains access to the data on customers' devices. This data includes SMS data, contact data and location data. On top of the alternative data collected, sociodemographic data is collected via customer input on the institution's mobile application or app, as it is colloquially referred to. \\
+The first data provider is a Nigerian micro-finance institution that has disbursed loans to more than 250,000 consumers. The institution is an application (app) based lender and currently only provides credit to android users. The institution, with its customers' consent, gains access to the data on customers' devices. This data includes SMS data, contact data and location data. On top of the alternative data collected, sociodemographic data is collected via customer input on the institution's mobile app. \\
 
 The second source of data for this project was the Nigerian credit bureaus CRC, CRS and XDS. It is mandatory for credit providing institutions in Nigeria to submit their customers' credit performance data to these credit bureaus.
 
@@ -22,7 +22,7 @@ It is key to note that no personal data - data that relates to an individual or 
 
 \subsection{Dataset}
 
-A final dataset was created for first time loan customers of the micro-finance institution that had existing credit bureau data prior to their first application. The customers required existing credit data as it was needed in order to compare the performance of first time credit credit scoring models that use only alternative data or alternative data in conjunction with sociodemographic data, against first time credit scoring models that make use of existing credit data. The final dataset consisted of 62,935 customers/loans. 
+A final dataset was created for first time loan customers of the micro-finance institution that had existing credit bureau data prior to their first loan application. The customers required existing credit data as it was needed in order to compare the performance of first time credit credit scoring models that use only alternative data or alternative data in conjunction with sociodemographic data, against first time credit scoring models that make use of existing credit data. The final dataset consisted of 62,935 customers/loans. \newpage
 
 \subsection{Data Categories}
 
@@ -30,7 +30,7 @@ Three major data categories can be drawn from the data sources. These categories
 
 \subsection{Variables Used}
 
-Table \ref{table:variables} in the appendix attached to this report, displays all variables used in the loan default prediction models. All sociodemographic variables used are stated by the loan applicants. The application, device ,and SMS related variables are scraped from applicants' devices. While, the credit bureau related variables are provided by the Nigerian credit bureaus. \\
+Table \ref{table:variables}, which can be found in the appendix attached to this report, displays all variables used to train the loan default prediction models. All sociodemographic variables used are stated by the loan applicants. The variables derived from app and SMS data are scraped from the loan applicants' devices. The variables relating to each applicant's credit history are provided by the Nigerian credit bureaus. \\
 
 The following figures display the traits of specific independent variables used in the models of this project. The figures show the relationship between the independent variables and the dependent variable (whether a loanee repaid their loan).  
 
@@ -42,7 +42,7 @@ Figure \ref{fig:defaulted} displays the breakdown of the first time loans used t
 
 \begin{figure}[!htb]
 \centering
-\includegraphics[width=0.55\textwidth]{images/payments.png}
+\includegraphics[width=0.45\textwidth]{images/payments.png}
 \caption{Repaid vs Defaulted}
 \label{fig:defaulted}
 \end{figure}
@@ -144,21 +144,21 @@ The more traditional credit scoring features, developed from sociodemographic an
 
 The query was written in a manner that ensured that no data leakage would occur when the credit scoring models were being trained. This means that only data that would be known at the point in time when a particular client applied for their loan could be used to develop features. The only case where data was used that would not be known at the point in time of application was repayment data, as this was used to develop the default (whether the client repaid their loan or not) target variable. \\
 
-The overall query used to extract the sociodemographic and credit bureau data for each loan was a collection of sub-queries joined on a unique key attached to each loan. The query used to extract the credit bureau required an aggregation in order to generate features that represented the total number of loans each client had prior to their application with the micro-finance institution used in this study. The credit bureau features used in the modelling process and their definitions can be found in the appendix of this paper.
+The overall query used to extract the sociodemographic and credit bureau data for each loan was a collection of sub-queries joined on a unique key attached to each loan. The query used to extract the credit bureau required an aggregation in order to generate features that represented the total number of loans each client had prior to their loan application with the micro-finance institution used in this study. The credit bureau features used in the modelling process and their definitions can be found in the appendix of this paper.
 
 \subsection{Alternative Data}
 
-The three main sources of alternative data used to develop features are the application, SMS, and device data stored on each customers' cellphone. The data is extracted from one of the micro-finance institution's  databases using PyMongo, a Python package that allows a user to query data from a Mongo database from within a Python script. \newpage
+The three main sources of alternative data used to develop features are the app-based, SMS, and device data stored on each customers' cellphone. The data is extracted from one of the micro-finance institution's  databases using PyMongo, a Python package that allows a user to query data from a Mongo database from within a Python script. \newpage
 
-The application and SMS data is extracted from a different Mongo databases, however regular expressions (regex) are used to filter both data types and to develop features. Regex functions are sets of sequences of characters that define a particular search pattern. The functions are then used to identify cases of the defined pattern in strings \parencite{Regex}. \\
+The app-based and SMS data is extracted from a different Mongo databases, however regular expressions (regex) are used to filter both data types and to develop features. Regex functions are sets of sequences of characters that define a particular search pattern. The functions are then used to identify cases of the defined pattern in strings \parencite{Regex}. \\
 
-The device data is extracted from a separate database than the application and SMS data and an entirely different technique is used to collect the data. The technique used in this case is web scraping, which is a method of extracting data from websites \parencite{WebScraping}. 
+The device data is extracted from a separate database than the app and SMS data and an entirely different technique is used to collect the data. The technique used in this case is web scraping, which is a method of extracting data from websites \parencite{WebScraping}. 
 
-\subsubsection{Application-Based Features}
+\subsubsection{App-Based Features}
 
-The application-based features engineered for this project are counts of particular applications present on a client's device at the point in time of their application. The features included a count of the financial, competing micro-finance, news, gambling and virtual private network (VPN) applications. The counts are generated by first compiling a list of all unique applications on a client's device. Then the name of each application is passed through a series of regular expression key word searches. Each expression is designed to detect a specific application type. If a particular application type search results in a match, the count associated with that search is updated. \\
+The app-based features engineered for this project are counts of particular apps present on a client's device at the point in time of their loan application. The features included a count of the financial, competing micro-finance, news, gambling and virtual private network (VPN) apps. The counts are generated by first compiling a list of all unique apps on a client's device. Then the name of each app is passed through a series of regular expression key word searches. Each expression is designed to detect a specific app type. If a particular app type search results in a match, the count associated with that search is updated. \\
 
-The process developed to pass an application through the application extracting regular expressions and how the count features are generated throughout this process is represented in Figure \ref{fig:app_features}. The process is completed for every unique application recorded on the client's device. 
+The process developed to pass an app through the app extracting regular expressions and how the count features are generated throughout this process is represented in Figure \ref{fig:app_features}. The process is completed for every unique app recorded on the client's device. 
 
 
 \vspace{10 pt}
@@ -166,7 +166,7 @@ The process developed to pass an application through the application extracting 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=0.9\textwidth]{images/app_feats.png}
-\caption{Application-Based Feature Generation}
+\caption{App-Based Feature Generation}
 \label{fig:app_features}
 \end{figure}
 
@@ -174,7 +174,7 @@ The process developed to pass an application through the application extracting 
 
 \subsubsection{SMS-Based Features}
 
-The SMS data consists of messages received by the clients in the 90 days prior to their application: by nature this data is more sensitive than the other data used throughout this research. Similar to the process developed to generate the application-based features, each message received by a client is compiled into a list. Each individual message in their list is then passed through a series of regular expressions in order to generate features.  \\
+The SMS data consists of messages received by the clients in the 90 days prior to their loan application: by nature this data is more sensitive than the other data used throughout this research. Similar to the process developed to generate the app-based features, each message received by a client is compiled into a list. Each individual message in their list is then passed through a series of regular expressions in order to generate features.  \\
 
 In order to avoid exposing personal messages, each message was passed through two filtering regular expressions. The first expression returned only messages received from Nigerian banks, while the second ensured that only messages returned by competitor micro-finance institutions were returned. The regular expressions had a dual purpose: they prevented exposure to sensitive content and they acted as the first step in the SMS-based feature generation process. \\
 
@@ -197,7 +197,7 @@ The banking related features generated were:
 
 \vspace{10pt}
 
-The process of passing an SMS through the bank related regular expressions and how the banking features are generated throughout that process is represented in Figure \ref{fig:bank_features}. The process is completed for every message received by a client within the 90-day period prior to their application. 
+The process of passing an SMS through the bank related regular expressions and how the banking features are generated throughout that process is represented in Figure \ref{fig:bank_features}. The process is completed for every message received by a client within the 90-day period prior to their loan application. 
 
 \vspace{10pt}
 
@@ -293,14 +293,14 @@ The above transformation was done for every populated value of each variable in 
 
 The categorical variables contained in the dataset of this project were encoded using weight of evidence (WoE) encoding. This is a common approach for handling categorical variables within the credit risk and financial industries \parencite{WOE}. WoE encoding scales the levels of a categorical predictor variables based on their relationship with the target variable. In terms of loan default prediction models, WoE scales the levels of each categorical variable with respect to loan default \parencite{WOE}. \\
 
-Another attribute of WoE encoding is that it handles missing values for categorical variables. In the case of the loan default prediction models, missing values are consider to be missing not at random, this is because applicants may purposefully withhold information on their loan applications in order to increase their chance of having a successful loan. This is further explained in sub-section 3.3.2. WoE encoding places missing values into a category and assigns a scaled value to them. \\
+WoE encoding handles missing values for categorical variables. In the case of the default prediction models, missing values are consider to be missing not at random, this is because applicants may withhold information while completing loan applications to increase their chance of being granted a loan. This is further explained in sub-section 3.3.2. WoE encoding places missing values into a category and assigns a scaled value to them. \\
 
 The method for calculating the WoE of each level is shown in Equation \ref{eqn:woe}, where probability of repaid (POR) and probability of defaulted (POD) are the proportion of customers per level that repaid and defaulted respectively. 
 
 \vspace{10pt}
 
 \begin{equation}\label{eqn:woe}
-    WoE = \ln{(\dfrac{POR}{POD})}
+    WoE = \ln{\left(\dfrac{POR}{POD}\right)}
 \end{equation}
 
 \vspace{10pt}
@@ -343,7 +343,7 @@ The loan repayment data used in this minor dissertation is complete. Only loanee
 
 \subsubsection{Predictor Variables}
 
-The features used to predict repayment do contain missing values. The missing values need to either be removed or imputed. Firstly, the percent of missing values per predictor variable is assessed to ensure that no more than 50 percent of the values within each variable are missing. This is also done for each row (customer/loan). No more than 50 percent of the values contained in a variable or in a particular row were missing. \\
+The features used to predict repayment do contain missing values. The missing values need to either be removed or imputed. Firstly, the percent of missing values per predictor variable is assessed to ensure that no more than 50 percent of the values within each variable are missing. This is also done for each row (customer/loan). No more than 50 percent of the values contained in a variable or in a particular row were missing. \newpage
 
 Figure \ref{fig:nullity} displays a nullity correlation heat-map of the variables within the dataset used throughout this project. A nullity correlation between two variables ranges from -1 to 1. A value of -1 indicates that if the one variable appears then the other will definitely not appear. A value of 0 indicates that the  appearance of the one variable does not influence the appearance of the other variable. A value of 1 indicates that the one variable is always present when the other one is \parencite{nullity}.  \\
 
@@ -441,9 +441,11 @@ After normalisation and scaling, the following steps were completed in order to 
 
 \subsection{Outlier Detection}
 
-Outlier detection involves identifying observations that have features that do not conform to the typical patterns of the features of other observations \parencite{Outlier1}. In this project, outliers are detected using the isolation forest algorithm, which is an unsupervised extension of the decision tree algorithm. The Isolation forest algorithm does not require distances or densities to be calculated between data points to identify outliers, which leads the algorithm to have a low computational cost \parencite{Outlier2}.  \\
+Outlier detection involves identifying observations that have features that do not conform to the typical patterns of the features of other observations \parencite{Outlier1}. In this project, outliers are detected using the isolation forest algorithm, which is an unsupervised extension of the decision tree algorithm. The isolation forest algorithm does not require distances or densities to be calculated between data points to identify outliers, which leads the algorithm to have a low computational cost \parencite{Outlier2}.  \\
 
-The isolation forest algorithm involves training a decision tree - in a unsupervised manner - by recursively splitting a dataset until each observation becomes terminal node on the tree. The depth of each observation - the number of iterations before it is isolated - within the tree is recorded. This process is repeated multiple times and the average depth for each observation is calculated. Observations with a very small tree depth - relative to the depth of the other observations in the dataset - are considered to be anomalies \parencite{Outlier2}. This principle can be viewed in Figure \ref{fig:isolation}. \\
+The isolation forest algorithm involves training a decision tree - in a unsupervised manner - by recursively splitting a dataset until each observation becomes terminal node on the tree. This process is displayed in Figure \ref{fig:isolation}. We can see from the figure that the furthest right observation was isolated after only two splits. While, the highlighted observation towards the bottom of the diagram passed through 5 feature splits before becoming isolated. \\
+
+The depth of each observation - the number of iterations before it is isolated  is recorded. This process is repeated multiple times and the average depth for each observation is calculated. Observations with a very small tree depth - relative to the depth of the other observations in the dataset - are considered to be anomalies \parencite{Outlier2}. \\
 
 \vspace{10pt}
 
@@ -455,13 +457,12 @@ The isolation forest algorithm involves training a decision tree - in a unsuperv
 \parencite{Outlier1}
 \end{figure}
 
-\vspace{10pt}
 
-In the case of this project, loan applicants with features that greatly vary from the features of the other applicants are identified by training an isolation model. Applicants that are deemed as outliers - 2,627 of the total 62,935 - by the isolation forest model are then removed from the final dataset used to train the loan default prediction models. \\
+In the case of this project, loan applicants with features that greatly vary from the features of the other applicants are identified by training an isolation model. Applicants that are deemed as outliers - 2,261 of the total 62,935 - by the isolation forest model are removed from the final dataset used to train the loan default prediction models. A default contamination ratio (suspected ratio of outliers in the dataset) of 0.1 is used to remove the outliers. The default ratio is used as no expected ratio could be attained. \\
 
 
 \section{Summary of Data Extraction and Preprocessing}
 
 Firstly, this chapter details the three data sources that are used in this project, namely sociodemographic data provided by the Nigerian micro-fiance company that provide the loan data, Nigerian credit bureau data, and the alternative features developed through web-scraping and regular expressions. Finally, the chapter details the pre-processing techniques used prior to modelling, which includes handling missing values, scaling variables, and handling outlier observations. \\
 
-The next chapter details the 4 modelling techniques used throughout this project, namely logistic regression, random forest, XGBoost, and neural networks. Then the chapter discusses the the feature selection methods used and how the various models are tested.  
+The next chapter details the 4 modelling techniques used throughout this project, namely logistic regression, random forest, XGBoost, and neural networks. Finally, the chapter discusses the feature selection methods used and how the various models are tested.  

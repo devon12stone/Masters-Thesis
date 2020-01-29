@@ -60,7 +60,7 @@ fleqn
 %	THESIS INFORMATION
 %----------------------------------------------------------------------------------------
 
-\thesistitle{Using Alternative Data in Micro-Finance Loan Default Prediction Models} % Your thesis title, this is used in the title and abstract, print it elsewhere with \ttitle
+\thesistitle{An Exploration of Alternative Features in Micro-Finance Loan Default Prediction Models} % Your thesis title, this is used in the title and abstract, print it elsewhere with \ttitle
 \supervisor{Mr S \textsc{Britz}} % Your supervisor's name, this is used in the title page, print it elsewhere with \supname
 \examiner{} % Your examiner's name, this is not currently used anywhere in the template, print it elsewhere with \examname
 \degree{Masters of Science in Data Science} % Your degree name, this is used in the title page and abstract, print it elsewhere with \degreename
@@ -87,7 +87,7 @@ fleqn
 
 \vspace*{.06\textheight}
 {\scshape\huge \univname\par}\vspace{1cm} % University name\
-\includegraphics[width=0.5\textwidth]{images/logo.png}\\[0.6cm] % University/department logo
+\includegraphics[width=0.45\textwidth]{images/logo.png}\\[0.6cm] % University/department logo
 \HRule \\[0.4cm] % Horizontal line
 {\huge \bfseries \ttitle\par}\vspace{0.4cm} % Thesis title
 \HRule \\[1cm] % Horizontal line
@@ -119,16 +119,7 @@ fleqn
 
 \begin{declaration}
 \addchaptertocentry{\authorshipname} % Add the declaration to the table of contents
-\noindent I, \authorname, declare that this thesis titled, \enquote{\ttitle} and the work presented in it are my own. I confirm that:
-
-\begin{itemize} 
-\item This work was done wholly or mainly while in candidature for a research degree at this University.
-\item Where any part of this thesis has previously been submitted for a degree or any other qualification at this University or any other institution, this has been clearly stated.
-\item Where I have consulted the published work of others, this is always clearly attributed.
-\item Where I have quoted from the work of others, the source is always given. With the exception of such quotations, this thesis is entirely my own work.
-\item I have acknowledged all main sources of help.
-\item Where the thesis is based on work done by myself jointly with others, I have made clear exactly what was done by others and what I have contributed myself.\\
-\end{itemize}
+\noindent I, \authorname, declare that this thesis titled, \enquote{\ttitle} and the work presented in it are my own. I confirm that I know the meaning of plagiarism and declare that all the work in the document, save for that which is properly acknowledged, is my own. This dissertation has been submitted to the Turnitin module (or  equivalent similarity and originality checking software) and I confirm that my supervisor has seen my report and any concerns revealed by such have been resolved with my supervisor. \\
  
 \noindent Signed:\\
 \rule[0.5em]{25em}{0.5pt} % This prints a line for the signature
@@ -151,7 +142,7 @@ Despite recent developments financial inclusion remains a large issue for the Wo
 
 This minor dissertation focuses on investigating whether alternative features generated from Short Messaging Service (SMS) data and Android application data contained on borrowers' devices can be used to improve the performance of loan default prediction models. The improvement gained by using alternative features is measured by comparing loan default prediction models trained using only traditional credit scoring data to models developed using a combination of traditional and alternative features. Furthermore, the paper investigates which of 4 machine learning techniques is best suited for loan default prediction. The 4 techniques investigated are logistic regression, random forests, extreme gradient boosting, and neural networks. Finally the paper identifies whether or not accurate loan default prediction models can be trained using only the alternative features developed throughout this minor dissertation. \\
 
-The results of the research show that alternative features improve the performance of loan default prediction across 5 performance indicators, namely overall prediction accuracy, repaid prediction accuracy, default prediction accuracy, F1 score, and AUC. Furthermore, extreme gradient boosting is identified as the optimal technique for loan default prediction. Finally, the research identifies that models trained using the alternative features developed throughout this project can accurately predict loan that have been repaid, the models do not accurately predict loans that have not been repaid.   
+The results of the research show that alternative features improve the performance of loan default prediction across 5 performance indicators, namely overall prediction accuracy, repaid prediction accuracy, default prediction accuracy, F1 score, and AUC. Furthermore, extreme gradient boosting is identified as the most appropriate technique for loan default prediction. Finally, the research identifies that models trained using the alternative features developed throughout this project can accurately predict loan that have been repaid, the models do not accurately predict loans that have not been repaid.   
 
 
 \end{abstract}
@@ -244,10 +235,10 @@ My deepest thanks are extended to my supervisor, Mr Stefan Britz, for his guidan
 % Uncomment the lines as you write the chapters
 
 \include{Chapters/01-Intro}
-%\include{Chapters/02-Literature}
-%\include{Chapters/03-Data}
-%\include{Chapters/04-Modeling}
-%\include{Chapters/05-Results}
+\include{Chapters/02-Literature}
+\include{Chapters/03-Data}
+\include{Chapters/04-Modeling}
+\include{Chapters/05-Results}
 \include{Chapters/06-Conclusion}
 
 %----------------------------------------------------------------------------------------
@@ -266,6 +257,6 @@ My deepest thanks are extended to my supervisor, Mr Stefan Britz, for his guidan
 
 \appendix % Cue to tell LaTeX that the following "chapters" are Appendices
 
-% \include{Appendices/AppendixA}
+\include{Appendices/AppendixA}
 
 \end{document}  

@@ -1,7 +1,7 @@
 \chapter{Results and Discussion} 
 \label{Chapter5}
 
-This chapter details the results and findings attained throughout this project. First, The feature selection results for each of the datasets used to train the 28 models are displayed. Then, the performance of each of the modelling techniques is displayed and discussed. This chapter then details if the alternative data features used throughout this project improved model performance and if the alternative features developed could be used to produce accurate loan default prediction models. Finally, the chapter displays the results of the McNemar's Chi Square tests used to compare the models developed.   
+This chapter details the results and findings attained throughout this project. First, the feature selection results for each of the datasets used to train the 28 models are displayed. Then, the performance of each modelling technique is displayed and discussed. This chapter then details if the alternative data features used throughout this project improved model performance and if the alternative features developed could be used to produce accurate loan default prediction models. Finally, the chapter displays the results of the McNemar's Chi Square tests used to compare the models developed.   
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -11,7 +11,7 @@ For each of the data category combinations shown in Section 4.1, RFE is used to 
 
 Figures \ref{fig:sd}, \ref{fig:cb}, and \ref{fig:alt} are plots containing the number of features selected versus the model accuracy for datasets containing only sociodemographic, credit bureau, and alternative features respectively. Figure \ref{fig:all} displays the number of features selected against model accuracy for the dataset containing the features from all 3 data categories. \\
 
-The figures display large variations in model accuracy based on the number of features used. This highlights the importance of feature selection.
+The figures display large variations in model accuracy based on the number of features used, which highlights the importance of feature selection.
 
 \vspace{10 pt}
 
@@ -41,7 +41,7 @@ The figures display large variations in model accuracy based on the number of fe
     \label{fig:alt}
   \end{minipage}%
   \begin{minipage}{0.5\textwidth}
-    \includegraphics[width=\textwidth]{images/sd_cb_alt.png}
+    \includegraphics[width=\textwidth]{images/all_feats.png}
     \caption{Variable Selection for the All Datasets}
     \label{fig:all}
   \end{minipage}
@@ -49,15 +49,13 @@ The figures display large variations in model accuracy based on the number of fe
 
 \vspace{10 pt}
 
-Figure \ref{fig:sd} displays that when only SD features are used, there is a gradual increase in accuracy until 17 features are reached, then the accuracy plateaus. Figure \ref{fig:cb} displays that there is a decrease in accuracy when more CB features are added to the features space, until the number of features moves beyond 5. Figure \ref{fig:alt} displays that once the number of alternative data features moves beyond 8, there is either very little increase in accuracy or the accuracy decreases. Figure \ref{fig:all} displays that when using all data categories, model accuracy steadily improves when more feature dded to the feature space, until 43 features are in the feature space. \\
+Figure \ref{fig:sd} displays that when only SD features are used, the best test accuracy is produced when 17 features are used. Figure \ref{fig:cb} displays that there is a decrease in accuracy when as more CB features are used in the features space, until the number of features moves beyond 5. Figure \ref{fig:alt} displays that using more alternative features improves model accuracy until the feature space grows larger than 18, after which there is very little improvement in model accuracy or there is actually a decrease in accuracy. Figure \ref{fig:all} displays that when using all data categories, model accuracy steadily improves when more features are used in the feature space. \\
 
 Table \ref{table:features retained} displays the feature selection results for all 7 data category combinations. The table provides the total number of features contained in each dataset, the number of features selected from the original datasets, and the names of the features that were deemed irrelevant (not selected). \\
 
-The table highlights a mass drop of features when only CB and ALD features are used. This could indicate dependencies and collinearity between variables in that dataset, however the difference between the lowest and highest validation accuracies is last than 1\%.  \\
+The table highlights a mass drop of features when only CB and ALD features are used. This could indicate dependencies and collinearity between variables in that dataset, however the difference between the lowest and highest validation accuracies is less than 1.  \\
 
 Furthermore, the Table validates the trends displayed in Figures \ref{fig:sd}, \ref{fig:cb}, \ref{fig:alt}, and \ref{fig:all}. This is particular evident in the ALD row, as it can be seen that a large number of features were deemed irrelevant. It is interesting that many of the ALD features not selected when only using ALD features, are deemed relevant when coupled with SD features.  \\
-
-It can be noted that the variables are consistently removed by the RFE process. For example income is removed in the SD; SD and CB; SD and ALD; and SD, CB, and ALD datasets. The same pattern can be extended for many of the ALD and CB variables. \\
 
 For each of the data category combinations, the various modelling techniques were trained and tested on the same dataset. The first modelling technique used is logistic regression. The cross-validated training results and the holdout results can be seen for this technique in the following section. \newpage
 
@@ -73,19 +71,19 @@ Table \ref{table:features retained} can be viewed below.
 &\multicolumn{1}{|p{2cm}|}{Selected Features}
 &\multicolumn{1}{|p{6cm}|}{Features Not Selected}\\
 \hline
-SD & 18 & 16 & income   \\
+SD & 18 & 17 & application week   \\
 \hline
-CB & 8 & 8 &   \\
+CB & 8 & 7 &  nonperforming loans \\
 \hline
-ALD & 24 & 8  & competitor count, gambling count, app count, max balance, max credit, max debit, min debit, insufficient funds,  successful payments, max successful loan payment, min  successful loan payment, unsuccessful payments, max unsuccessful loan payment, min unsuccessful loan payment, rejected loans, max loan amount \\
+ALD & 24 & 18  & competitor count, gambling count, app count, successful payments, min  successful loan payment, unsuccessful payments, max unsuccessful loan payment, min unsuccessful loan payment \\
 \hline
-SD and CB & 26 & 21 & property status, time at employer , application time , application week , income \\
+SD and CB & 26 & 24 &  application time , application week \\
 \hline
-SD and ALD & 42 & 39 & income, competitor count, gambling count \\
+SD and ALD & 42 & 40 & competitor count, gambling count \\
 \hline
 CB and ALD & 32 & 3 &  open accounts by date, performing loans, paid loans, nonperforming loans, lost loans, missed payments, competitor count, banking count, news count, gambling count, VPN count, app count, device price, max balance, min balance, credit transactions, max credit, min credit, max debit, min debit, insufficient funds, successful payments, max successful loan payment, min successful loan payment, unsuccessful payments, max unsuccessful loan payment, min unsuccessful loan payment, rejected loans, max loan amount \\
 \hline
-SD, CB and ALD & 50 & 43 & application week, income, lost loans, competitor count, gambling count, insufficient funds, min unsuccessful loan payment\\
+SD, CB and ALD & 50 & 50 & \\
 \hline
 \caption{Feature Selection Results}
 \label{table:features retained}
@@ -93,7 +91,6 @@ SD, CB and ALD & 50 & 43 & application week, income, lost loans, competitor coun
 
 \vspace{10pt}
 
-\newpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -122,15 +119,15 @@ There is very little discrepancy between the training and holdout model performa
 &\multicolumn{1}{|c|}{F1 Score}
 &\multicolumn{1}{|c|}{AUC}\\
 \hline
-SD & 0.58 & 0.55 & 0.58 & 0.58 & 0.61    \\
+SD & 0.58 & 0.62 & 0.55 & 0.60 & 0.58    \\
 \hline
-CB & 0.57 & 0.39 & 0.76 & 0.57 & 0.60    \\
+CB & 0.55 & 0.44 & 0.65 & 0.54 & 0.55    \\
 \hline
 ALD & 0.54 & 0.46 & 0.62 & 0.54 & 0.56    \\
 \hline
-SD and CB & 0.60 & 0.60 & 0.61 & 0.60 & 0.65    \\
+SD and CB & 0.60 & 0.61 & 0.61 & 0.60 & 0.61    \\
 \hline
-SD and ALD & 0.61 & 0.64 & 0.59 & 0.61 & 0.66    \\
+SD and ALD & 0.62 & 0.64 & 0.59 & 0.61 & 0.66    \\
 \hline
 CB and ALD & 0.58 & 0.44 & 0.75 & 0.59 & 0.61    \\
 \hline
@@ -155,13 +152,13 @@ SD, CB and ALD & 0.63 & 0.62 & 0.64 & 0.63 & 0.68    \\
 &\multicolumn{1}{|c|}{F1 Score}
 &\multicolumn{1}{|c|}{AUC}\\
 \hline
-SD & 0.61 & 0.62 & 0.55 & 0.61 & 0.63    \\
+SD & 0.61 & 0.62 & 0.55 & 0.61 & 0.59    \\
 \hline
-CB & 0.48 & 0.40 & 0.75 & 0.48 & 0.62    \\
+CB & 0.49 & 0.44 & 0.66 & 0.49 & 0.56    \\
 \hline
 ALD & 0.50 & 0.47 & 0.64 & 0.51 & 0.57    \\
 \hline
-SD and CB & 0.61 & 0.61 & 0.62 & 0.61 & 0.65    \\
+SD and CB & 0.61 & 0.61 & 0.62 & 0.61 & 0.62    \\
 \hline
 SD and ALD & 0.63 & 0.64 & 0.59 & 0.63 & 0.66    \\
 \hline
@@ -203,19 +200,19 @@ The sub-sampling performed when the RF models are trained can result in a common
 &\multicolumn{1}{|c|}{F1 Score}
 &\multicolumn{1}{|c|}{AUC}\\
 \hline
-SD & 0.81 & 0.82 & 0.81 & 0.82 & 0.83    \\
+SD & 0.74 & 0.69 & 0.78 & 0.73 & 0.74    \\
 \hline
-CB & 0.63 & 0.53 & 0.74 & 0.63 & 0.68    \\
+CB & 0.59 & 0.53 & 0.74 & 0.63 & 0.68    \\
 \hline
-ALD & 0.71 & 0.74 & 0.69 & 0.71 & 0.80    \\
+ALD & 0.73 & 0.74 & 0.72 & 0.73 & 0.73    \\
 \hline
-SD and CB & 0.83 & 0.83 & 0.83 & 0.83 & 0.88    \\
+SD and CB & 0.77 & 0.80 & 0.75 & 0.78 & 0.77    \\
 \hline
-SD and ALD & 0.85 & 0.86 & 0.85 & 0.85 & 0.92    \\
+SD and ALD & 0.76 & 0.75 & 0.77 & 0.76 & 0.76    \\
 \hline
-CB and ALD & 0.69 & 0.68 & 0.71 & 0.70 & 0.78    \\
+CB and ALD & 0.65 & 0.66 & 0.65 & 0.65 & 0.65    \\
 \hline
-SD, CB and ALD & 0.87 & 0.87 & 0.87 & 0.87 & 0.93    \\
+SD, CB and ALD & 0.80 & 0.77 & 0.82 & 0.80 & 0.80    \\
 \hline
 \end{tabular}
 \end{center}
@@ -236,19 +233,19 @@ SD, CB and ALD & 0.87 & 0.87 & 0.87 & 0.87 & 0.93    \\
 &\multicolumn{1}{|c|}{F1 Score}
 &\multicolumn{1}{|c|}{AUC}\\
 \hline
-SD & 0.71 & 0.81 & 0.37 & 0.70 & 0.60    \\
+SD & 0.68 & 0.71 & 0.44 & 0.65 & 0.56    \\
 \hline
-CB & 0.56 & 0.52 & 0.68 & 0.56 & 0.63    \\
+CB & 0.56 & 0.52 & 0.68 & 0.56 & 0.64    \\
 \hline
-ALD & 0.66 & 0.72 & 0.44 & 0.66 & 0.62    \\
+ALD & 0.70 & 0.74 & 0.53 & 0.69 & 0.63    \\
 \hline
-SD and CB & 0.73 & 0.83 & 0.39 & 0.73 & 0.66    \\
+SD and CB & 0.72 & 0.81 & 0.39 & 0.71 & 0.59    \\
 \hline
-SD and ALD & 0.79 & 0.86 & 0.53 & 0.78 & 0.80    \\
+SD and ALD & 0.72 & 0.77 & 0.48 & 0.69 & 0.66    \\
 \hline
-CB and ALD & 0.64 & 0.68 & 0.47 & 0.64 & 0.60    \\
+CB and ALD & 0.63 & 0.65 & 0.52 & 0.63 & 0.63    \\
 \hline
-SD, CB and ALD & 0.80 & 0.87 & 0.54 & 0.79 & 0.81    \\
+SD, CB and ALD & 0.74 & 0.79 & 0.59 & 0.73 & 0.69    \\
 \hline
 \end{tabular}
 \end{center}
@@ -259,7 +256,7 @@ SD, CB and ALD & 0.80 & 0.87 & 0.54 & 0.79 & 0.81    \\
 \vspace{10pt}
 
 
-The most accurate RF model is trained using features from all three data categories. Furthermore, when alternative features were added to both the datasets containing the sociodemographic and the credit bureau features the performance of the random forest models improve. This can be seen in accuracy, repaid accuracy, F1 score, and AUC values displayed in Table \ref{table:rf test}. Similarly to the logistic regression model containing only credit bureau features, the respective random forest model performs better than other other random forest models when identifying loans that were not repaid.  
+The most accurate RF model is trained using features from all three data categories. Furthermore, when alternative features were added to both the datasets containing the sociodemographic and the credit bureau features the performance of the random forest models improve. This can be seen in accuracy, repaid accuracy, F1 score, and AUC values displayed in Table \ref{table:rf test}. Similarly to the logistic regression model containing only credit bureau features, the respective random forest model performs better than other random forest models when identifying loans that were not repaid.  
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -271,7 +268,7 @@ The third modelling technique used is XGBoost. Tables \ref{table:xgb training} a
 
 Table \ref{table:xgb test} displays that in general, the XGBoost models outperform their respective logistic regression and random forest models. It can be seen from both XGBoost tables that the test default accuracy is often significantly lower than the training default accuracy. This trend is seen in the random forest models and occurs in the XGBoost models for the same reasons that it occurs in the random forest models (the effects of SMOTE and sub-sampling). \\ 
 
-Table \ref{table:xgb test} highlights the alternative features improve the overall accuracy, repaid accuracy, F1 score, AUC of the XGBoost models when added to data containing sociodemographic and credit bureau features. 
+Table \ref{table:xgb test} shows that the alternative features improve the overall accuracy, repaid accuracy, F1 score and AUC of the XGBoost models when added to data containing sociodemographic and credit bureau features. 
 
 \vspace{10pt}
 
@@ -286,19 +283,19 @@ Table \ref{table:xgb test} highlights the alternative features improve the overa
 &\multicolumn{1}{|c|}{F1 Score}
 &\multicolumn{1}{|c|}{AUC}\\
 \hline
-SD & 0.83 & 0.82 & 0.84 & 0.83 & 0.91    \\
+SD & 0.83 & 0.82 & 0.84 & 0.83 & 0.82    \\
 \hline
 CB & 0.65 & 0.56 & 0.75 & 0.63 & 0.72    \\
 \hline
-ALD & 0.80 & 0.79 & 0.81 & 0.80 & 0.88    \\
+ALD & 0.80 & 0.79 & 0.80 & 0.79 & 0.79    \\
 \hline
-SD and CB & 0.82 & 0.78 & 0.85 & 0.82 & 0.91    \\
+SD and CB & 0.83 & 0.81 & 0.84 & 0.83 & 0.83    \\
 \hline
-SD and ALD & 0.91 & 0.89 & 0.93 & 0.91 & 0.96    \\
+SD and ALD & 0.85 & 0.81 & 0.89 & 0.85 & 0.85    \\
 \hline
-CB and ALD & 0.74 & 0.76 & 0.72 & 0.74 & 0.82    \\
+CB and ALD & 0.71 & 0.71 & 0.72 & 0.71& 0.71    \\
 \hline
-SD, CB and ALD & 0.90 & 0.93 & 0.92 & 0.91 & 0.98    \\
+SD, CB and ALD & 0.89 & 0.88 & 0.91 & 0.91 & 0.91    \\
 \hline
 \end{tabular}
 \end{center}
@@ -319,19 +316,19 @@ SD, CB and ALD & 0.90 & 0.93 & 0.92 & 0.91 & 0.98    \\
 &\multicolumn{1}{|c|}{F1 Score}
 &\multicolumn{1}{|c|}{AUC}\\
 \hline
-SD & 0.71 & 0.81 & 0.38 & 0.72 & 0.62    \\
+SD & 0.71 & 0.81 & 0.38 & 0.72 & 0.59    \\
 \hline
 CB & 0.59 & 0.55 & 0.64 & 0.57 & 0.63    \\
 \hline
-ALD & 0.69 & 0.78 & 0.40 & 0.69 & 0.63    \\
+ALD & 0.74 & 0.79 & 0.55 & 0.74 & 0.68    \\
 \hline
-SD and CB & 0.71 & 0.78 & 0.46 & 0.70 & 0.68    \\
+SD and CB & 0.74 & 0.81 & 0.46 & 0.72 & 0.63    \\
 \hline
-SD and ALD & 0.82 & 0.86 & 0.66 & 0.81 & 0.85    \\
+SD and ALD & 0.78 & 0.82 & 0.62 & 0.76 & 0.71    \\
 \hline
-CB and ALD & 0.68 & 0.77 & 0.41 & 0.69 & 0.62    \\
+CB and ALD & 0.68 & 0.72 & 0.48 & 0.66 & 0.62    \\
 \hline
-SD, CB and ALD & 0.84 & 0.88 & 0.68 & 0.82 & 0.86    \\
+SD, CB and ALD & 0.81 & 0.86 & 0.68 & 0.81 & 0.75    \\
 \hline
 \end{tabular}
 \end{center}
@@ -341,63 +338,17 @@ SD, CB and ALD & 0.84 & 0.88 & 0.68 & 0.82 & 0.86    \\
 
 \vspace{10pt}
 
-Similarly to both the logistic regression and random forest techniques, the best performing XGBoost model is trained on the dataset containing features from all three data categories. This model is subsequently the best performing model out of all 28 developed throughout this project, therefore this model is further analysed by assessing its ROC curves and the impact of certain features on the model. 
+Similarly to both the logistic regression and random forest techniques, the best performing XGBoost model is trained on the dataset containing features from all three data categories. \\
 
+The XGBoost model trained using only alternative features had an overall test accuracy of 74\%, a repaid accuracy of 78\%, an f1 score of 0.74, and an AUC of 0.86. These would all indicate the model could be used to relatively accurately predict the outcome of a loan. However, the model only correctly predicted 55\% of the applicants in the test set who defaulted on their loans.\\
 
-\subsubsection{ROC Curves}
-
-
-Figures \ref{fig:xgb_tr} and \ref{fig:xgb_te} display the training and test ROC curves for the best performing XGBoost model. The decrease  default accuracy from training to testing is reflected in the figures.
-
-\vspace{10 pt}
-
-\begin{figure}[!htb]
-\centering
-  \begin{minipage}{0.5\textwidth}
-    \includegraphics[width=\textwidth]{images/XGB_TR_AUC.png}
-    \caption{XGBoost Training ROC}
-    \label{fig:xgb_tr}
-  \end{minipage}%
-  \begin{minipage}{0.5\textwidth}
-    \includegraphics[width=\textwidth]{images/XGB_TE_AUC.png}
-    \caption{XGBoost Holdout ROC}
-    \label{fig:xgb_te}
-  \end{minipage}
-\end{figure}
-
-
-\subsubsection{Feature Impact}
-
-The SHapley Additive exPlanation (SHAP) values for the ten most important features of the best performing XGBoost model can be seen in Figure \ref{fig:xgb_feats}. SHAP values show how much each feature contributes, either positively or negatively, to the target variable. The each dot in the plot represents a training observation. The plot demonstrates feature importance, the impact of an observation on the final prediction, the relative value of feature for an observation, and the correlation between features and the final prediction \parencite{SHAP}. 
-
-\vspace{10 pt}
-
-\begin{figure}[!htb]
-\centering
-\includegraphics[width=0.6\textwidth]{images/xgb_feats.png}
-\caption{SHAP Values of Best Performing XGBoost Model}
-\label{fig:xgb_feats}
-\end{figure}
-
-\vspace{10 pt}
-
-The features are ranked in descending order of importance in Figure \ref{fig:xgb_feats}. For example the maximum credit extracted from loan applicants' sms messages - an alternative feature - is the most important feature used in the model. Furthermore, we can see the impact the maximum credit feature has on the model. The lower the maximum credit value, the more negative its impact is on the model. This means that the lower an applicant's extracted maximum credit is, the more likely the model is to classify the application into the defaulting class. We can see that this is converse to the number of applications made by a client prior to their current loan application The lower the number of applications, the more positive the feature's impact is on the model. \\
-
-
-\subsubsection{Using only ALD Features}
-
-The XGBoost model trained using only alternative features had an overall test accuracy of 66\%, a repaid accuracy of 72\%, an f1 score of 0.66, and an AUC of 0.62. These would all indicate the model could be used to accurately predict the outcome of a loan. However, the default of the model accuracy was only 44\%. Meaning that the model does not identify loans that are likely to not be repaid well. \\
-
-The final technique explored during this project is Neural Networks. The following section displays the features of the multi-layer perceptron networks developed.  
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+The final technique explored during this project is Neural Networks. The following section displays the features of the multi-layer perceptron networks developed.
 
 \section{Neural Networks}
 
 The training and holdout results of the 7 MLP models developed throughout this projected can be seen in Tables \ref{table:NN training} and \ref{table:NN test}.  \\
 
-The MLP models showed slightly different trends to the other modelling techniques. The best performing model based upon overall accuracy, AUC and F1 score is the model trained using features from all three data categories. However, when the alternative data features were add to the sociodemographic and credit bureau datasets, model performance across all five measures did not improve.    
+The MLP models showed very similar trends to the other modelling techniques. The best performing model based upon overall accuracy, AUC and F1 score is the model trained using features from all three data categories and when the alternative data features are added to the sociodemographic and credit bureau datasets the default accuracy of the models improved.    
 
 \vspace{10pt}
 
@@ -412,19 +363,19 @@ The MLP models showed slightly different trends to the other modelling technique
 &\multicolumn{1}{|c|}{F1 Score}
 &\multicolumn{1}{|c|}{AUC}\\
 \hline
-SD & 0.60 & 0.73 & 0.44 & 0.59 & 0.63    \\
+SD & 0.60 & 0.62 & 0.59 & 0.61 & 0.61    \\
 \hline
-CB & 0.58 & 0.79 & 0.35 & 0.57 & 0.61    \\
+CB & 0.58 & 0.58 & 0.59 & 0.57 & 0.61    \\
 \hline
 ALD & 0.51 & 0.54 & 0.47 & 0.50 & 0.52    \\
 \hline
-SD and CB & 0.64 & 0.53 & 0.72 & 0.64 & 0.68    \\
+SD and CB & 0.63 & 0.55 & 0.70 & 0.62 & 0.63    \\
 \hline
-SD and ALD & 0.67 & 0.52 & 0.83 & 0.67 & 0.74    \\
+SD and ALD & 0.62 & 0.61 & 0.62 & 0.62 & 0.62    \\
 \hline
 CB and ALD & 0.59 & 0.42 & 0.75 & 0.59 & 0.62    \\
 \hline
-SD, CB and ALD & 0.71 & 0.73 & 0.68 & 0.71 & 0.78    \\
+SD, CB and ALD & 0.70 & 0.69 & 0.71 & 0.70 & 0.69    \\
 \hline
 \end{tabular}
 \end{center}
@@ -445,19 +396,19 @@ SD, CB and ALD & 0.71 & 0.73 & 0.68 & 0.71 & 0.78    \\
 &\multicolumn{1}{|c|}{F1 Score}
 &\multicolumn{1}{|c|}{AUC}\\
 \hline
-SD & 0.65 & 0.77 & 0.43 & 0.66 & 0.64    \\
+SD & 0.60 & 0.61 & 0.54 & 0.60 & 0.58    \\
 \hline
-CB & 0.70 & 0.79 & 0.39 & 0.70 & 0.63    \\
+CB & 0.58 & 0.58 & 0.58 & 0.59 & 0.59    \\
 \hline
 ALD & 0.53 & 0.54 & 0.52 & 0.53 & 0.51    \\
 \hline
-SD and CB & 0.68 & 0.55 & 0.73 & 0.67 & 0.68    \\
+SD and CB & 0.58 & 0.55 & 0.66 & 0.57 & 0.61    \\
 \hline
-SD and ALD & 0.60 & 0.52 & 0.80 & 0.60 & 0.73    \\
+SD and ALD & 0.63 & 0.63 & 0.62 & 0.62 & 0.63   \\
 \hline
 CB and ALD & 0.58 & 0.53 & 0.47 & 0.58 & 0.62    \\
 \hline
-SD, CB and ALD & 0.70 & 0.74 & 0.66 & 0.71 & 0.73    \\
+SD, CB and ALD & 0.67 & 0.68 & 0.66 & 0.67 & 0.68    \\
 \hline
 \end{tabular}
 \end{center}
@@ -469,59 +420,120 @@ SD, CB and ALD & 0.70 & 0.74 & 0.66 & 0.71 & 0.73    \\
 
 The MLP models developed throughout this project showed similar patterns to those developed by \textcite{NNWest}. The models generally had a higher repaid accuracy than a default accuracy. However, the overall accuracies achieved by the models developed by \textcite{NNWest} were significantly higher than those developed throughout this project. \\
 
-The final step in the testing process was to statically compare the performance of the models across each of the 7 datasets. The results of the tests are shown in the following section. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Best Performing Model}
+
+The best performing model developed throughout this project is the XGBoost model trained on all 3 datasets. The optimal hyper-parameters found for the model, its ROC curves, and the importance of its features are displayed in the following sub-sections.
+
+\subsection{Hyper-Parameters}
+
+The optimal hyper-parameters were identified using a grid search. The definition of each hyper-parameter tuned is displayed in Section 4.5.3. The optimal parameters for the best performing model are as follows: 
+
+\begin{itemize}
+    \item $eta$: 0.05.  
+    \item $gamma$: 0.5. 
+    \item Maximum depth: 25. 
+    \item Minimum child weight:5. 
+    \item Sub-sample: 0.8. 
+    \item Column sample by tree: 0.8. 
+\end{itemize}
+
+The maximum depth of each tree trained was limited to 50, this was to avoid over-fitting. The optimal learning rate ($eta$), sub-sample ratio, and column sample by tree ratio were the maximum values tested for their respective parameters. 
+
+\subsection{ROC Curves}
+
+Figures \ref{fig:xgb_tr} and \ref{fig:xgb_te} display the training and test ROC curves for the best performing model. The decrease in default accuracy from training to testing is shown in the figures. The figures display that the testing default accuracy of the model is significantly lower than the training default accuracy. As mentioned in Section 5.4, this is caused by the effects of SMOTE and sub-sampling.  
+
+\vspace{10 pt}
+
+\begin{figure}[!htb]
+\centering
+  \begin{minipage}{0.5\textwidth}
+    \includegraphics[width=\textwidth]{images/train_auc.png}
+    \caption{XGBoost Training ROC}
+    \label{fig:xgb_tr}
+  \end{minipage}%
+  \begin{minipage}{0.5\textwidth}
+    \includegraphics[width=\textwidth]{images/test_auc.png}
+    \caption{XGBoost Holdout ROC}
+    \label{fig:xgb_te}
+  \end{minipage}
+\end{figure}
+
+
+
+\subsubsection{Feature Impact}
+
+The SHapley Additive exPlanation (SHAP) values for the ten most important features of the best performing XGBoost model can be seen in Figure \ref{fig:xgb_feats}. SHAP values show how much each feature contributes, either positively or negatively, to the target variable. Each dot shown in the plot represents a training observation. The plot demonstrates feature importance, the impact of an observation on the final prediction, the distribution of each feature, and the correlation between features and the final prediction \parencite{SHAP}. 
+
+\vspace{10 pt}
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.8\textwidth]{images/xgb_feats.png}
+\caption{SHAP Values of Best Performing XGBoost Model}
+\label{fig:xgb_feats}
+\end{figure}
+
+\vspace{10 pt}
+
+The features are ranked in descending order of importance in Figure \ref{fig:xgb_feats}, meaning that the maximum credit transaction extracted from loan applicants' sms messages - an alternative feature - is the most important feature used in the model. Furthermore, we can see the impact the maximum credit feature has on the model. The lower the maximum credit value, the more the prediction is pushed towards 0 (a repaid prediction). Based on the distribution of the maximum credit feature - shown in Figure \ref{fig:xgb_feats} - we can see the majority of maximum credit transactions have a small 0 SHAP value impact on the best performing model.  \\
+
+The final step in the testing process was to statically compare the performance of the models across each of the 7 datasets.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Model Comparison}
 
-The performance indicators displayed in the tables that preceded this section each model indicate that the performance of the models improved when alternative data features were added to sociodemographic and credit bureau datasets (the only exception were the NN models). Furthermore, the optimal model developed across all 4 techniques used sociodemographic, credit bureau, and alternative data features. The random forest and XGBoost models developed using only alternative features displayed good overall accuracy, high repaid accuracy, good F1 scores, and good AUC values. However, both models display low default accuracy. The logistic regression and MLP models developed using only alternative features display poor overall performance. \\ 
+ The performance indicators displayed in the tables that preceded this section, indicate that the performance of the models improved when alternative data features were added to sociodemographic and credit bureau datasets (the only exception were the NN models). Furthermore, the optimal model developed across all 4 techniques used sociodemographic, credit bureau, and alternative data features. The random forest and XGBoost models developed using only alternative features displayed good overall accuracy, high repaid accuracy, good F1 scores, and good AUC values. However, both models display a relatively low default accuracy. The logistic regression and MLP models developed using only alternative features display a worse overall performance. \\ 
 
-The final test performed on the models is McNemar's Chi Square test, which tests if there is a significant difference between two models trained on the same sample. The test is used to compare each technique against all other techniques for all 7 data category combinations. Table \ref{table:Mcnemar} displays the results of the  McNemar's tests conducted. The techniques compared are seen on the left hand side of the table while the data category combinations are shown along the top of the table. \\
+The final test performed on the models is McNemar's Chi Square test, which tests if there is a significant difference between two models trained on the same sample. The test is used to compare each technique against all other techniques for each of the 7 data category combinations, which leads to a total of 42 combinations.    \\
 
-The null hypothesis of the McNemar's Chi Square test states that the models compared are not significantly different. The values in Table \ref{table:Mcnemar} are true is the test resulted in the null hypothesis is accepted - the models are not significantly different - and are false if the null hypothesis is rejected - the models are significantly different. 
+The null hypothesis of the McNemar's Chi Square test states that the models compared are not different, and as a result the models will produce the same number of false and true positives and negatives. Of the 42 combinations tested, the null hypothesis was rejected - at a significance level of 0.01 - only 4 times. The null hypothesis was rejected for the following pairs: LR and RF using SD data, LR and MLP using SD data, RF and MLP using SD data, and RF and XGB using a combination of SD and CB data. Other than these pairs all model pairs were found to be significantly different.   \\
+
+For each of the 7 datasets used throughout this project, Table \ref{table:tech_comp} displays the modelling technique that attained the highest score - and the score itself - for each of the 5 metrics used to evaluate the models. We can see from Table \ref{table:tech_comp} that the XGBoost technique consistently outperforms the other 3 techniques across the majority of the evaluation metrics for all of the datasets other than dataset that uses only credit bureau variables. 
 
 \vspace{10pt}
 
 \begin{table}[H]
 \begin{center}
-\begin{tabular}{|c|c|c|c|c|c|c|c|} 
+\begin{tabular}{|c|c|c|c|c|c|} 
 \hline
-\multicolumn{1}{|c|}{Techniques}
-&\multicolumn{1}{|c|}{SD}
-&\multicolumn{1}{|c|}{CB}
-&\multicolumn{1}{|c|}{ALD}
-&\multicolumn{1}{|c|}{SD, CB}
-&\multicolumn{1}{|c|}{SD, ALD}
-&\multicolumn{1}{|c|}{CB, ALD}
-&\multicolumn{1}{|c|}{SD, CB, ALD}\\
+\multicolumn{1}{|c|}{Dataset}
+&\multicolumn{1}{|c|}{Accuracy}
+&\multicolumn{1}{|c|}{Repaid Acc}
+&\multicolumn{1}{|c|}{Default Acc}
+&\multicolumn{1}{|c|}{F1 Score}
+&\multicolumn{1}{|c|}{AUC}\\
 \hline
-LR - RF & false & false & false  & false & false &  false &  false \\
+SD & XGB (0.71) & XGB (0.81) & LR (0.55) & XGB (0.72) & XGB (0.59)    \\
 \hline
-LR - XGB & false & false & false & false  & false & false & false \\
+CB & XGB (0.59) & NN (0.58) & RF (0.68) & NN (0.59) & RF (0.64)      \\
 \hline
-LR - MLP & false & false  & false & false & false & false & false \\
+ALD & XGB (0.74) & XGB (0.79) & LR (0.64) & XGB (0.74) & XGB (0.68)    \\
 \hline
-RF - XGB & false & false & false & true & false & false &  false \\
+SD and CB & XGB (0.74) & XGB/RF (0.81) & NN (0.66) & XGB (0.72) & NN (0.63)     \\
 \hline
-RF - MLP & true & false & false & false & false & false & false  \\
+SD, ALD & XGB (0.78) & XGB (0.82) & XGB/NN (0.62) & XGB (0.72) & XGB (0.63)    \\
 \hline
-XGB - MLP & true & false & false & false & false & false &  false \\
+CB, ALD & XGB (0.68) & XGB (0.72) & LR (0.73) & XGB (0.66) & RF (0.63)    \\
+\hline
+SD, CB, ALD & XGB (0.81) & XGB (0.86) & XGB (0.68) & XGB (0.81) & RF (0.75)    \\
 \hline
 \end{tabular}
 \end{center}
-\caption{McNemar's Chi Square Tests}
-\label{table:Mcnemar}
+\caption{Best Performing Modelling Technique}
+\label{table:tech_comp}
 \end{table}
 
-\vspace{10pt}
 
-We can see from Table \ref{table:Mcnemar} that the other than the RF and MLP, and the XGBoost and MLP models trained used only sociodemographic features the models are deemed significantly different. This means that their model performance indicators can be used to dictate which models perform best. \\
+\newpage
 
-Across all data category combinations - other than the combination that uses only credit bureau variables - the XGBoost technique produces the model with the highest overall accuracy repaid accuracy, F1 score, and AUC value (only considering holdout values). The XGBoost technique does not consistently produce the highest default accuracy. The XGBoost model developed using all three data category combinations performs the best across all five performance indicators. \\
 
 \section{Summary of Modelling Results}
 
-This chapters displays the cross-validated training results and the holdout results of each of the models developed throughout this project. The alternative features developed during this project are found to improve the performance of loan default prediction models when added to sociodemographic: for the logistic regression, random forest, and XGBoost techniques. For all 4 techniques used the most accurate model is trained on a dataset contain sociodemographic, credit bureau, and alternative features. Models developed only using the alternative features did not perform well. The best performing model developed using only alternative features used XGBoosting, however even that model has a low default accuracy. This indicates that the alternative features used throughout this project cannot solely be used to develop a loan prediction model. Finally, the model were proven to be significantly different using McNemar's Chi Squared Test with 1 degree of freedom. The consistently best performing technique used for loan default prediction in this project is XGBoosting. \\
+This chapters displays the cross-validated training results and the holdout results of each of the models developed throughout this project. The alternative features developed during this project are found to improve the performance of loan default prediction models when added to sociodemographic and and credit bureau data: for the logistic regression, random forest, XGBoost, and neural network techniques. For all 4 techniques used the most accurate model is trained on a dataset contain sociodemographic, credit bureau, and alternative features. Models developed only using the alternative features did not perform well when predicting loans that were not repaid. The best performing model developed using only alternative features used XGBoosting, however even that model has a relatively low default accuracy. This indicates that the alternative features used throughout this project cannot solely be used to develop a loan prediction model. Finally, the models were proven to be significantly different using McNemar's Chi Squared Test with 1 degree of freedom. The consistently best performing technique used for loan default prediction in this project is XGBoosting. \\
 
 The final chapter of this project summarises the conclusions and findings of the research. 

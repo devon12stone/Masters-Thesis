@@ -15,9 +15,9 @@ Credit scoring is defined as the scientific approach for assessing the creditwor
 
 Durand's automated approach for assessing creditworthiness was initially met with scepticism by the majority of the banking sector. It took until the late 1960s for credit scoring to be deemed the accepted method for assessing consumer creditworthiness. This was driven by two major developments, namely the introduction of credit cards and advances in the processing power of the era's computers. The introduction of credit cards led to a rapid rise in the number of consumers seeking credit, which meant that manual creditworthiness checks were no longer a valid option. The financial industry turned to automated models \parencite{CreditScoringIntroMarquez}. \\
 
-Credit scoring models were rapidly developed throughout the 1970s and 1980s. Due to the secretive nature of the credit scoring systems within lending companies, very little was released about the specific content used in the models and how the models were developed.   However, a number of models developed by academics were designed to represent the models and systems used within the industry during this era. Each type of model had its own statistical strengths and weaknesses \parencite{CreditScoringReadings}. \\
+Credit scoring models were rapidly developed throughout the 1970s and 1980s. Due to the secretive nature of the credit scoring systems within lending companies, very little was released about the specific content used in the models and how the models were developed.   However, a number of models developed by academics were designed to represent the models and systems used within the industry during this era. Each type of model had its own statistical strengths and weaknesses \parencite{CreditScoringReadings}. \newpage
 
-By the 1990s credit scoring models were regularly used to assess potential personal loans, business loans, and small loans. This decade also saw the introduction of credit score cards. In more recent times machine learning and artificial intelligence have been used in credit scoring. These models are generally more sophisticated and less interpret-able than than their predecessors. As a result they have not yet been fully accepted by regulatory bodies \parencite{CreditScoringTechniquesOverview}. \\
+By the 1990s credit scoring models were regularly used to assess potential personal loans, business loans, and small loans. The 1990s also saw the introduction of credit score cards. In more recent times machine learning and artificial intelligence have been used in credit scoring. These models are generally more sophisticated and less interpret-able than than their predecessors. As a result they have not yet been fully accepted by regulatory bodies \parencite{CreditScoringTechniquesOverview}. \\
 
 The next three sections of this chapter will detail works related to the various modelling techniques used in credit scoring. For the sake of flow the techniques have been broken into three categories. These categories are statistical learning, machine learning techniques, and ensemble models. This is not an absolute distinction as there is overlap between these fields. Sections 2.3, 2.3, and 2.4 will detail the statistical learning techniques, machine learning techniques, and ensemble techniques widely used in loan default prediction modelling. 
 
@@ -61,7 +61,7 @@ The technique is used to describe the relationship between one dependent binary 
 \vspace{10pt}
 
 \begin{equation} \label{eq:LR}
-ln(\frac{p_{i}}{1-p_{i}}) = \beta_{0} + \beta_{1}x_{1} + \beta_{2}x_{2}+ ... +  \beta_{n}x_{n}
+ln\left(\frac{p_{i}}{1-p_{i}}\right) = \beta_{0} + \beta_{1}x_{1} + \beta_{2}x_{2}+ ... +  \beta_{n}x_{n}
 \end{equation}
 
 \vspace{10pt}
@@ -268,7 +268,7 @@ Furthermore, they used synthetic minority over-sampling technique (SMOTE) to bal
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=0.7\textwidth]{images/shen.png}
-\caption{The Results of the Research Conducted by \textcite{NNShen}}
+\caption{\textcite{NNShen} Visual Model Performance Comparison}
 \label{fig:shen}
 \end{figure}
 

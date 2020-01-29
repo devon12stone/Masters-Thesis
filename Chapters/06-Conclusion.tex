@@ -9,17 +9,19 @@ The research aims of this project are are shown in Section 1.3, but for ease the
 
 \begin{itemize}
     \item Assess if augmenting sociodemographic and credit bureau data with the alternative features used in this project improves the overall performance of loan default prediction models.
-    \item Determine if the alternative features used through this dissertation can be used to train accurate loan default prediction models. 
-    \item Identify the optimal technique for developing loan default prediction models out of logistic regression, random forests, extreme gradient boosting, and a multi-perceptron neural networks. 
+    \item Determine if the alternative features used throughout this dissertation can be used to train accurate loan default prediction models. 
+    \item Identify the most appropriate technique for developing loan default prediction models out of logistic regression, random forests, extreme gradient boosting, and artificial neural networks. 
 \end{itemize}
 
 \vspace{10pt}
 
 The first aim is answered by comparing the five holdout performance indicators of the models trained using the alternative features in conjunction with sociodemographic features, credit bureau features, and both the sociodemographic and credit bureau features against the performance indicators of the models trained using only sociodemographic, only credit bureau, and sociodemographic and credit bureau respectively for each of the 4 modelling techniques. \\
 
-The performance indicators of the logistic regression, random forest, and XGBoost models developed using only sociodemographic or only credit bureau features improve when the datasets are augmented with alternative features. This trend is not seen in the performance indicators of the multi-layer perceptron models. However, for all 4 techniques used the best performing model uses all three data category combinations. Meaning, all models using sociodemographic and only credit bureau features improve when the datasets used to train them are augmented with alternative credit bureau features. \\
+The performance indicators of the logistic regression, random forest, XGBoost, and multi-layer perceptron models developed using only sociodemographic or only credit bureau features improve when the datasets are augmented with alternative features. Therefore, all models using sociodemographic and only credit bureau features improve when the datasets used to train them are augmented with alternative credit bureau features. \\
 
-The second aim is addressed by assessing the performance indicators of all 4 models trained using only alternatives features. The indicators can be seen in the holdout results displayed in Chapter \ref{Chapter5}. The most accurate model trained using only alternative is an XGBoost model. The model has an overall accuracy of 0.68, a repaid accuracy of 0.78, an F1 score of 0.69, and an AUC measure of 0.63. These indicate that the model accurately predicts whether a loan will be repaid. However, the default accuracy of the model is 0.40. Meaning that the model does not accurately detect when a loan is likely to not be repaid. This is costly within the lending sector. \\
+Furthermore, the best performing model for each respective modelling techniques used all three data category combinations. Additionally, 6 of the 10 most important features of the best overall performing model are alternative features. \\
+
+The second aim is addressed by assessing the performance indicators of all 4 models trained using only alternatives features. The indicators can be seen in the holdout results displayed in Chapter \ref{Chapter5}. The most accurate model trained using only alternative features is an XGBoost model. The model has an overall accuracy of 0.74, a repaid accuracy of 0.81, an F1 score of 0.72, and an AUC measure of 0.68. These indicate that the model accurately predicts whether a loan will be repaid. However, the default accuracy of the model is 0.55. Therefore, the model does not accurately detect when a loan is likely to not be repaid. This is costly within the lending sector. \\
 
 The third and final aim is assessed using a combination of model performance indicators and McNemar's Chi Squared test. The model performance indicators are used to infer the technique with the best performing indicators, while McNemar's Chi Squared test is used to determine if the models are significantly different. \\
 
@@ -28,17 +30,17 @@ The most suitable modelling technique - explored within this project - for loan 
 
 \section{Implications of This Research}
 
-The research conducted throughout this projects answers the three research aims stated in Section 1.3. However, there are a number of ways in which the research into each of the aims could  strengthened. \\
+The research conducted throughout this projects answers the three research aims stated in Section 1.3. However, there are a number of ways in which the research into each of the aims could extended. \\
 
 The alternative features used throughout the project did not include the call log or contact data contained on each loan applicant's device. The research completed by \textcite{BigDataMicroFiance} showed that features developed from contact and call log data improved loan default prediction. Features similar to those used by \textcite{BigDataMicroFiance} could be added to the features used throughout this project  with the aim of further improving loan default prediction. \\
 
-Only multi-layer perceptron neural networks were used throughout this project. \textcite{NNWest} displayed other NN architectures that were found to be suitable for loan default prediction. These NN architectures, as well as others, could be explored. \\
+Only multi-layer perceptron models were used throughout this project. \textcite{NNWest} displayed other NN architectures that were found to be suitable for loan default prediction. These NN architectures, as well as others, could be explored. \\
 
-The hyper-parameters of every model trained and tested during this project are tuned using a grid-search. This method of parameter tuning requires manual input and does not necessarily lead to the most optimal models \parencite{NNWest}. The impact of Genetic algorithms - such as the one explored by \textcite{NNShen} - on loan default prediction performance could be explored. \\
+The hyper-parameters of every model trained and tested during this project are tuned using a grid-search. This method of parameter tuning requires manual input and does not necessarily lead to the most optimal models \parencite{NNWest}. The impact of genetic algorithms - such as the one explored by \textcite{NNShen} - on loan default prediction performance could be explored. \\
 
 Recursive feature elimination is the only feature selection method considered throughout this project. Furthermore, RFE is only used in conjunction with logistic regression to perform feature selection. Other selection methods and other base model types could be explored. \\  
 
-Beyond how the res-arch methods used for this project could be strengthened, there are certain aspects of loan default prediction not explored by this m.d. Firstly, only first time loan applicants were considered for this project. The performance of each modelling technique on repeat lenders is not explored. \\
+Beyond how the research methods used for this project could be strengthened, there are certain aspects of loan default prediction not explored by this minor dissertation. Firstly, only first time loan applicants were considered for this project. The performance of each modelling technique on repeat lenders is not explored. \\
 
 This project focuses on improving prediction in terms of overall accuracy, repaid accuracy, default accuracy, f1 score, and AUC. The financial implications of the loan default prediction models are not considered in the scope of the project. \\
 

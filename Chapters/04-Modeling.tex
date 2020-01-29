@@ -1,7 +1,7 @@
 \chapter{Modelling Methods} 
 \label{Chapter4}
 
-After all features are created, missing values handled, and outliers removed, the next step in this project is to train the various loan default models. There are 4 modelling techniques used in this project, namely logistic regression, random forests, extreme gradient boosting and artificial neural networks. This chapter details the datasets used to train the various models, how the features used in each model are selected, and how the parameters of each model are tuned using grid search, and how each model is validated. \\
+After all features are created, missing values handled, and outliers removed, the next step in this project is to train the various loan default models. There are 4 modelling techniques used in this project, namely logistic regression, random forests, extreme gradient boosting and artificial neural networks. This chapter details the datasets used to train the various models, how the features used in each model are selected, how the parameters of each model are tuned using grid search, and how each model is validated. \\
 
 \section{Datasets Used}
 
@@ -21,39 +21,60 @@ The main focus of this project is to assess if alternative data improves loan de
 
 \vspace{10pt}
 
-For each data category combination, the same dataset is used to train a model belonging to each of the 4 techniques mentioned. This means a total of twenty eight models are trained. Every dataset created contains the same 60,308 loans/applicants. The number of applicants that repaid and defaulted on their loans are 47,960 and 12,714 respectively. To avoid introducing a bias towards the majority class (repaid clients) in the loan default prediction models, the classes need to be balanced before training the various models. 
+For each data category combination, the same dataset is used to train a model belonging to each of the 4 techniques mentioned. This means a total of twenty eight models are trained. Every dataset created contains the same 60,674 loans/applicants. The number of applicants that repaid and defaulted on their loans are 47,960 and 12,714 respectively. To avoid introducing a bias towards the majority class (repaid clients) in the loan default prediction models, the classes need to be balanced before training the various models. 
 
 \section{Class Balancing}
 
-Imbalanced classes are a common in many classification projects. They occur when the number of observations representing one class is much lower than the number of observations representing the other classes. Imbalances pose a major issue when the "cost" of misclassifying the minority class - the class with far fewer observations - outweighs the cost of misclassifying the majority class (or classes), for example the classification of cancerous cells in the medical images \parencite{Balancing2}. \\
+Imbalanced classes are a common problem in many classification projects. They occur when the number of observations representing one class is much lower than the number of observations representing the other classes. Imbalances pose a major issue when the "cost" of misclassifying the minority class - the class with far fewer observations - outweighs the cost of misclassifying the majority class (or classes), for example the classification of cancerous cells in medical images \parencite{Balancing2}. \\
 
-In the case of this project, the cost of misclassifying an applicant that is likely to default on their loan outweighs the cost of misclassifying an applicant that is likely to repay their loan. If an applicant defaults on a loan the micro-finance company granting the loan loses the loan amount lent and the potential interest that would have been gained on the loan (minus any repayments made). While, if an applicant is simply not granted a loan then the company will only lose the potential interest that would have been gained in the applicant repaid their loan.  \\
+In the case of this project, the cost of misclassifying an applicant that is likely to default on their loan outweighs the cost of misclassifying an applicant that is likely to repay their loan. If an applicant defaults on a loan the micro-finance company granting the loan loses the loan amount lent and the potential interest that would have been gained on the loan (minus any repayments made). While, if an applicant is simply not granted a loan then the company will only lose the potential interest that would have been gained if the applicant repaid their loan.  \\
 
-There are a variety of class balancing techniques that can be used in machine learning projects. The techniques can be broken down into two categories, algorithmic solutions and data level solutions. Algorithm solutions directly modify the the weight that each observation has on the loss function of the model being trained. While, data level solutions alter the dataset used to train models. Loss functions are used to evaluate the deviation between a model's predictions and the actual values in the data. Loss functions are minimised throughout training so that prediction error is decreased. Data level methods either involve over-sampling (copies of the minority class observations are generated) or under-sampling (only a certain percentage of the majority class observations are selected used to train the model) \parencite{Balancing1}. \\
+There are a variety of class balancing techniques that can be used in machine learning projects. The techniques can be broken down into two categories, namely algorithmic solutions and data level solutions. Algorithm solutions directly modify the weight that each observation has on the loss function of the model being trained whilst data level solutions alter the dataset used to train models. \\
+
+Loss functions are used to evaluate the deviation between a model's predictions and the actual values in the data. Equation \ref{eqn:loss} represents a loss function where L(X,y,$\beta$) is a loss function that measures how well a model, parameterised by $\beta$, fits the data X. $\gamma$P($\beta$) is a penalty function on the parameter vector $\beta$ and its impact on the model is controlled by its $\gamma$ tuning parameter \parencite{Loss}. 
+
+
+\vspace{10pt}
+
+\begin{equation} \label{eqn:loss}
+L(X, y, \beta) + \gamma P(\beta)
+\end{equation}
+
+\vspace{10pt}
+
+
+Loss functions are minimised throughout training so that prediction error is decreased. Data level methods either involve over-sampling (copies of the minority class observations are generated) or under-sampling (only a certain percentage of the majority class observations are selected used to train the model) \parencite{Balancing1}. \\
 
 Class balancing is completed for each of the variable combinations (datasets) detailed in Section 4.1. However, balancing is only conducted after each dataset is separated into a training and a test set, with each training set containing 80\% of the total observations and each test set containing 20\% of the total observations. Balancing is only completed after performing a train/test split so that it is possible to test for the occurrence of over-fitting due to the balancing \parencite{Balancing2}. \\
 
-For each of the data category combinations, SMOTE - used by \textcite{NNShen} as detailed in Chapter 2 - is used to over-sample the minority class. This involves generating fictitious applicants by identifying the 5 (arbitrary selection) nearest neighbours of a randomly selected applicant that defaulted. Then calculating the variable difference vector between the applicant's features and the features of the 5 nearest neighbours. The variable difference vector is then multiplied by a random value between 0 and 1 and then added to features of the randomly selected applicant. This process is completed until the number of applicants that defaulted matches the number of applicants that repaid in each dataset. \\
+For each of the data category combinations, SMOTE - used by \textcite{NNShen} as detailed in Chapter 2 - is used to over-sample the minority class. This involves generating fictitious applicants by identifying the 5 (arbitrary selection) nearest neighbours of a randomly selected applicant that defaulted. After, the variable difference vector between the applicant's features and the features of the 5 nearest neighbours is calculated. \\
+
+The variable difference vector is then multiplied by a random value between 0 and 1 and then added to features of the randomly selected applicant. This process is completed until the number of applicants that defaulted matches the number of applicants that repaid in each dataset. \\
 
 After each dataset is balanced, the next step is to select the most relevant features in each dataset to be used in the modelling process. \\
 
 \section{Feature Selection}
 
-Feature selection is the process of determining the most relevant predictor variables for modelling purposes. \textcite{FeatureSelection} displayed that feature selection can increase the overall accuracy of a model, while decreasing the training and prediction times of a model (particularly when the training data is large). Furthermore, they found that subset and correlation coefficient selection methods outperformed other methods. \\
+Feature selection is the process of determining the most relevant predictor variables for modelling purposes. \textcite{FeatureSelection} found that feature selection can increase the overall accuracy of a model, while decreasing the training and prediction times of a model (particularly when the training data is large). Furthermore, they found that subset and correlation coefficient selection methods outperformed other methods. \\
 
 The following sections detail the feature selection methods used throughout this project. Initially, correlation coefficients are used to remove variables with very strong relationships to other variables. Secondly, recursive feature selection - a subset feature selection method - is used to identify the most relevant features in each of the 7 datasets used throughout this project. 
 
 \subsection{Correlation}
 
-Firstly, the Pearson's correlation between all independent variables is calculated. Pearson's correlations is a measure of a linear relationship between two variables \parencite{correlation1}. Figures \ref{fig:alt_cor}, \ref{fig:sd_cor}, and \ref{fig:cb_cor} display the correlation between the alternative, sociodemographic, and credit bureau variables respectively. \\
+Firstly, the Pearson's correlation coefficient between all independent variables is calculated. Pearson's correlations is a measure of a linear relationship between two variables \parencite{correlation1}. Figures \ref{fig:alt_cor}, \ref{fig:sd_cor}, and \ref{fig:cb_cor} display the correlation between the alternative, sociodemographic, and credit bureau variables respectively. \\
 
-Figure \ref{fig:alt_cor} displays that there is a very strong correlation between the minimum debit and minimum balance variables. Figure \ref{fig:sd_cor} shows that there are no strong relationships between the sociodemographic variables. Figure \ref{fig:cb_cor} that there is a very strong relationship between the total number of accounts registered with credit bureaus and the total number of performing loans registered with credit bureaus. \\
+Figure \ref{fig:alt_cor} displays that there is a very strong positive correlation between the minimum debit and minimum balance variables. Figure \ref{fig:sd_cor} shows that there are no strong relationships between the sociodemographic variables. In Figure \ref{fig:cb_cor}  there is a very strong positive relationship between the total number of accounts registered with credit bureaus and the total number of performing loans registered with credit bureaus. \\
+
+To avoid capriciously choosing feature selection cut-offs based on correlation values, only very strong correlation values, higher than 0.9, are used for feature selection purposes \parencite{correlation1}. This process resulted in a single variable being removed.  \\
+
+Both the variations in variables that have strong relationships with other variables and the variations in variables that do not, cause variations within a model \parencite{correlation2}. Therefore, Recursive Feature Elimination (RFE) is used to select only the relevant features before each of the models are trained. \newpage
+
 
 \vspace{10 pt}
 
 \begin{figure}[!htb]
 \centering
-\includegraphics[width=0.55\textwidth]{images/alt_corr.png}
+\includegraphics[width=0.7\textwidth]{images/alt_corr.png}
 \caption{Correlation Between Alternative Data Variables}
 \label{fig:alt_cor}
 \end{figure}
@@ -76,30 +97,26 @@ Figure \ref{fig:alt_cor} displays that there is a very strong correlation betwee
 
 \vspace{10 pt}
 
-To avoid capriciously selecting feature selection cut-offs based on correlation values between variables, the correlation values are only used to remove one variable from the very strong relationships (relationships over 0.9) \parencite{correlation1}. \\
-
-Both the variations in variables that have strong relationships with other variables and the variations in variables that do not, cause variations within a model \parencite{correlation2}. Therefore, Recursive Feature Elimination (RFE) is used to select only the relevant features before each of the models are trained. 
-
 
 \subsection{Recursive Feature Elimination}
 
-Features are selected for each of the 7 datasets using RFE in conjunction with a logistic regression model. \\
+Feature selection is completed for each of the 7 datasets using the same technique. This is done so the effect of adding the alternative data features can be directly measured for each modelling technique. \\
 
-RFE is an unsupervised form of subset feature selection. The technique involves recursively training a model and removing the uninformative features. For each training iteration the features used are ranked based on their importance. The weakest feature (the feature with the least importance) is removed from the training set and the model is retrained. The optimal number of features is determined by the accuracies of the models produced. This process is often validated using cross validation.  \parencite{RFE} \\
+RFE is an form of subset feature selection. The technique involves recursively training a model and removing the uninformative features. For each training iteration the features used are ranked based on their importance. The weakest feature is removed from the training set and the model is retrained. The optimal number of features is determined by the accuracies of the models produced. This process is often validated using cross validation \parencite{RFE}. \\
 
 RFE reduces the dimensionality of a feature space by removing uninformative features. This decreases the training time of models, improves model performance, and eliminates dependencies and collinearity that may exist in the training data \parencite{RFE} \\
 
-The RFE feature selection process completed in this project involves recursively retraining a logistic regression model for each feature set. The optimal number of features for each dataset is determined based upon the accuracies of the models produced and is validated using k-fold cross validation. 
+The RFE feature selection process completed in this project uses a linear support vector machine model as the underlying model. SVM-RFE has been successfully applied to many classification models. The technique is not prone to over-fitting and has been proven to be an accurate and fast feature selection method \parencite{svm_rfe}. The optimal number of features for each dataset is determined based upon the accuracies of the models produced and is validated using k-fold cross validation. 
 
 \subsection{Cross Validation}
 
-K-Fold cross validation involves partitioning the training sample of a model into k partitions. One partition serves as an independent holdout test set for the credit model being trained while the remaining k-1 partitions are used to train the model. This technique minimises the effects of data dependencies and improves the reliability of the estimates \parencite{k_fold}. Figure \ref{fig:k_fold} displays the principle of k-fold cross validation. 
+K-Fold cross validation involves partitioning the training sample of a model into k partitions. One partition serves as an independent holdout test set for the credit model being trained while the remaining k-1 partitions are used to train the model. This process is then iterated over for all k partitions. This technique minimises the effects of data dependencies and improves the reliability of the estimates \parencite{k_fold}. Figure \ref{fig:k_fold} displays the principle of k-fold cross validation. 
 
 \vspace{10 pt}
 
 \begin{figure}[!htb]
 \centering
-\includegraphics[width=0.75\textwidth]{images/k_fold.jpg}
+\includegraphics[width=0.7\textwidth]{images/k_fold.jpg}
 \caption{K-Fold Cross Validation}
 \label{fig:k_fold}
 \parencite{k_fold}
@@ -125,47 +142,47 @@ Once feature selection and hyper-parameter optimisation has been completed, all 
 
 \subsection{Logistic Regression}
 
-\textcite{LogRegWiginton} first used logistic regression to develop a loan default prediction model. Since then the technique has become one of the most widely used in loan default prediction models. This is due to the techniques robustness and transparency \parencite{LogisticReg}. \\ 
+\textcite{LogRegWiginton} first used logistic regression to develop a loan default prediction model. Since then the technique has become one of the most widely used in loan default prediction models. This is due to the technique's robustness and transparency \parencite{LogisticReg}. \\ 
 
-As shown in Equation \ref{eq:LR}, logistic regression models - when used for loan default prediction - output the probability of an applicant defaulting of their loan. Logistic regression models are trained using maximum likelihood and the coefficients of each independent variable are estimated in such a way as to minimise the loss function. The impact of each independent variable on predictions can be directly measured through its coefficient and the importance of the variable can be determined using the variables Z score - its coefficient divided by its standard deviation.  The clarity of each coefficient and its impact is what makes logistic regression models so transparent \parencite{Hastie}. \\
+As shown in Equation \ref{eq:LR}, logistic regression models - when used for loan default prediction - output the probability of an applicant defaulting on their loan. Logistic regression models are trained using maximum likelihood and the coefficients of each independent variable are estimated in such a way as to minimise the loss function. The impact of each independent variable on predictions can be directly measured through its coefficient and the importance of the variable can be determined using the variables Z score - its coefficient divided by its standard deviation.  The clarity of each coefficient and its impact is what makes logistic regression models so transparent \parencite{Hastie}. \\
 
-The first phase in training each of the 7 models is to tune the hyper-parameters of the models using grid-search and cross validation. Each of the following hyper-parameters are tuned for each of the logistic regression models; the number of iterations completed during training, the regularisation method used, and the size of the lambda factor in the regularisation penalty (a factor which controls the magnitude of the regularisation penalty). \\
+The first phase in training each of the 7 models is to tune their hyper-parameters using grid-search and cross validation. The following hyper-parameters are tuned for each logistic regression model; the number of iterations completed during training, the regularisation method used, and the size of the lambda factor in the regularisation penalty. \\
 
-A regularisation penalty is added to the cost function of a model to shrink the size of the coefficients of the variables used. This is done to avoid over-fitting and ensure that the model generalises well \parencite{Regularisation}. In the case of the logistic regression models developed, either L1 or L2 regularisation is used. The penalty terms of L1 and L2 regularisation can be seen in \ref{eq:L1} and \ref{eq:L2} respectively. \\
+A regularisation penalty is added to the loss function of a model to shrink the size of the coefficients of the variables used. This is done to avoid over-fitting and ensure that the model generalises well \parencite{Regularisation}. In the case of the logistic regression models developed, either L1 or L2 regularisation is used. The penalty terms of L1 and L2 regularisation when used in logistic regression can be seen in \ref{eq:L1} and \ref{eq:L2} respectively. \\
 
 \vspace{10pt}
 
 \begin{equation} \label{eq:L1}
-\lambda\sum_{j=1}^{p}|\beta_{j}|
+max_{\beta_o, \beta}(\sum_{i=1}^{N}[y_{i}(\beta_o+B^{T}x_i)- log(1+e^{\beta_o + B^{T}x_i})] - \lambda\sum_{j=1}^{p}|\beta_{j}|)
 \end{equation}
 
 \vspace{10pt}
 
 \begin{equation} \label{eq:L2}
-\lambda\sum_{j=1}^{p}\beta_{j}^{2}
+max_{\beta_o, \beta}(\sum_{i=1}^{N}[y_{i}(\beta_o+B^{T}x_i)- log(1+e^{\beta_o + B^{T}x_i})] - \lambda\sum_{j=1}^{p}\beta_{j}^{2})
 \end{equation}
 
 \vspace{10pt}
 
 The major difference between L1 and L2 regularisation is that L1 regularisation shrinks the coefficients of unimportant variables to zero, while L2 regularisation only shrinks the coefficients of unimportant variables towards zero \parencite{Hastie}. L2 regularisation adds the squared magnitude of a coefficient as penalty term to the loss function, while L2 regularisation adds the absolute magnitude \parencite{Hastie}. \\
 
-After identifying the optimal hyper-parameters for each logistic regression model, each model is retained using its optimal features and hyper-parameters. The models are then tested using a withheld validation set. \\
+After identifying the optimal hyper-parameters for each logistic regression model, each model is retrained using its optimal features and hyper-parameters. The models are then tested using a withheld validation set. \\
 
 The next technique used is random forests. The process followed to train the random forest models is discussed in the next section. 
 
 \subsection{Random Forest}
 
-When applied to a classification problem, the random forest algorithm involves training multiple decision trees - on independently sampled training sets ( sampled from the same overall sample) and then combining the results of the various classifications of the trees using a voting process \parencite{RandomForest}. \\
+When applied to a classification problem, the random forest algorithm involves training multiple decision trees - on independently sampled training sets ( bootstrapped from the same overall sample) and then combining the results of the various classifications of the trees using a voting process \parencite{RandomForest}. \\
 
 Each tree in the forest is grown while meeting the following conditions:
 
 \begin{itemize}
     \item If there are N observations in the overall training sample, a training set is created by sampling N observations - with replacement - from the overall sample. 
-    \item If there are M dependent predictor variables in the overall training set, the sample training set consists of m (where m<=M) randomly sampled predictor variables. 
+    \item If there are M dependent predictor variables in the overall training set, the sample training set consists of m (where $m<=M$) randomly sampled predictor variables. 
     \item Each tree trained is grown to its largest possible extent (no pruning is completed) \parencite{RandomForest}.
 \end{itemize}
 
-\textcite{BagWang} and \textcite{BigDataMicroFiance} have shown that the random forest algorithm can successfully be applied to loan default prediction. In the case of this project a random forest model is trained for each of the 7 data category combinations. Each model is tested using an unseen validation set. During training the hyper-parameters of each model are tuned using a grid-search. 
+\textcite{BagWang} and \textcite{BigDataMicroFiance} have shown that the random forest algorithm can successfully be applied to loan default prediction. In the case of this project a random forest model is trained for each of the 7 data category combinations. Each model is tested using an unseen validation set. During training the hyper-parameters of each model are tuned using a grid-search. \newpage
 
 \subsubsection{Parameter Tuning}
 
@@ -175,14 +192,13 @@ Each random forest model has the following hyper-parameters tuned during trainin
     \item The number of trees grown in the forest.
     \item The maximum number of features used within a particular forest. 
     \item The maximum depth (the maximum number of splits) of each tree in the forest.
-    \item The minimum number of observations required within each node for a split to be allowed. 
 \end{itemize}
 
-Tuning the above hyper-parameters of each random forest model allows for the most accurate and generalizable models to be developed. The process ensures that the trees contained within each random forest model are diverse, thus reducing the likelihood of over-fitting to the training data \parencite{RF_Tuning}. \\
+Tuning the above hyper-parameters of each random forest model allows for the most accurate and generalizable models to be developed. The process ensures that the trees contained within each random forest model are decorrelated, thus reducing the likelihood of over-fitting to the training data \parencite{RF_Tuning}. \\
 
 The criterion used to measure the quality of splits within each tree is Gini impurity, this is the same measure used by \textcite{DecTreesZekic}. Another criterion option is Shannon Entropy, however this is more computationally intensive than Gini impurity \parencite{Gini}. \\
 
-After the each random forest model's optimal hyper-parameters have been identified and validated, the models are retrained using only those parameters. The models are then tested using a holdout validation set. \\
+After each random forest model's optimal hyper-parameters have been identified and validated, the models are retrained using only those parameters. The models are then tested using a holdout validation set. \\
 
 The next machine learning technique used is Extreme Gradient Boosting (XGBoost), this technique will be discussed in the following section. 
 
@@ -190,13 +206,13 @@ The next machine learning technique used is Extreme Gradient Boosting (XGBoost),
 
 Gradient boosting is a machine learning technique that involves developing a model which is an ensemble of weak prediction models. Typically, the models in the ensemble are decision trees. A gradient boosted model is trained in a stage-wise fashion, the model is generalised by minimising a defined loss function throughout training \parencite{Boosting}.   \\
 
-The final output of a tree ensemble model is calculated by summing the predictions of each tree in the ensemble, varying weights can be attached to the predictions of specific trees This technique is shown in Figure \ref{fig:tree_ens}. \\
+The final output of a tree ensemble model is calculated by summing the predictions of each tree in the ensemble, varying weights can be attached to the predictions of specific trees. This technique is shown in Figure \ref{fig:tree_ens}. \\
 
 \vspace{10 pt}
 
 \begin{figure}[!htb]
 \centering
-\includegraphics[width=0.75\textwidth]{images/tree_ensemble.png}
+\includegraphics[width=0.65\textwidth]{images/tree_ensemble.png}
 \caption{Example of a Tree Ensemble}
 \label{fig:tree_ens}
 \parencite{XGBoost}
@@ -215,9 +231,9 @@ The XGBoost technique was developed by \textcite{XGBoost}. Its derivation spawne
 \vspace{10pt}
 
 
-Where $\hat{y}_{i}$ is a predicted valued and $F = {f(x) = w_{q(x)}}(q : R^{m}$ → $T, w \varepsilon R^{T})$ is the space of ensemble decision trees. While q represents the structure of each tree and T is the number of leaves (terminal nodes) in the tree. Each $f_k$ corresponds to an independent leaf (q) and leaf weights (w). The weight on the i-th leaf is represented by $w_i$ \parencite{XGBoost}. \\
+Where $\hat{y}_{i}$ is a predicted valued and $F = {f(x) = w_{q(x)}}(q : R^{m}$ → $T, w \varepsilon R^{T})$ is the space of ensemble decision trees. While q represents the structure of each tree and T is the number of leaves (terminal nodes) in the tree. Each $f_k$ corresponds to an independent tree structure (q) and leaf weights (w). The weight on the i-th leaf is represented by $w_i$ \parencite{XGBoost}. \\
 
-In gradient tree boosting, the set of regularised functions that represent the ensemble of trees are learnt in an additive manner by minimising the loss functions associated to each predicted value. A general version of a loss function used in XGBoost is shown in Equation \ref{eq:xgb_loss}. Loss functions measure the difference between the predicted target values shown in Equation \ref{eq:xgb_reg} and the known target values. 
+In gradient tree boosting, the set of regularised functions that represent the ensemble of trees are learnt in an additive manner by minimising the loss functions associated to each predicted value. A general version of a loss function used in XGBoost is shown in Equation \ref{eq:xgb_loss}. This function is the objective function to be minimised.
 
 \vspace{10pt}
 
@@ -227,7 +243,7 @@ In gradient tree boosting, the set of regularised functions that represent the e
 
 \vspace{10pt}
 
-The $f_k$ that best improves the model is greedily added when a loss function is minimised. Second-order approximation is used to simplify the optimisation of each loss function. The simplified version can be seen in Equation \ref{eq:xgb_second}.
+Where $\Omega(f_k)$ is a regularisation term penalising model complexity (in this case tree structure). $\Omega(f) = \gamma T + \frac{1}{2} \lambda \Vert w \Vert^2$ is a regularisation term penalising model complexity (in this case tree structure). Note that $\gamma$ and $\lambda$ are regularisation parameters. Second-order approximation is used to simplify the optimisation of each loss function. The simplified version can be seen in Equation \ref{eq:xgb_second}.
 
 \vspace{10pt}
 
@@ -237,10 +253,10 @@ The $f_k$ that best improves the model is greedily added when a loss function is
 
 \vspace{10pt}
 
-Where $g_i$ and $h_i$ are first and second order gradient statistics on the loss function. If we define an instance of leaf j as $I_j = {i|q(x_i) = j}$ then we can expand the $\Omega$ in Equation \label{eq:xgb_second} so that the Equation now appears as below in Equation \ref{eq:xgb_expanded}. 
+Where $g_i$ and $h_i$ are first and second order gradient statistics on the loss function. If we define an instance of leaf $j$ as $I_j = {i|q(x_i) = j}$ then we can expand the $\Omega$ in Equation \ref{eq:xgb_second} so that it now appears as below in Equation \ref{eq:xgb_expanded}. 
 
 \begin{equation} \label{eq:xgb_expanded}
-\tilde{L}^{k} = \sum_{i=1}^{n}[g_i f_k(x_i) + \dfrac{1}{2} h_i f^{2}_{k}(x_i)] + \lambda T + \dfrac{1}{2} \lambda \sum_{j=1}^{T} w^{2}_{j}
+\tilde{L}^{k} = \sum_{i=1}^{n}[g_i f_k(x_i) + \dfrac{1}{2} h_i f^{2}_{k}(x_i)] + \gamma T + \dfrac{1}{2} \lambda \sum_{j=1}^{T} w^{2}_{j}
 \end{equation}
 
 \vspace{10pt}
@@ -256,20 +272,20 @@ w^{*}_{j} = - \dfrac{\sum_{i \varepsilon I_{j}} g_i}{\sum_{i \varepsilon I_{j}} 
 \vspace{10pt}
 
 \begin{equation} \label{eq:xgb_value}
-\tilde{L}^{k}(q) = - \dfrac{1}{2} \sum_{j=1}^{T} \dfrac{\sum_{i \varepsilon I_{j}} g_i}{\sum_{i \varepsilon I_{j}} h_i + \lambda} + \lambda T
+\tilde{L}^{k}(q) = - \dfrac{1}{2} \sum_{j=1}^{T} \dfrac{\sum_{i \varepsilon I_{j}} g_i}{\sum_{i \varepsilon I_{j}} h_i + \lambda} + \gamma T
 \end{equation}
 
 \vspace{10pt}
 
-Figure \ref{fig:xgb_score} displays how the optimal values are calculated for each terminal node of a tree. This is done in a greedy manner. The algorithm starts with a single node and iteratively adds branches \parencite{XGBoost}.\\
+Figure \ref{fig:xgb_score} displays how a score is calculated for each tree structure q, based on \ref{eq:xgb_value}. This is done in a greedy manner. The algorithm starts with a single node and iteratively adds branches \parencite{XGBoost}.\\
 
-Beyond the regularised learning of loss function, the XGBoost algorithm uses two techniques to avoid over-fitting. These techniques are shrinkage and feature sub-sampling (this technique is used in random forests). Shrinkage scales the weights of trees by weights by a of $\eta$. This reduces the impact a single tree has on the final output of a model \parencite{Shrinkage}. \newpage
+Beyond the regularised learning of loss function, the XGBoost algorithm uses two techniques to avoid over-fitting. These techniques are shrinkage and feature sub-sampling (this technique is used in random forests). Shrinkage scales the weights of trees by weights by a factor of $\eta$. This reduces the impact a single tree has on the final output of a model \parencite{Shrinkage}. 
 
 \vspace{10 pt}
 
 \begin{figure}[!htb]
 \centering
-\includegraphics[width=0.75\textwidth]{images/tree_score.png}
+\includegraphics[width=\textwidth]{images/tree_score.png}
 \caption{How Leaves are Scored in XGB}
 \label{fig:xgb_score}
 \parencite{XGBoost}
@@ -278,7 +294,7 @@ Beyond the regularised learning of loss function, the XGBoost algorithm uses two
 \vspace{10 pt}
 
 
-\textcite{Ensemble} displayed that the XGBoost technique can effectively be applied to credit scoring.Their XGBoost model outperformed the logistic regression, random forest, and neural network models they developed for comparative purposes in overall prediction accuracy, area under the curve, and Brier score. \\
+\textcite{Ensemble} showed that the XGBoost technique can effectively be applied to credit scoring.Their XGBoost model outperformed the logistic regression, random forest, and neural network models they developed for comparative purposes in overall prediction accuracy, area under the curve, and Brier score. \\
 
 
 \textcite{Ensemble} used Bayesian optimisation to tune the hyper-parameters of their XGBoost model. In the case of this project grid-search is used to train the hyper-parameters of the XGBoost models developed. The following subsection details the parameters tuned. 
@@ -288,28 +304,28 @@ Beyond the regularised learning of loss function, the XGBoost algorithm uses two
 The hyper-parameters tuned for each XGBoost model are as follows:
 
 \begin{itemize}
-    \item Eta, which is the factor by which new weights are shrunk. This prevents over-fitting.  
-    \item Gamma, which is the minimum loss required before a split should be made in a tree. A large Gamma value will result in fewer splits and as a result a more conservative model. 
+    \item $eta$, which is the factor by which new weights are shrunk. This prevents over-fitting.  
+    \item $gamma$, which is the minimum loss required before a split should be made in a tree. A large Gamma value will result in fewer splits and as a result a more conservative model. 
     \item Maximum depth, the maximum number of splits in a tree. 
     \item Minimum child weight, the minimum sum of weights required in a tree. The larger the minimum child weight the more conservative the model. 
     \item Sub-sample, which is the ratio of the training data that is sub-sampled when a tree is grown. 
-    \item Column sample by tree, is the ratio of predictor variables used in each tree. 
+    \item Column sample by tree is the proportion of predictor variables used in each tree. 
 \end{itemize}
 
-Similarly to hyper-parameter tuning in random forest model, parameter tuning in XGBoost models have a two fold purpose. It aids in the most accurate models being developed but it also prevents over-fitting from occurring \parencite{xgb_tuning}. Furthermore, the learning objective of the XGBoost models is set to be a binary classification and the evaluation metric is set area under the curve. The later is done so that the XGB models generalise well. \\
+Similarly to hyper-parameter tuning in random forest model, parameter tuning in XGBoost models have a two-fold purpose. It aids in the most accurate models being developed but it also prevents over-fitting from occurring \parencite{xgb_tuning}. Furthermore, the learning objective of the XGBoost models is set to be a binary classification and the evaluation metric used is area under the curve (AUC). AUC is used so that the XGB models generalise well. \\
 
-After hyper-parameter tuning the models are retained using the most optimal parameters and are then tested using a holdout set. After the XGBoost models are trained and tested, the same process is completed for the 7 neural network models developed.  
+After hyper-parameter tuning the models are retrained using the optimal parameters and are then tested using a holdout set. After the XGBoost models are trained and tested, the same process is completed for the 7 neural network models developed.  
 
 
 \subsection{Neural Networks}
 
 Artificial neural networks (NN's) consist of a network of interconnected processors termed neurons. Each neuron receives an input and processes it by passing it through its activation function. Input neurons receive raw input, while other neurons in the network receive a weighted input from previously activated neurons. The learning aspect of a neural network involves adjusting the weights of connections so that the network outputs more desirable results. This process is carried out by back propagation and often involves minimising a loss function so that the predicted values produced by a network are as close as possible to the true values of data points used to train the network \parencite{NNOverview}. \\ 
 
-Neural networks have a variety of architectural structures. Recently recurrent neural network (RNN) architectures (networks that contain contain cyclic connections between neurons) such as long short-term memory networks have become prominent. These networks are well suited to modelling temporal or sequence behaviour \parencite{LSTM}. \\
+Neural networks have a variety of architectural structures. Recently recurrent neural network (RNN) architectures (networks that contain cyclic connections between neurons) such as long short-term memory (LSTM) networks have become prominent. These networks are well suited to modelling temporal or sequence behaviour \parencite{LSTM}. \\
 
-\textcite{DecTreesZekic} have shown that neural networks can be successfully applied to loan default prediction. While, \textcite{NNWest} explored the various architectures, activation functions, and loss functions that can be used when training a NN used for loan default prediction. \\
+\textcite{DecTreesZekic} have shown that neural networks can be successfully applied to loan default prediction. Whilst, \textcite{NNWest} explored the various architectures, activation functions, and loss functions that can be used when training a NN used for loan default prediction. \\
 
-In the case of the loan default prediction NNs developed throughout this project, no temporal or sequential behaviour is modelled and therefore an RNN architecture is not required. \textcite{NNWest} displayed that multi-layer perceptrons (MLPs) are effective models when used for loan default prediction. MLPs are an example of feed-forward neural networks, which means that their neurons are connected in a one-directional fashion \parencite{NNOverview}. An example of a 3 layer MLP can be seen in Figure \ref{fig:MLP}.
+In the case of loan default prediction: NNs developed throughout this project, no temporal or sequential behaviour is modelled and therefore an RNN architecture is not required. \textcite{NNWest} displayed that multi-layer perceptrons (MLPs) are effective models when used for loan default prediction. MLPs are an example of feed-forward neural networks, which means that their neurons are connected in a one-directional fashion \parencite{NNOverview}. An example of a 3 layer MLP can be seen in Figure \ref{fig:MLP}.
 
 \vspace{10 pt}
 
@@ -325,24 +341,25 @@ In the case of the loan default prediction NNs developed throughout this project
 
 The neurons on the left of the Figure represent the input layer, the central neurons form the hidden layer, while the neurons on the right represent the output layer. MLPs can have numerous hidden layers but always have only one input and output layer. The number of neurons in the input layer always matches the number of variables used in the model.  \parencite{MLP}. \\
 
-Each neuron in a neural network has an activation function. Activation functions map the weighted input a neuron receives to the output signal the same neuron produces. Activation functions can be linear or non-linear. They are often used to limit or smooth the output of a particular neuron. Activation functions commonly used in MLPs are sigmoid, hyperbolic tangent, radial bias, rectified linear unit (ReLU), and softmax \parencite{activation_functions}. \\
-
-
-Predictions in an MLP model are calculated using Equation \ref{eq:MLP}
+Predictions in an MLP model are calculated using Equation \ref{eq:MLP}, which illustrates the weighted input in the hidden and output layers.
 
 \vspace{10pt}
 
 \begin{equation} \label{eq:MLP}
-y_m = \sum_(i=1)^{n}(W_{ij} X{i}) - \theta_j     j = 1,2,...,h
+y_j = \sum_(i-1)^{n}(W_{ij} X{i}) - \theta_j, \quad  j = 1,2,...,h
 \end{equation}
 
 \vspace{10pt}
 
 Where $W_{ij}$ represents the weight connecting the i-th neuron to j-th-neuron, $\theta_j$ represents the bias of the j-th-neuron, and $X_i$ represents the input data to the i-th neuron \parencite{MLP}. \\
 
-In the case of the NNs developed throughout this project, the input layer of each NN developed contains the same number of neurons as the number optimal features identified during feature selection. While the output layer contains a single neuron with a sigmoid activation function. If the weight inputted into the final neuron is below a certain value then the applicant is deemed to be likely to default. The optimal cut-off value is learnt through back propagation. \\ 
+Each neuron in a neural network has an activation function. Activation functions map the weighted input a neuron receives to the output signal the same neuron produces. Activation functions can be linear or non-linear. \\
 
-NNs, like the aforementioned models, have many hyper-parameters that need to be optimised. Again, this process is completed using a combination of grid-search and cross-validation. In the case of the NNs, the optimisation serves a two fold purpose. The first is to identify the parameters which result in the most accurate and generalizable model, while the second is to find the architecture which leads to the most accurate model and generalizable model. In the case of this project, the optimal number of hidden layers and  the optimal number of neurons in each hidden layer is determined using grid-search and cross-validation. 
+They are often used to limit or smooth the output of a particular neuron. Activation functions commonly used in MLPs are sigmoid, hyperbolic tangent, radial basis, rectified linear unit (ReLU), and softmax \parencite{activation_functions}. \\
+
+In the case of the NNs developed throughout this project, the input layer of each NN developed contains the same number of neurons as the number optimal features identified during feature selection, while the output layer contains a single neuron with a sigmoid activation function. If the weight inputted into the final neuron is below a certain value then the applicant is deemed to be likely to default. The optimal cut-off value is learnt through back propagation. \\ 
+
+In the case of the NNs, the optimisation serves a two-fold purpose. The first is to identify the hyper-parameters which result in the most accurate and generalizable model, while the second is to find the architecture which leads to the most accurate model and generalizable model. In the case of this project, the optimal number of hidden layers and  the optimal number of neurons in each hidden layer is determined using grid-search and cross-validation. 
 
 \subsubsection{Parameter Tuning}
 
@@ -365,7 +382,7 @@ The hyper-parameters tuned for each NN model are as follows:
     
     \item Dropout rate, which is the percentage of neurons that are randomly removed from the network during training. Dropout aims to prevent over-fitting and increase a model's generalizing power \parencite{learning_rate}. 
     
-    \item The number of training iterations. The number of forward and back passes used to train the network \parencite{NN_HP}.
+    \item The number of training iterations (epochs). The number of forward and back passes used to train the network \parencite{NN_HP}.
     
     \item The batch size, which is the number of training observations used in a forward/back training pass \parencite{NN_HP}. 
     
@@ -376,7 +393,7 @@ The hyper-parameters tuned for each NN model are as follows:
  
 \vspace{10 pt}
 
-Hyper-parameters that were set but not optimised were the loss function and the activation functions of the output neuron. A sigmoid cross-entropy loss function is used in the MLP models. This is not an arbitrary selection, the Python package used to developed the MLP models only supports this loss function for binary classification problems. As previously stated the activation function of the output neuron is set to a sigmoid function. \\
+Hyper-parameters that were set but not optimised were the loss function and the activation function. A sigmoid cross-entropy loss function is used in the MLP models. This is not an arbitrary selection, the Python package used to developed the MLP models only supports this loss function for binary classification problems. As previously stated the activation function used a sigmoid function. \\
 
 After the hyper-parameters of each NN model are identified, each model is tested using a holdout set. The next step in the methodology is to assess the performance of the models developed and test for statistical difference between the performance of the various techniques and datasets used. \\
 
@@ -391,9 +408,9 @@ After all twenty eight models are developed the aims of the project need to be a
 
 The first aim involves comparing models that were trained on different datasets. It does not involve comparing different modelling techniques, but rather comparing if adding features of a particular type improved a model. This - like the second aim - can be answered by assessing performance indicators of the models. The training indicators of the models are validated using 5-fold cross validation, while the test indicators for each model are produced from an independent holdout set. \\
 
-The second aim only considers the models that are trained and tested using only alternative features. Model performance is assessed by considering each model's overall prediction accuracy, their ability to predict loans that were repaid (repaid accuracy), their ability to predict loans that were defaulted (default accuracy), their F1 score, and their AUC. \\
+The second aim only considers the models that are trained and tested using only alternative features. Model performance is assessed by considering each model's overall prediction accuracy, their ability to predict loans that were repaid (repaid accuracy), their ability to predict loans that were defaulted (default accuracy), their $F_1$ score, and their AUC. \\
 
-F1 score is an accuracy measure for binary classifiers that considers both recall and precision. The closer the F1 score of a model is to 1, the better it is at identifying positive cases as positive cases and negative cases as negative cases \parencite{f1}. In the case of this project, the positive class consists of loans that were not repaid while the negative class consists of loans that were repaid. Recall is the ratio between the number of predicted positive cases and the total number of actual positive cases. Precision is the ratio between the number predicted true positive cases that are actual true cases and the total number of predicted true cases \parencite{f1}. Recall and precision can be visually understood using the binary classification matrix shown in Figure \ref{fig:matrix}. 
+F1 score is an accuracy measure for binary classifiers that considers both recall and precision. The closer the F1 score of a model is to 1, the better it is at identifying positive cases as positive cases and negative cases as negative cases \parencite{f1}. In the case of this project, the positive class consists of loans that were not repaid while the negative class consists of loans that were repaid. Recall is the proportion between the number of predicted positive cases and the total number of actual positive cases. Precision is the ratio between the number predicted true positive cases that are actual true cases and the total number of predicted true cases \parencite{f1}. Recall and precision can be visually understood using the binary classification matrix shown in Figure \ref{fig:matrix}. 
 
 \vspace{10 pt}
 
@@ -436,7 +453,7 @@ AUC is the area under the receiver operating characteristic curve, which is a pl
 
 The various techniques used throughout this project are compared using McNemar's Chi Square test, which has been shown to be the most powerful test of statistically significant differences between supervised learning models \parencite{Test}. This technique was used by \textcite{NNWest} when comparing various neural network architectures.  \\
 
-The test involves training two algorithms on the same training dataset (each technique was trained on the same dataset for each of the data category combinations). The algorithms are then tested on the same holdout set (again, this was done for each technique for each of the data category combinations). If we call one algorithm A and the other B then the test has a null hypothesis that assumes that the number of observations misclassified by A but not by B will equal the the number of observations misclassified by B but not by A. The test's statistic is calculated as shown in Equation \ref{eq:McNemar} \parencite{Test}.
+The test involves training two algorithms on the same training dataset (each technique was trained on the same dataset for each of the data category combinations). The algorithms are then tested on the same holdout set (again, this was done for each technique for each of the data category combinations). If we call one algorithm A and the other B then the test has a null hypothesis that assumes that the number of observations misclassified by A but not by B ($n_{01}$) will equal the the number of observations misclassified by B but not by A ($n_{10}$). The test's statistic is calculated as shown in Equation \ref{eq:McNemar} \parencite{Test}.
 
 
 \vspace{10pt}
@@ -445,9 +462,9 @@ The test involves training two algorithms on the same training dataset (each tec
 \dfrac{(|n_{01}-n_{10}|-1)^2}{n_{01}+n_{10}}
 \end{equation}
 
-\vspace{10pt}
+\vspace{15pt}
 
-It is assumed that the statistic follows a Chi Squared distribution with 1 degree of freedom. If the statistic in Equation \ref{eq:McNemar} is greater than 3.841459 then the null hypothesis is rejected, and the algorithms are deemed to perform significantly different \parencite{Test}. 
+Under the null hypothesis the statistic follows a Chi Squared distribution with 1 degree of freedom. The p-values calculated from the test statistic shown in Equation \ref{eq:McNemar} are used to ascertain how unlikely it is that such big a difference would be if the null hypothesis were true. \parencite{Test}. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
